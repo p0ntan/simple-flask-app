@@ -2,3 +2,5 @@ flask
 flask-cors
 pytest
 pytest-cov
+pylint
+flake8
