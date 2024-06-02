@@ -1,7 +1,6 @@
 import os
 import sqlite3
 import datetime
-base_dir = os.path.dirname(__file__)
 
 class DAO:
   def __init__(self, table_name: str):
@@ -10,6 +9,8 @@ class DAO:
     Parameters:
       table_name (str): tablename for the DAO.    
     """
+    base_dir = os.path.dirname(__file__)
+
     self.db_path = os.environ.get(
       "SQLITE_PATH",
       os.path.join(base_dir, "../db/db.sqlite")
@@ -28,7 +29,10 @@ class DAO:
 
   def _disconnect(self):
     """ Disconnects the connection. """
-    self._connection.close()
+    if self._connection:
+      self._connection.close()
+
+    self._connection = None
 
   def get_all(self) -> list[dict]:
     """ Get all data from table.
@@ -50,7 +54,7 @@ class DAO:
 
       return result
     except Exception as err:
-      print(err)
+      self._disconnect()
       raise err
 
   def get_one(self, id: int) -> dict | None:
@@ -81,7 +85,7 @@ class DAO:
 
       return result
     except Exception as err:
-      print(err)
+      self._disconnect()
       raise err
 
   def create(self, data: dict) -> dict:
@@ -108,7 +112,7 @@ class DAO:
 
       return {"id": cur.lastrowid, **data}
     except Exception as err:
-      print(err)
+      self._disconnect()
       raise err
     
   def update(self, id: int, data: dict) -> bool:
@@ -137,11 +141,7 @@ class DAO:
       
       return cur.rowcount > 0
     except Exception as err:
-      print(err)
-
-      # TODO lägg till överallt
-      if self._connection:
-        self._disconnect()
+      self._disconnect()
       raise err
 
   def delete(self, id: int) -> bool:
@@ -166,11 +166,7 @@ class DAO:
   
       return cur.rowcount > 0
     except Exception as err:
-      print(err)
-
-      # TODO lägg till överallt
-      if self._connection:
-        self._disconnect()
+      self._disconnect()
       raise err
   
   def _get_column_names(self) -> list[str]:
@@ -187,10 +183,10 @@ class DAO:
       cur.execute(f"PRAGMA table_info ({self.table})")
       columns_info = cur.fetchall()
       self._disconnect()
-      column_names = [info[1] for info in columns_info]
-      return column_names
+
+      return [info[1] for info in columns_info]
     except Exception as err:
-      print(err)
+      self._disconnect()
       raise err
 
   def _control_keys(self, keys: list[any]) -> None:
