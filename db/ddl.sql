@@ -1,8 +1,8 @@
-DROP TRIGGER trg_update_post;
-DROP TRIGGER trg_update_topic;
-DROP TABLE post;
-DROP TABLE topic;
-DROP TABLE user;
+DROP TRIGGER IF EXISTS trg_update_post;
+DROP TRIGGER IF EXISTS trg_update_topic;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS topic;
+DROP TABLE IF EXISTS user;
 
 -- tables 
 
