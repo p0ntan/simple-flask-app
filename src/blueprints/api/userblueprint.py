@@ -12,17 +12,15 @@ user_blueprint = Blueprint('user_blueprint', __name__, url_prefix="/user")
 uc_instance = ControllerRepository().get_user_controller()
 
 
-@user_blueprint.route("/all", methods=["GET"])
+@user_blueprint.route("/", methods=["GET"])
 def get_users():
   # TODO Remove this ? When will this be used?
   """ Get all users. """
   try:
     data = uc_instance.get_all()
-    response = r_helper.success_response(data)
-    status = 200
+    response, status = r_helper.success_response(data)
   except Exception as err:
-    response = r_helper.unkown_error(details=f"{err}")
-    status = 500
+    response, status = r_helper.unkown_error(details=f"{err}")
 
   return jsonify(response), status
 
@@ -32,14 +30,11 @@ def get_user(id_num):
   """ Get info from one user. """
   try:
     data = uc_instance.get_one(id_num)
-    response = r_helper.success_response(data)
-    status = 200
+    response, status = r_helper.success_response(data)
   except NoDataException as err:
-    response = r_helper.error_response(err.status, details=f"{err}")
-    status = err.status
+    response, status = r_helper.error_response(err.status, details=f"{err}")
   except Exception as err:
-    response = r_helper.unkown_error(details=f"{err}")
-    status = 500
+    response, status = r_helper.unkown_error(details=f"{err}")
 
   return jsonify(response), status
 
@@ -48,30 +43,23 @@ def get_user(id_num):
 def update_user(id_num):
   """ Update a user. """
   try:
-    data = request.json
-    uc_instance.update(id_num, data)
-    response = r_helper.success_response(message="User updated.")
-    status = 200
+    uc_instance.update(id_num, request.json)
+    response, status = r_helper.success_response(message="User updated.")
   except (NoDataException, KeyUnmutableException) as err:
-    response = r_helper.error_response(err.status, details=f"{err}")
-    status = err.status
+    response, status = r_helper.error_response(err.status, details=f"{err}")
   except Exception as err:
-    response = r_helper.unkown_error(details=f"{err}")
-    status = 500
+    response, status = r_helper.unkown_error(details=f"{err}")
 
   return jsonify(response), status
 
 
-@user_blueprint.route("/create", methods=["POST"])
+@user_blueprint.route("/", methods=["POST"])
 def create_user():
   """ Create a user. """
   try:
-    data = request.json
-    result = uc_instance.create(data)
-    response = r_helper.success_response(result, message="New user added.")
-    status = 200
+    result = uc_instance.create(request.json)
+    response, status = r_helper.success_response(result, message="New user added.", status=201)
   except Exception as err:
-    response = r_helper.unkown_error(details=f"{err}")
-    status = 500
+    response, status = r_helper.unkown_error(details=f"{err}")
 
   return jsonify(response), status

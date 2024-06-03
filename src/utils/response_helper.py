@@ -7,15 +7,16 @@ class ResponseHelper:
   """
   A class for creating correct responses for API.
   """
-  def success_response(self, data: any = None, message: str = None) -> dict:
+  def success_response(self, data: any = None, message: str = None, status: int = 200) -> tuple[dict, int]:
     """ Creates a success response.
 
     Parameters:
       data (any):   Data to send in response
       message(str): Message to send in response
+      status(int):  Status to use for response, default 200
 
     Returns:
-      dict:         Dictonary to send as a response
+      dict, int:    response dictionary, status
     """
     response = {
       "status": "success",
@@ -27,9 +28,9 @@ class ResponseHelper:
     if message is not None:
       response["message"] = message
 
-    return response
+    return response, status
 
-  def error_response(self, errorcode: int = 400, message: str = None, details: str = None) -> dict:
+  def error_response(self, errorcode: int = 400, message: str = None, details: str = None) -> tuple[dict, int]:
     """ Creates a error response.
 
     Parameters:
@@ -38,7 +39,7 @@ class ResponseHelper:
       details (str):    Details of error
 
     Returns:
-      dict:             Dictonary to send as a response
+      dict, int:        response dictionary, status
     """
     response = {
       "status": "error",
@@ -53,10 +54,17 @@ class ResponseHelper:
     if message is not None:
       response["error"]["message"] = message
 
-    return response
+    return response, errorcode
 
-  def unkown_error(self, details: str = None) -> dict:
-    """ Creates an unknown error"""
+  def unkown_error(self, details: str = None) -> tuple[dict, int]:
+    """ Creates an unknown error
+
+    Parameters:
+      details(str): Details, if any
+
+    Returns:
+      dict, int:    response dictionary, status
+    """
     response = {
       "status": "error",
       "error": {
@@ -68,4 +76,4 @@ class ResponseHelper:
     if details is not None:
       response["error"]["details"] = details
 
-    return response
+    return response, 500
