@@ -9,14 +9,14 @@ from src.controllers.postcontroller import PostController
 
 
 class ControllerRepository:
+  """ A class for handling all controllers, having them easily accessed in rest of system. """
   _instance = None
   _controllers = {}
 
   def __new__(cls):
-    if not hasattr(cls, 'instance'):
-      cls.instance = super(ControllerRepository, cls).__new__(cls)
-      print("inne och skapar")
-    return cls.instance
+    if cls._instance is None:
+      cls._instance = super(ControllerRepository, cls).__new__(cls)
+    return cls._instance
 
   def get_user_controller(self) -> Controller:
     """ Get UserController. Creates an instance if not already in self._controllers.
