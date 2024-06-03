@@ -210,5 +210,5 @@ class DAO:
     column_names = self._get_column_names()
 
     for key in keys:  # Control keys for sql-injection
-      if str(key) not in column_names:
-        raise Exception("Key not a valid column.")
+      if str(key) not in column_names or str(key) == "id":
+        raise Exception("Key not a valid.")
