@@ -1,8 +1,10 @@
--- tables 
-
+DROP TRIGGER trg_update_post;
+DROP TRIGGER trg_update_topic;
 DROP TABLE post;
 DROP TABLE topic;
 DROP TABLE user;
+
+-- tables 
 
 -- "user" definition
 
@@ -50,9 +52,6 @@ CREATE TABLE post (
 CREATE UNIQUE INDEX post_id_IDX ON post (id);
 
 -- triggers
-
-DROP TRIGGER trg_update_post;
-DROP TRIGGER trg_update_topic;
 
 CREATE TRIGGER trg_update_topic AFTER UPDATE OF title ON topic
 	BEGIN
