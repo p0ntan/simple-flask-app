@@ -4,3 +4,4 @@ pytest
 pytest-cov
 pylint
 flake8
+python-dotenv
