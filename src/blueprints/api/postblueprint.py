@@ -12,7 +12,7 @@ post_blueprint = Blueprint('post_blueprint', __name__, url_prefix="/post")
 pc_instance = ControllerRepository().get_post_controller()
 
 
-@post_blueprint.route("/", methods=["GET", "POST"])
+@post_blueprint.route("/", methods=["POST"])
 def index():
   """ Create new post. """
   try:
