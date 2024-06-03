@@ -1,7 +1,10 @@
 """
 Baseclass for all controllers.
+
+Note that there are no try/except here. Instead these should be catched in the module using the controllers.
 """
 from src.utils.dao import DAO
+from src.errors.customerrors import NoDataException
 
 
 class Controller:
@@ -17,12 +20,8 @@ class Controller:
 
     Returns:
       dict:         data for the new entry with id.
-      None:         In case of any failure.
     """
-    try:
-      return self._dao.create(data)
-    except Exception:
-      return None
+    return self._dao.create(data)
 
   def get_all(self) -> list[dict]:
     """ Get all entries.
@@ -30,10 +29,7 @@ class Controller:
     Returns:
       list[dict]:   List with all entires
     """
-    try:
-      return self._dao.get_all()
-    except Exception:
-      return []
+    return self._dao.get_all()
 
   def get_one(self, id_num: int) -> dict:
     """ Get one entry.
@@ -41,14 +37,18 @@ class Controller:
     Parameters:
       id_num (int): unique id for the entry to get
 
-    returns:
+    Returns:
       dict:         with data from entry
-      None:         if no match
+
+    Raises:
+      NoDataException: if no data is found for the given id
     """
-    try:
-      return self._dao.get_one(id_num)
-    except Exception:
-      return None
+    data = self._dao.get_one(id_num)
+
+    if data is None:
+      raise NoDataException(f"No data found for given id: {id_num}")
+
+    return data
 
   def update(self, id_num: int, data: dict) -> bool:
     """ Update existing entry.
@@ -58,12 +58,17 @@ class Controller:
       data (dict):  dictionary with new data
 
     Returns:
-      boolean:      True if entry updated, False otherwise
+      True:         True if entry updated
+
+    Raises:
+      NoDataException: if no data is found for the given id
     """
-    try:
-      return self._dao.update(id_num, data)
-    except Exception:
-      return False
+    success = self._dao.update(id_num, data)
+
+    if not success:
+      raise NoDataException(f"No data found for given id: {id_num}.")
+
+    return success
 
   def delete(self, id_num: int) -> bool:
     """ Delete entry.
@@ -72,9 +77,14 @@ class Controller:
       id_num (int): unique id for the entry to delete.
 
     Returns:
-      boolean:      True if entry deleted, False otherwise
+      boolean:      True if entry deleted
+
+    Raises:
+      NoDataException: if no data is found for the given id
     """
-    try:
-      return self._dao.delete(id_num)
-    except Exception:
-      return False
+    success = self._dao.delete(id_num)
+
+    if not success:
+      raise NoDataException(f"Data not deleted with id {id_num}")
+
+    return success

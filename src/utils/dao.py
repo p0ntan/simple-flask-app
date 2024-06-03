@@ -5,6 +5,7 @@ import os
 import sqlite3
 import datetime
 from src.utils.print_colors import ColorPrinter
+from src.errors.customerrors import KeyUnmutableException
 
 printer = ColorPrinter()
 
@@ -58,13 +59,13 @@ class DAO:
       column_names = [description[0] for description in cur.description]
 
       result = [dict(zip(column_names, row)) for row in rows]
-      self._disconnect()
 
       return result
     except Exception as err:
       printer.print_fail(err)
-      self._disconnect()
       raise err
+    finally:
+      self._disconnect()
 
   def get_one(self, id_num: int) -> dict:
     """ Get one entry
@@ -90,13 +91,12 @@ class DAO:
       if result is not None:
         result = dict(zip(column_names, result))
 
-      self._disconnect()
-
       return result
     except Exception as err:
       printer.print_fail(err)
-      self._disconnect()
       raise err
+    finally:
+      self._disconnect()
 
   def create(self, data: dict) -> dict:
     """ Create (insert) a new entry into database.
@@ -118,13 +118,13 @@ class DAO:
       cur.execute(f"INSERT INTO {self._table} ({columns}) VALUES ({placeholders})", (*data.values(), ))
 
       self._connection.commit()
-      self._disconnect()
 
       return {"id": cur.lastrowid, **data}
     except Exception as err:
       printer.print_fail(err)
-      self._disconnect()
       raise err
+    finally:
+      self._disconnect()
 
   def update(self, id_num: int, data: dict) -> bool:
     """ Update entry.
@@ -148,13 +148,13 @@ class DAO:
 
       cur.execute(f"UPDATE {self._table} SET {columns} WHERE id = ?", (*data.values(), id_num, ))
       self._connection.commit()
-      self._disconnect()
 
       return cur.rowcount > 0
     except Exception as err:
       printer.print_fail(err)
-      self._disconnect()
       raise err
+    finally:
+      self._disconnect()
 
   def delete(self, id_num: int) -> bool:
     """ Delete entry (soft delete).
@@ -174,13 +174,13 @@ class DAO:
 
       cur.execute(f"UPDATE {self._table} SET DELETED = ? WHERE id = ?", (now, id_num, ))
       self._connection.commit()
-      self._disconnect()
 
       return cur.rowcount > 0
     except Exception as err:
       printer.print_fail(err)
-      self._disconnect()
       raise err
+    finally:
+      self._disconnect()
 
   def _get_column_names(self) -> list[str]:
     """ Get column names of the table.
@@ -195,12 +195,12 @@ class DAO:
       cur = self._connect_get_cursor()
       cur.execute(f"PRAGMA table_info ({self._table})")
       columns_info = cur.fetchall()
-      self._disconnect()
 
       return [info[1] for info in columns_info]
     except Exception as err:
-      self._disconnect()
       raise err
+    finally:
+      self._disconnect()
 
   def _control_keys(self, keys: list[any]) -> None:
     """ Controls keys from user input. Raises error if not valid.
@@ -212,4 +212,4 @@ class DAO:
 
     for key in keys:  # Control keys for sql-injection
       if str(key) not in column_names or str(key) == "id":
-        raise Exception("Key not valid.")
+        raise KeyUnmutableException("Key for column not valid.")
