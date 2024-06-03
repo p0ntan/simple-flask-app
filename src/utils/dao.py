@@ -4,7 +4,9 @@ DAO is used for simplyfying handling with data from database.
 import os
 import sqlite3
 import datetime
+from src.utils.print_colors import ColorPrinter
 
+printer = ColorPrinter()
 
 class DAO:
   """
@@ -59,6 +61,7 @@ class DAO:
 
       return result
     except Exception as err:
+      printer.print_fail(err)
       self._disconnect()
       raise err
 
@@ -90,6 +93,7 @@ class DAO:
 
       return result
     except Exception as err:
+      printer.print_fail(err)
       self._disconnect()
       raise err
 
@@ -117,6 +121,7 @@ class DAO:
 
       return {"id": cur.lastrowid, **data}
     except Exception as err:
+      printer.print_fail(err)
       self._disconnect()
       raise err
 
@@ -146,6 +151,7 @@ class DAO:
 
       return cur.rowcount > 0
     except Exception as err:
+      printer.print_fail(err)
       self._disconnect()
       raise err
 
@@ -171,6 +177,7 @@ class DAO:
 
       return cur.rowcount > 0
     except Exception as err:
+      printer.print_fail(err)
       self._disconnect()
       raise err
 
