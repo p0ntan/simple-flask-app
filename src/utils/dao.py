@@ -211,4 +211,4 @@ class DAO:
 
     for key in keys:  # Control keys for sql-injection
       if str(key) not in column_names or str(key) == "id":
-        raise Exception("Key not a valid.")
+        raise Exception("Key not valid.")
