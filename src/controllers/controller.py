@@ -1,12 +1,13 @@
 from src.utils.dao import DAO
 
+
 class Controller:
   def __init__(self, dao: DAO):
     self._dao = dao
 
   def create(self, data: dict) -> dict | None:
     """ Create a new entry.
-    
+
     Parameters:
       data (dict):  dictionary with data
 
@@ -21,7 +22,7 @@ class Controller:
 
   def get_all(self) -> list[dict]:
     """ Get all entries.
-    
+
     Returns:
       list[dict]:   List with all entires
     """
@@ -32,7 +33,7 @@ class Controller:
 
   def get_one(self, id: int) -> dict | None:
     """ Get one entry.
-    
+
     returns:
       dict:         with data from entry
       None:         if no match
@@ -44,11 +45,11 @@ class Controller:
 
   def update(self, id: int, data: dict) -> bool:
     """ Update existing entry.
-    
+
     Parameters:
-      id (int):     unique id for the entry to update 
-      data (dict):  dictionary with new data 
-    
+      id (int):     unique id for the entry to update
+      data (dict):  dictionary with new data
+
     Returns:
       boolean:      True if entry updated, False otherwise
     """
@@ -59,7 +60,7 @@ class Controller:
 
   def delete(self, id: int) -> bool:
     """ Delete entry.
-    
+
     Parameters:
       id (int):     unique id for the entry to delete.
 
