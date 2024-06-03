@@ -8,6 +8,7 @@ from src.utils.print_colors import ColorPrinter
 
 printer = ColorPrinter()
 
+
 class DAO:
   """
   DAO is for simpler access for tables in sqlite-db.

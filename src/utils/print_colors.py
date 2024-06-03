@@ -1,4 +1,10 @@
+"""
+Module with a simple class for nicer printouts.
+"""
+
+
 class ColorPrinter:
+  """ Simple class just for printing nicer printouts with colors. """
   HEADER = "\033[95m"
   OKBLUE = "\033[94m"
   OKCYAN = "\033[96m"
@@ -10,7 +16,9 @@ class ColorPrinter:
   UNDERLINE = "\033[4m"
 
   def print_fail(self, msg):
+    """ Print fail with red color. """
     print(f"{self.FAIL}{msg}{self.ENDC}")
 
   def print_error(self, msg):
+    """ Print warning with yellow color. """
     print(f"{self.WARNING}{msg}{self.ENDC}")
