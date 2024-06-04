@@ -12,4 +12,4 @@ application.register_blueprint(api_blueprint)
 
 if __name__ == "__main__":
   print(application.url_map)
-  application.run()
+  application.run(debug=True)
