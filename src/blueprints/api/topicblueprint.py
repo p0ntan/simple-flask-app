@@ -26,15 +26,18 @@ def index():
 
 
 @topic_blueprint.route("/<id_num>", methods=["GET", "PUT"])
-def single_topic(id_num):
+def single_topic(id_num: int):
   """ Get info from one topic. """
   try:
     if request.method == "GET":
-      data = tc_instance.get_one(id_num)
+      page = request.args.get('page', 0)
+
+      data = tc_instance.get_topic_and_posts(id_num, int(page))
+
       response, status = r_helper.success_response(data)
     elif request.method == "PUT":
       tc_instance.update(id_num, request.json)
-      response, status = r_helper.success_response(message="Post updated.")
+      response, status = r_helper.success_response(message="Topic updated.")
   except (NoDataException, KeyUnmutableException) as err:
     response, status = r_helper.error_response(err.status, details=f"{err}")
   except Exception as err:
@@ -52,4 +55,4 @@ def before_request_middleware():
     print(auth["Authorization"][8:])
 
 # Lägg till middleware till api_blueprint
-topic_blueprint.before_request(before_request_middleware)
+# topic_blueprint.before_request(before_request_middleware)

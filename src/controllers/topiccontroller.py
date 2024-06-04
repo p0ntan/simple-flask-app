@@ -11,8 +11,8 @@ class TopicController(Controller):
   def __init__(self, topic_dao: DAO, post_dao: PostDAO):
     super().__init__(dao=topic_dao)
     self._post_dao = post_dao
-  
-  def get_posts(self, topic_id: int, pagnation: int = 0) -> list[dict]:
+
+  def get_topic_and_posts(self, topic_id: int, pagnation: int = 0) -> list[dict]:
     """ Get posts for topic.
 
     Parameters:
