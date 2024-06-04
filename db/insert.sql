@@ -10,7 +10,7 @@ INSERT INTO user (username) VALUES ("johndoe");
 
 INSERT INTO topic (id, created_by, category, title) VALUES (1, 1, 2, "Donald Trump");
 INSERT INTO topic (id, created_by, category, title) VALUES (2, 3, 2, "Joe Biden");
-INSERT INTO topic (id, created_by, category, title) VALUES (3, 1, 4, "Magnus Tolander");
+INSERT INTO topic (id, created_by, category, title) VALUES (4, 1, 4, "Magnus Tolander");
 
 -- post
 
