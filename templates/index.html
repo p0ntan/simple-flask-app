@@ -1,0 +1,16 @@
+{% set title = "Home" %}
+
+{% include 'header.html' %}
+<!-- Page content-->
+<div class="" role="main">
+  <h1 class="text-3xl font-bold underline">
+    hooilo
+  </h1>
+  {% for post in posts %}
+  <p class="text-3xl underline">
+    {{ post.body }}
+  </p>
+  {% endfor %}
+</div>
+
+{% include 'footer.html' %}
