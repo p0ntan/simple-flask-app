@@ -2,6 +2,7 @@
 Repository to handle controllers, using singleton princible.
 """
 from src.utils.dao import DAO
+from src.utils.postdao import PostDAO
 from src.controllers.controller import Controller
 from src.controllers.usercontroller import UserController
 from src.controllers.topiccontroller import TopicController
@@ -29,7 +30,7 @@ class ControllerRepository:
       self._controllers["user_controller"] = UserController(user_dao)
     return self._controllers["user_controller"]
 
-  def get_topic_controller(self) -> Controller:
+  def get_topic_controller(self) -> TopicController:
     """ Get TopicController. Creates an instance if not already in self._controllers.
 
     Returns:
@@ -37,7 +38,8 @@ class ControllerRepository:
     """
     if "topic_controller" not in self._controllers:
       topic_dao = DAO(table_name="topic")
-      self._controllers["topic_controller"] = TopicController(topic_dao)
+      post_dao = PostDAO(table_name="post")
+      self._controllers["topic_controller"] = TopicController(topic_dao, post_dao)
     return self._controllers["topic_controller"]
 
   def get_post_controller(self) -> Controller:
