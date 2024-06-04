@@ -27,7 +27,7 @@ def index():
 
 @topic_blueprint.route("/<id_num>", methods=["GET", "PUT"])
 def single_topic(id_num: int):
-  """ Get info from one topic. """
+  """ Get info from one topic, with posts. """
   try:
     if request.method == "GET":
       page = request.args.get('page', 0)
