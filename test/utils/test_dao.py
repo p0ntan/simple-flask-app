@@ -23,9 +23,9 @@ faked_expected = [
 
 @pytest.fixture
 def sut():
-    sut = DAO("")
+  sut = DAO("")
 
-    return sut
+  return sut
 
 @pytest.mark.unit
 class TestDAO:
