@@ -4,7 +4,7 @@ Blueprint for api route /user
 from flask import Blueprint
 from src.controllers.controller_repository import ControllerRepository
 
-user_blueprint = Blueprint('user_blueprint', __name__, url_prefix="/user")
+user_blueprint = Blueprint('user_blueprint', __name__, url_prefix="/users")
 user_controller = ControllerRepository().get_user_controller()
 
 user_blueprint.route("/", methods=["POST"])(user_controller.root)

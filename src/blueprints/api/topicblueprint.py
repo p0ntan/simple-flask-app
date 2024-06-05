@@ -4,7 +4,7 @@ Blueprint for api route /topic
 from flask import Blueprint
 from src.controllers.controller_repository import ControllerRepository
 
-topic_blueprint = Blueprint("topic_blueprint", __name__, url_prefix="/topic")
+topic_blueprint = Blueprint("topic_blueprint", __name__, url_prefix="/topics")
 topic_controller = ControllerRepository().get_topic_controller()
 
 topic_blueprint.route("/", methods=["POST"])(topic_controller.root)
