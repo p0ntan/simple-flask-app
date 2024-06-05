@@ -1,4 +1,6 @@
+import os
 import pytest
+import sqlite3
 import unittest.mock as mock
 from src.utils.dao import DAO
 from src.errors.customerrors import KeyUnmutableException
@@ -23,12 +25,38 @@ faked_expected = [
   },
 ]
 
+def reset_database(db_file: str, files: list[str]):
+  conn = sqlite3.connect(db_file)
+  cursor = conn.cursor()
+
+  for file in files:
+    with open(file, 'r') as f:
+        sql_commands = f.read()
+        cursor.executescript(sql_commands)
+
+  conn.commit()
+  conn.close()
+
+@pytest.fixture
+def sut_int():
+  """SUT for integrationtest."""
+  base_dir = os.path.dirname(__file__)
+  test_db = os.path.join(base_dir, "test_data/db_test.sqlite")
+
+  reset_database(test_db, ["./db/ddl.sql", "./db/insert.sql"])
+
+  with mock.patch("src.utils.dao.os.environ.get") as db_path:
+    db_path.return_value = test_db
+    sut = DAO("user")
+    yield sut
+    os.remove(test_db)
+
 @pytest.fixture
 def sut():
+  """SUT for unittest."""
   sut = DAO("")
 
   return sut
-
 
 @pytest.mark.unit
 class TestUnitDAO:
@@ -163,3 +191,10 @@ class TestUnitDAO:
 
     with pytest.raises(Exception):
       sut._get_column_names()
+
+@pytest.mark.integration
+class TestIntegrationDAO:
+  """Integration tests."""
+  def test_just_test(self, sut_int):
+    data = sut_int.get_one(1)
+    assert data["username"] == "admin"
