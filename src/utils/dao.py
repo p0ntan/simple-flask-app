@@ -104,7 +104,7 @@ class DAO:
       dict:         with new entry
 
     Raises:
-      Exception:    in case of any error
+      Exception:    in case of any error like invalid input keyp or unique entry already exist.
     """
     try:
       self._control_keys(data.keys())
