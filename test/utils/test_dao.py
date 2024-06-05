@@ -41,7 +41,7 @@ def reset_database(db_file: str, files: list[str]):
 def sut_int():
   """SUT for integrationtest."""
   base_dir = os.path.dirname(__file__)
-  test_db = os.path.join(base_dir, "test_data/db_test.sqlite")
+  test_db = os.path.join(base_dir, "db_test.sqlite")
 
   reset_database(test_db, ["./db/ddl.sql", "./db/insert.sql"])
 
