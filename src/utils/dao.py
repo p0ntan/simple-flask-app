@@ -38,7 +38,7 @@ class DAO:
 
   def _disconnect(self):
     """ Disconnects the connection. """
-    if self._connection:
+    if self._connection is not None:
       self._connection.close()
 
     self._connection = None
