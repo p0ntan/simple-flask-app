@@ -30,7 +30,7 @@ class PostController(Controller):
     """Controller for single post route
 
     Parameters:
-      id_num(int):  id for topic
+      id_num(int):  id for post
 
     Returns:
       response, status

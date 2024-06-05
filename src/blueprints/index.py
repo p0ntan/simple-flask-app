@@ -11,6 +11,7 @@ index_blueprint = Blueprint('index_bluepring', __name__, url_prefix="/")
 def index():
   url = os.environ.get("API_URL", "")
   print(url)
-  r = requests.get(f"{url}/topic/2")
+  r = requests.get(f"{url}/topics/2/page/0")
   data = r.json()
+
   return render_template("index.html", posts=data["data"]["posts"])

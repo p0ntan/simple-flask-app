@@ -29,7 +29,7 @@ class UserController(Controller):
     """Controller for single user route
 
     Parameters:
-      id_num(int):  id for topic
+      id_num(int):  id for user
 
     Returns:
       response, status
