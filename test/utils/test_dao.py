@@ -41,9 +41,10 @@ def reset_database(db_file: str, files: list[str]):
 def sut_int():
   """SUT for integrationtest."""
   base_dir = os.path.dirname(__file__)
-  test_db = os.path.join(base_dir, "db_test.sqlite")
+  test_db = os.path.join(base_dir, "test_data/test_db.sqlite")
+  test_data = os.path.join(base_dir, "test_data/insert.sql")
 
-  reset_database(test_db, ["./db/ddl.sql", "./db/insert.sql"])
+  reset_database(test_db, ["./db/ddl.sql", test_data])
 
   with mock.patch("src.utils.dao.os.environ.get") as db_path:
     db_path.return_value = test_db
@@ -75,7 +76,6 @@ class TestUnitDAO:
     Get one
     """
     mocked_cursor = mock.MagicMock()
-    mocked_cursor.execute.side_effect = None
     mocked_cursor.description = names
     mocked_cursor.fetchone.return_value = result
 
@@ -92,7 +92,6 @@ class TestUnitDAO:
     Get one - exception
     """
     mocked_cursor = mock.MagicMock()
-    mocked_cursor.execute.side_effect = None
     mocked_cursor.fetchone.side_effect = Exception
     mockedCGC.return_value = mocked_cursor
 
@@ -195,6 +194,36 @@ class TestUnitDAO:
 @pytest.mark.integration
 class TestIntegrationDAO:
   """Integration tests."""
-  def test_just_test(self, sut_int):
-    data = sut_int.get_one(1)
-    assert data["username"] == "admin"
+
+  @pytest.mark.parametrize("id, expected",[
+    (1, "admin"),
+    (5, "johndoe")
+  ])
+  def test_get_one(self, sut_int, id, expected):
+    """Test get one user."""
+    data = sut_int.get_one(id)
+    
+    assert data["username"] == expected
+
+  def test_get_one_none(self, sut_int):
+    """Test when no match in database for one user."""
+    data = sut_int.get_one(2)
+
+    assert data is None
+
+  def test_create(self, sut_int):
+    """Test to create a user."""
+    input_data = {"username": "tony the tiger"}
+    data = sut_int.create(input_data)
+
+    assert "id" in data and input_data.items() <= data.items()
+
+  @pytest.mark.parametrize("input_data",[
+    ({"username": "admin"}),
+    ({"id": 4, "username": "new_one"}),
+    ({"DROP TABLE user;": True})
+  ])
+  def test_create_fail(self, sut_int, input_data):
+    """Test to create a user."""
+    with pytest.raises(Exception):
+      sut_int.create(input_data)
