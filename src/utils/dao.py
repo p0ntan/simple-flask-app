@@ -3,7 +3,6 @@ DAO is used for simplyfying handling with data from database.
 """
 import os
 import sqlite3
-import datetime
 from src.utils.print_colors import ColorPrinter
 from src.errors.customerrors import KeyUnmutableException
 
@@ -169,10 +168,9 @@ class DAO:
       Exception:    In case of any error
     """
     try:
-      now = datetime.datetime.now(tz=datetime.timezone.utc).isoformat()
       cur = self._connect_get_cursor()
 
-      cur.execute(f"UPDATE {self._table} SET DELETED = ? WHERE id = ?", (now, id_num, ))
+      cur.execute(f"UPDATE {self._table} SET DELETED = CURRENT_TIMESTAMP WHERE id = ?", (id_num, ))
       self._connection.commit()
 
       return cur.rowcount > 0
@@ -203,10 +201,13 @@ class DAO:
       self._disconnect()
 
   def _control_keys(self, keys: list[any]) -> None:
-    """ Controls keys from user input. Raises error if not valid.
+    """Controls keys from user input with columns in database. Raises error if not valid or key is id.
+
+    Paramters:
+      keys (list[str]):       List of keys to control.
 
     Raises:
-      Exception:    in case of any error
+      KeyUnmutableException:  in case key is not valid
     """
     column_names = self._get_column_names()
 

@@ -107,8 +107,59 @@ class TestUnitDAO:
   @mock.patch("src.utils.dao.DAO._control_keys", autospec=True)
   @mock.patch("src.utils.dao.DAO._disconnect", autospec=True)
   def test_update_exception(self, mocked_DC, mockedCK, sut):
+    """Test that when an exception is raised the _disconnect in finally block is called."""
     mockedCK.side_effect = KeyUnmutableException("Key for column not valid.")
 
     with pytest.raises(KeyUnmutableException):
       sut.update(2, {})
     mocked_DC.assert_called_once()
+
+  @pytest.mark.parametrize("keys", [
+    (["topic", "name", "fail"]),
+    (["id"])
+  ])
+  @mock.patch("src.utils.dao.DAO._get_column_names", autospec=True)
+  def test_control_keys_fail(self, mockedGCN, sut, keys):
+    """Test that control keys raises exception."""
+    mockedGCN.return_value = ["topic", "name", "body"]
+
+    with pytest.raises(KeyUnmutableException):
+      sut._control_keys(keys)
+
+  @pytest.mark.parametrize("keys", [
+    (["topic", "name", "body"]),
+    (["name"]),
+    ([])
+  ])
+  @mock.patch("src.utils.dao.DAO._get_column_names", autospec=True)
+  def test_control_keys_pass(self, mockedGCN, sut, keys):
+    """Test that control keys raises exception."""
+    mockedGCN.return_value = ["topic", "name", "body"]
+    result = sut._control_keys(keys)
+
+    assert result == None
+
+  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
+  def test_get_column_names(self, mockedCGC, sut):
+    """Get column names."""
+    faked_columns = [(0, "id", None), (1, "username", None), (2, "role", None)]
+
+    mocked_cursor = mock.MagicMock()
+    mocked_cursor.fetchall.return_value = faked_columns
+    mockedCGC.return_value = mocked_cursor
+
+    result = sut._get_column_names()
+
+    assert result == ["id", "username", "role"]
+
+  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
+  def test_get_column_names_exception(self, mockedCGC, sut):
+    """Get column names."""
+    faked_columns = None
+
+    mocked_cursor = mock.MagicMock()
+    mocked_cursor.fetchall.return_value = faked_columns
+    mockedCGC.return_value = mocked_cursor
+
+    with pytest.raises(Exception):
+      sut._get_column_names()
