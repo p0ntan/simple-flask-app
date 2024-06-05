@@ -2,12 +2,12 @@
 
 {% include 'header.html' %}
 <!-- Page content-->
-<div class="" role="main">
-  <h1 class="text-3xl font-bold underline">
+<div class="container" role="main">
+  <h1>
     hooilo
   </h1>
   {% for post in posts %}
-  <p class="text-3xl underline">
+  <p>
     {{ post.body }}
   </p>
   {% endfor %}
