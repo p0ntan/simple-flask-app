@@ -105,8 +105,10 @@ class TestUnitDAO:
       sut.get_all()
 
   @mock.patch("src.utils.dao.DAO._control_keys", autospec=True)
-  def test_update_exception(self, mockedCK, sut):
+  @mock.patch("src.utils.dao.DAO._disconnect", autospec=True)
+  def test_update_exception(self, mocked_DC, mockedCK, sut):
     mockedCK.side_effect = KeyUnmutableException("Key for column not valid.")
 
     with pytest.raises(KeyUnmutableException):
       sut.update(2, {})
+    mocked_DC.assert_called_once()
