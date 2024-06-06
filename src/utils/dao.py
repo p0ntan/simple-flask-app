@@ -170,7 +170,7 @@ class DAO:
     try:
       cur = self._connect_get_cursor()
 
-      cur.execute(f"UPDATE {self._table} SET DELETED = CURRENT_TIMESTAMP WHERE id = ?", (id_num, ))
+      cur.execute(f"UPDATE {self._table} SET deleted = CURRENT_TIMESTAMP WHERE id = ?", (id_num, ))
       self._connection.commit()
 
       return cur.rowcount > 0
