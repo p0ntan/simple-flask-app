@@ -41,7 +41,8 @@ CREATE TABLE topic (
 	deleted TIMESTAMP,
 	disabled BOOLEAN,
 	title TEXT NOT NULL,
-	CONSTRAINT topic_user_FK FOREIGN KEY (created_by) REFERENCES "user"(id)
+	CONSTRAINT topic_user_FK FOREIGN KEY (created_by) REFERENCES "user"(id),
+	CONSTRAINT topic_category_FK FOREIGN KEY (category) REFERENCES "category"(id)
 );
 
 CREATE UNIQUE INDEX topic_id_IDX ON topic (id);
