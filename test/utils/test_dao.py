@@ -1,10 +1,13 @@
 import os
+import re
 import pytest
 import sqlite3
 import unittest.mock as mock
 from src.utils.dao import DAO
 from src.errors.customerrors import KeyUnmutableException
 
+base_dir = os.path.dirname(__file__)
+test_db = os.path.join(base_dir, "test_data/test_db.sqlite")
 faked_rows = ((1, "johndoe", "author"), (2, "admin", "admin"), (3, "elmapelma", "moderator"))
 faked_names = (("id",), ("username", ), ("role", ))
 faked_expected = [
@@ -25,8 +28,13 @@ faked_expected = [
   },
 ]
 
-def reset_database(db_file: str, files: list[str]):
-  conn = sqlite3.connect(db_file)
+@pytest.fixture
+def sut_int(table_name: str):
+  """SUT for integrationtest."""
+  test_data = os.path.join(base_dir, "test_data/insert.sql")
+  files = ["./db/ddl.sql", test_data]
+
+  conn = sqlite3.connect(test_db)
   cursor = conn.cursor()
 
   for file in files:
@@ -37,18 +45,9 @@ def reset_database(db_file: str, files: list[str]):
   conn.commit()
   conn.close()
 
-@pytest.fixture
-def sut_int():
-  """SUT for integrationtest."""
-  base_dir = os.path.dirname(__file__)
-  test_db = os.path.join(base_dir, "test_data/test_db.sqlite")
-  test_data = os.path.join(base_dir, "test_data/insert.sql")
-
-  reset_database(test_db, ["./db/ddl.sql", test_data])
-
   with mock.patch("src.utils.dao.os.environ.get") as db_path:
     db_path.return_value = test_db
-    sut = DAO("user")
+    sut = DAO(table_name)
     yield sut
     os.remove(test_db)
 
@@ -141,6 +140,16 @@ class TestUnitDAO:
       sut.update(2, {})
     mocked_DC.assert_called_once()
 
+  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
+  @mock.patch("src.utils.dao.DAO._disconnect", autospec=True)
+  def test_delete_exception(self, mocked_DC, mockedCGC, sut):
+    """Test that when an exception is raised the _disconnect in finally block is called."""
+    mockedCGC.side_effect = Exception
+
+    with pytest.raises(Exception):
+      sut.delete(2)
+    mocked_DC.assert_called_once()
+
   @pytest.mark.parametrize("keys", [
     (["topic", "name", "fail"]),
     (["id"])
@@ -195,9 +204,9 @@ class TestUnitDAO:
 class TestIntegrationDAO:
   """Integration tests."""
 
-  @pytest.mark.parametrize("id, expected",[
-    (1, "admin"),
-    (5, "johndoe")
+  @pytest.mark.parametrize("table_name, id, expected",[
+    ("user", 1, "admin"),
+    ("user", 5, "johndoe")
   ])
   def test_get_one(self, sut_int, id, expected):
     """Test get one user."""
@@ -205,12 +214,14 @@ class TestIntegrationDAO:
     
     assert data["username"] == expected
 
+  @pytest.mark.parametrize("table_name", ["user"])
   def test_get_one_none(self, sut_int):
     """Test when no match in database for one user."""
     data = sut_int.get_one(2)
 
     assert data is None
 
+  @pytest.mark.parametrize("table_name", ["user"])
   def test_create(self, sut_int):
     """Test to create a user."""
     input_data = {"username": "tony the tiger"}
@@ -218,12 +229,64 @@ class TestIntegrationDAO:
 
     assert "id" in data and input_data.items() <= data.items()
 
-  @pytest.mark.parametrize("input_data",[
-    ({"username": "admin"}),
-    ({"id": 4, "username": "new_one"}),
-    ({"DROP TABLE user;": True})
+  @pytest.mark.parametrize("table_name, input_data",[
+    ("user", {"username": "admin"}),
+    ("user", {"id": 4, "username": "new_one"}),
+    ("user", {"DROP TABLE user;": True})
   ])
   def test_create_fail(self, sut_int, input_data):
-    """Test to create a user."""
+    """Test to create a user with wrong input."""
     with pytest.raises(Exception):
       sut_int.create(input_data)
+
+  @pytest.mark.parametrize("table_name, id, input_data, expected",[
+    ("user", 5, {"username": "tony the tiger"}, True),
+    ("user", 2, {"username": "tony the tiger"}, False),
+  ])
+  def test_update(self, sut_int, id, input_data, expected):
+    """Test return value when updating a user."""
+    result = sut_int.update(id, input_data)
+
+    assert result == expected
+
+  @pytest.mark.parametrize("table_name, id, input_data, expected",[
+    ("user", 5, {"username": "tony the tiger"}, "tony the tiger"),
+  ])
+  def test_update_data(self, sut_int, id, input_data, expected):
+    """Test data when updating a user."""
+    result = sut_int.update(id, input_data)
+
+    conn = sqlite3.connect(test_db)
+    cur = conn.cursor()
+    cur.execute("SELECT username from user where id = ?", (id, ))
+    result = cur.fetchone()
+
+    conn.close()
+
+    assert result[0] == expected
+
+  @pytest.mark.parametrize("table_name, id, expected",[
+    ("post", 1, True),
+    ("post", 200, False),
+  ])
+  def test_delete(self, sut_int, id, expected):
+    """Test return value when updating a user."""
+    result = sut_int.delete(id)
+
+    assert result == expected
+
+  @pytest.mark.parametrize("table_name, id",[
+    ("post", 1),
+  ])
+  def test_update_data(self, sut_int, id):
+    """Test data when updating a user."""
+    result = sut_int.delete(id)
+
+    conn = sqlite3.connect(test_db)
+    cur = conn.cursor()
+    cur.execute("SELECT deleted from post where id = ?", (id, ))
+    result = cur.fetchone()
+
+    conn.close()
+
+    assert re.match("[0-9]{4}-[0-9]{2}-[0-9]{2}", result[0])
