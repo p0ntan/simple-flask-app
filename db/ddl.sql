@@ -13,7 +13,7 @@ CREATE TABLE "user" (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username TEXT NOT NULL UNIQUE,
 	password TEXT,
-	role TEST(15) DEFAULT "author",
+	role TEST(15) DEFAULT "author" NOT NULL,
 	signature TEXT(150),
 	avatar TEXT(150)
 );
