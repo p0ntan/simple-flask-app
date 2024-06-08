@@ -28,10 +28,8 @@ class UserDAO(DAO):
     Raises:
       Exception: If an error occurs while retrieving the user.
     """
-    conn = None
-
     try:
-      conn, cur = self.get_connection_and_cursor()
+      cur = self._connect_get_cursor()
 
       cur.execute("SELECT * FROM user WHERE username = ?", (username, ))
       column_names = [description[0] for description in cur.description]
@@ -48,5 +46,4 @@ class UserDAO(DAO):
       printer.print_fail(error)
       raise error
     finally:
-      if conn is not None:
-        conn.close()
+      self._disconnect()

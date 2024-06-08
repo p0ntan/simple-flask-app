@@ -31,8 +31,8 @@ def sut_int():
     os.remove(test_db)
 
 
-@pytest.mark.testing
-class TestIntegrationPostDAO:
+@pytest.mark.integration
+class TestIntegrationUserDAO:
   """Integration tests."""
 
   @pytest.mark.parametrize("user_name, expected_user_type", [
