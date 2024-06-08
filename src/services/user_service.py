@@ -29,19 +29,20 @@ class UserService:
     Returns:
       UserReturnData: The user as a dictionary if created successfully.
     """
-    user = self._dao.create_user(data)
+    user = self._dao.create(data)
     return user.to_dict()
 
-  def update(self, user_id: int, data: dict[str, str]) -> bool:
+  def update(self, id_num: int, data: dict[str, str]) -> bool:
     """Update a user in the database.
 
     Parameters:
-      data (dict): New data.
+      id_num (int): The id of the user.
+      data (dict):  New data.
 
     Returns:
       Boolean: True if item changed, False otherwise
     """
-    user = self._dao.update(user_id, data)
+    user = self._dao.update(id_num, data)
     return user
 
   def login(self, username: str, password: str) -> UserReturnData:
@@ -77,7 +78,7 @@ class UserService:
     Raises:
       NoDataException: If no user is found with the given username.
     """
-    user = self._dao.get_user_by_id(user_id)
+    user = self._dao.get_one(user_id)
 
     if user is None:
       raise NoDataException(f"No user found with user_id: {user_id}")
