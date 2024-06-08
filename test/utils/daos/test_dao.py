@@ -3,7 +3,7 @@ import re
 import pytest
 import sqlite3
 import unittest.mock as mock
-from src.utils.dao import DAO
+from src.utils.daos.dao import DAO
 from src.errors.customerrors import KeyUnmutableException
 
 base_dir = os.path.dirname(__file__)
@@ -45,7 +45,7 @@ def sut_int(table_name: str):
   conn.commit()
   conn.close()
 
-  with mock.patch("src.utils.dao.os.environ.get") as db_path:
+  with mock.patch("src.utils.daos.dao.os.environ.get") as db_path:
     db_path.return_value = test_db
     sut = DAO(table_name)
     yield sut
@@ -68,8 +68,8 @@ class TestUnitDAO:
     }),
     (None, faked_names, None)
   ])
-  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
-  @mock.patch("src.utils.dao.DAO._disconnect", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._connect_get_cursor", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._disconnect", autospec=True)
   def test_get_one(self, mockedDisconnect, mockedCGC, sut, result, names, expected):
     """
     Get one
@@ -85,7 +85,7 @@ class TestUnitDAO:
 
     assert result == expected
 
-  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._connect_get_cursor", autospec=True)
   def test_get_one_exception(self, mockedCGC, sut):
     """
     Get one - exception
@@ -101,8 +101,8 @@ class TestUnitDAO:
     (faked_rows,(("id",), ("username", ), ("role", )), faked_expected),
     ([], (("id",), ("username", ), ("role", )), [])
   ])
-  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
-  @mock.patch("src.utils.dao.DAO._disconnect", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._connect_get_cursor", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._disconnect", autospec=True)
   def test_get_all(self, mockedDisconnect, mockedCGC, sut, rows, names, expected):
     """
     Get all
@@ -118,7 +118,7 @@ class TestUnitDAO:
 
     assert result == expected
 
-  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._connect_get_cursor", autospec=True)
   def test_get_all_exception(self, mockedCGC, sut):
     """
     Get all - exception
@@ -130,8 +130,8 @@ class TestUnitDAO:
     with pytest.raises(Exception):
       sut.get_all()
 
-  @mock.patch("src.utils.dao.DAO._control_keys", autospec=True)
-  @mock.patch("src.utils.dao.DAO._disconnect", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._control_keys", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._disconnect", autospec=True)
   def test_update_exception(self, mocked_DC, mockedCK, sut):
     """Test that when an exception is raised the _disconnect in finally block is called."""
     mockedCK.side_effect = KeyUnmutableException("Key for column not valid.")
@@ -140,8 +140,8 @@ class TestUnitDAO:
       sut.update(2, {})
     mocked_DC.assert_called_once()
 
-  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
-  @mock.patch("src.utils.dao.DAO._disconnect", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._connect_get_cursor", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._disconnect", autospec=True)
   def test_delete_exception(self, mocked_DC, mockedCGC, sut):
     """Test that when an exception is raised the _disconnect in finally block is called."""
     mockedCGC.side_effect = Exception
@@ -154,7 +154,7 @@ class TestUnitDAO:
     (["topic", "name", "fail"]),
     (["id"])
   ])
-  @mock.patch("src.utils.dao.DAO._get_column_names", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._get_column_names", autospec=True)
   def test_control_keys_fail(self, mockedGCN, sut, keys):
     """Test that control keys raises exception."""
     mockedGCN.return_value = ["topic", "name", "body"]
@@ -167,7 +167,7 @@ class TestUnitDAO:
     (["name"]),
     ([])
   ])
-  @mock.patch("src.utils.dao.DAO._get_column_names", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._get_column_names", autospec=True)
   def test_control_keys_pass(self, mockedGCN, sut, keys):
     """Test that control keys raises exception."""
     mockedGCN.return_value = ["topic", "name", "body"]
@@ -175,7 +175,7 @@ class TestUnitDAO:
 
     assert result == None
 
-  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._connect_get_cursor", autospec=True)
   def test_get_column_names(self, mockedCGC, sut):
     """Get column names."""
     faked_columns = [(0, "id", None), (1, "username", None), (2, "role", None)]
@@ -188,7 +188,7 @@ class TestUnitDAO:
 
     assert result == ["id", "username", "role"]
 
-  @mock.patch("src.utils.dao.DAO._connect_get_cursor", autospec=True)
+  @mock.patch("src.utils.daos.dao.DAO._connect_get_cursor", autospec=True)
   def test_get_column_names_exception(self, mockedCGC, sut):
     """Get column names."""
     faked_columns = None
@@ -278,7 +278,7 @@ class TestIntegrationDAO:
   @pytest.mark.parametrize("table_name, id",[
     ("post", 1),
   ])
-  def test_update_data(self, sut_int, id):
+  def test_delete_data(self, sut_int, id):
     """Test data when updating a user."""
     result = sut_int.delete(id)
 

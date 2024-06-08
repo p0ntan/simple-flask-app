@@ -3,7 +3,7 @@ import re
 import pytest
 import sqlite3
 import unittest.mock as mock
-from src.utils.postdao import PostDAO
+from src.utils.daos.postdao import PostDAO
 
 base_dir = os.path.dirname(__file__)
 test_db = os.path.join(base_dir, "test_data/test_db.sqlite")
@@ -25,7 +25,7 @@ def sut_int():
   conn.commit()
   conn.close()
 
-  with mock.patch("src.utils.dao.os.environ.get") as db_path:
+  with mock.patch("src.utils.daos.dao.os.environ.get") as db_path:
     db_path.return_value = test_db
     sut = PostDAO("post")
     yield sut
