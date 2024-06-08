@@ -3,7 +3,7 @@ Usercontroller is for handling all calls to database regarding users.
 """
 from flask import jsonify, request, Response
 from src.controllers.controller import Controller
-from src.utils.userdao import UserDAO
+from src.utils.daos.userdao import UserDAO
 from src.utils.response_helper import ResponseHelper
 from src.services.user_service import UserService
 from src.errors.customerrors import NoDataException, InputInvalidException, KeyUnmutableException
@@ -17,6 +17,7 @@ class UserController(Controller):
   def __init__(self, user_dao: UserDAO):
     super().__init__(dao=user_dao)
 
+  # TODO change to use abstract methods from controller
   def create_user(self) -> tuple[Response, int]:
     """Controller for root route."""
     try:
@@ -54,7 +55,7 @@ class UserController(Controller):
     return jsonify(response), status
 
   def single_user(self, id_num: int) -> tuple[Response, int]:
-    """Controller for single user route
+    """Controller for updating user.
 
     Parameters:
       id_num(int):  id for user
@@ -63,11 +64,7 @@ class UserController(Controller):
       response, status
     """
     try:
-      if request.method == "GET":
-        data = self.get_one(id_num)
-        response, status = r_helper.success_response(data)
-
-      elif request.method == "PUT":
+      if request.method == "PUT":
         input_data = request.json
 
         if input_data is None or "username" not in input_data:
@@ -76,6 +73,10 @@ class UserController(Controller):
         message = "User updated." if success else "User not updated."
 
         response, status = r_helper.success_response(message=message)
+      else:
+        data = user_service.get_by_id(id_num)
+        response, status = r_helper.success_response(data)
+
     except (NoDataException, KeyUnmutableException) as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:

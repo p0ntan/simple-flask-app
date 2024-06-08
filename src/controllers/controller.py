@@ -3,7 +3,7 @@ Baseclass for all controllers.
 
 Note that there are no try/except here. Instead these should be catched in the method used in as controller.
 """
-from src.utils.dao import DAO
+from src.utils.daos.dao import DAO
 from src.errors.customerrors import NoDataException
 
 

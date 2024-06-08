@@ -3,7 +3,7 @@ PostController is for handling all calls to database regarding posts.
 """
 from flask import jsonify, request
 from src.controllers.controller import Controller
-from src.utils.dao import DAO
+from src.utils.daos.dao import DAO
 from src.utils.response_helper import ResponseHelper
 from src.errors.customerrors import NoDataException, KeyUnmutableException
 

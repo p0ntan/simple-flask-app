@@ -3,7 +3,7 @@ Module for user service, main purpose to handle users in the application.
 
 This will be used by controllers to keep the logic here and not in controller.
 """
-from src.utils.userdao import UserDAO
+from src.utils.daos.userdao import UserDAO
 from src.models.user import UserReturnData
 from src.errors.customerrors import NoDataException
 
@@ -52,7 +52,7 @@ class UserService:
       password (str): The password of the user.
 
     Returns:
-      UserReturnData: The user as a dictionary if found.
+      UserReturnData: The user as a dictionary
     
     Raises:
       NoDataException: If no user is found with the given username.
@@ -72,7 +72,14 @@ class UserService:
       data (dict): New data.
 
     Returns:
-      Boolean: True if item changed, False otherwise
+      UserReturnData: The user as a dictionary.
+  
+    Raises:
+      NoDataException: If no user is found with the given username.
     """
-    user = self._dao.get_one(user_id)
-    return user
+    user = self._dao.get_user_by_id(user_id)
+
+    if user is None:
+      raise NoDataException(f"No user found with user_id: {user_id}")
+    
+    return user.to_dict()
