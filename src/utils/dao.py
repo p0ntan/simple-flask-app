@@ -26,6 +26,17 @@ class DAO:
     self._table = table_name
     self._connection = None
 
+  def _get_connection_and_cursor(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
+    """ Connect to the sqlite database and get connection and cursor.
+
+    Returns:
+      connection, cursor: To use for executing queries
+    """
+    connection = sqlite3.connect(self._db_path)
+    cursor = connection.cursor()
+
+    return connection, cursor
+
   def _connect_get_cursor(self) -> sqlite3.Cursor:
     """ Connect to the sqlite database.
 
