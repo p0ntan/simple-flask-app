@@ -46,11 +46,11 @@ class TestIntegrationUserDAO:
     assert isinstance(user, expected_user_type)
 
   @pytest.mark.parametrize("username, expected_user", [
-    ("admin", {"user_id": 1, "username": "admin", "role": "admin"}),
-    ("johndoe", {"user_id": 5, "username": "johndoe", "role": "author"}),
+    ("admin", {"user_id": 1, "username": "admin", "role": "admin", "signature": None, "avatar": None}),
+    ("johndoe", {"user_id": 5, "username": "johndoe", "role": "author", "signature": None, "avatar": None}),
   ])
   def test_get_user_by_username(self, sut_int, username, expected_user):
     """Test to get user by username by controlling data."""
     user = sut_int.get_user_by_username(username)
 
-    assert user.to_dict().items() >= expected_user.items()
+    assert user.to_dict() == expected_user
