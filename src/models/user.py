@@ -14,7 +14,7 @@ class UserInput(TypedDict):
 
 
 class UserReturnData(UserInput):
-  """UserReturnData representing returned data, inhertis from UserInput."""
+  """UserReturnData representing returned data."""
   user_id: int
 
 
