@@ -20,7 +20,7 @@ class UserService:
     """
     self._dao = dao
 
-  def create(self, data: dict) -> dict[str, str | int | None]:
+  def create(self, data: dict[str, str]) -> dict[str, str | int | None]:
     """Creates a new user in the database.
 
     Parameters:
