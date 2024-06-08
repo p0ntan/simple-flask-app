@@ -20,6 +20,18 @@ class UserService:
     """
     self._dao = dao
 
+  def create(self, data: dict) -> dict[str, str | int | None]:
+    """Creates a new user in the database.
+
+    Parameters:
+      data (dict): The data for the new user.
+
+    Returns:
+      UserReturnData: The user as a dictionary if created successfully.
+    """
+    user = self._dao.create(data)
+    return user
+
   def login(self, username: str, password: str) -> UserReturnData:
     """Login method for user
 

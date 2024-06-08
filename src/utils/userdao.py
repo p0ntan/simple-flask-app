@@ -15,6 +15,31 @@ class UserDAO(DAO):
   def __init__(self, table_name: str):
     super().__init__(table_name=table_name)
 
+  def create(self, data: dict[str, str]) -> dict[str, int | str | None]:
+    """ Create (insert) a new entry into database.
+
+    Returns:
+      dict:         with new entry
+
+    Raises:
+      Exception:    in case of any error like invalid input keyp or unique entry already exist.
+    """
+    conn = None
+
+    try:
+      conn, cur = self._get_connection_and_cursor()
+      cur.execute(f"INSERT INTO user (username) VALUES (?)", (data["username"], ))
+
+      conn.commit()
+
+      return {"id": cur.lastrowid, **data}
+    except Exception as err:
+      printer.print_fail(err)
+      raise err
+    finally:
+      if conn is not None:
+        conn.close()
+
   def get_user_by_username(self, username: str) -> User | None:
     """Retrieves a user from the database by their username.
 
