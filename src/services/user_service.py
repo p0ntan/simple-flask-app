@@ -45,6 +45,19 @@ class UserService:
     user = self._dao.update(id_num, data)
     return user
 
+  def delete(self, id_num: int) -> bool:
+    """Delete a user in the database.
+
+    Parameters:
+      id_num (int): The id of the user.
+
+    Returns:
+      Boolean: True if item deleted, False otherwise
+    """
+    # user = self._dao.delete(id_num)
+    # TODO implement soft delete
+    return False
+
   def login(self, username: str, password: str) -> UserReturnData:
     """Login and get data for a user.
 

@@ -2,7 +2,7 @@
 Usercontroller is for handling all calls to database regarding users.
 """
 from flask import jsonify, request, Response
-from src.controllers.controller import Controller
+from src.controllers.basecontroller import Controller
 from src.utils.daos.userdao import UserDAO
 from src.utils.response_helper import ResponseHelper
 from src.services.user_service import UserService
@@ -15,10 +15,9 @@ user_service = UserService(user_dao)
 class UserController(Controller):
   """ UserController handles all dataaccess for users. """
   def __init__(self, user_dao: UserDAO):
-    super().__init__(dao=user_dao)
+    self._dao = user_dao
 
-  # TODO change to use abstract methods from controller
-  def create_user(self) -> tuple[Response, int]:
+  def create(self) -> tuple[Response, int]:
     """Controller for root route."""
     try:
       input_data = request.json
@@ -54,7 +53,27 @@ class UserController(Controller):
 
     return jsonify(response), status
 
-  def single_user(self, id_num: int) -> tuple[Response, int]:
+  def get_one(self, id_num: int) -> tuple[Response, int]:
+    """Controller for getting one user.
+
+    Parameters:
+      id_num(int):  id for user
+
+    Returns:
+      response, status
+    """
+    try:
+      data = user_service.get_by_id(id_num)
+      response, status = r_helper.success_response(data)
+
+    except NoDataException as err:
+      response, status = r_helper.error_response(err.status, details=f"{err}")
+    except Exception as err:
+      response, status = r_helper.unkown_error(details=f"{err}")
+
+    return jsonify(response), status
+
+  def update(self, id_num: int) -> tuple[Response, int]:
     """Controller for updating user.
 
     Parameters:
@@ -64,20 +83,40 @@ class UserController(Controller):
       response, status
     """
     try:
-      if request.method == "PUT":
-        input_data = request.json
+      input_data = request.json
 
-        if input_data is None or "username" not in input_data:
-          raise InputInvalidException("No username provided.")
-        success = user_service.update(id_num, input_data)
-        message = "User updated." if success else "User not updated."
+      if input_data is None or "username" not in input_data:
+        raise InputInvalidException("No username provided.")
+      success = user_service.update(id_num, input_data)
+      message = "User updated." if success else "User not updated."
 
-        response, status = r_helper.success_response(message=message)
-      else:
-        data = user_service.get_by_id(id_num)
-        response, status = r_helper.success_response(data)
+      response, status = r_helper.success_response(message=message)
 
     except (NoDataException, KeyUnmutableException) as err:
+      response, status = r_helper.error_response(err.status, details=f"{err}")
+    except Exception as err:
+      response, status = r_helper.unkown_error(details=f"{err}")
+
+    return jsonify(response), status
+  
+  def delete(self, id_num: int) -> tuple[Response, int]:
+    """Controller for deleting user.
+
+    Parameters:
+      id_num(int):  id for user
+
+    Returns:
+      response, status
+    """
+    # TODO fix delete route
+    try:
+      success = user_service.delete(id_num)
+      message = "User deleted." if success else "User not deleted."
+      status = 200 if success else 202
+
+      response, status = r_helper.success_response(message=message, status=status)
+
+    except NoDataException as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")
