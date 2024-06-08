@@ -3,8 +3,8 @@ TopicController is for handling all calls to database regarding topics.
 """
 from flask import jsonify, request
 from src.controllers.controller import Controller
-from src.utils.dao import DAO
-from src.utils.postdao import PostDAO
+from src.utils.daos.dao import DAO
+from src.utils.daos.postdao import PostDAO
 from src.utils.response_helper import ResponseHelper
 from src.errors.customerrors import NoDataException, KeyUnmutableException
 

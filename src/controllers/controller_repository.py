@@ -1,8 +1,8 @@
 """
 Repository to handle controllers, using singleton princible.
 """
-from src.utils.dao import DAO
-from src.utils.postdao import PostDAO
+from src.utils.daos.dao import DAO
+from src.utils.daos.postdao import PostDAO
 from src.controllers.usercontroller import UserController
 from src.controllers.topiccontroller import TopicController
 from src.controllers.postcontroller import PostController

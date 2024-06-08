@@ -1,7 +1,7 @@
 """
 PostDAO is used for access posts.
 """
-from src.utils.dao import DAO
+from src.utils.daos.dao import DAO
 from src.utils.print_colors import ColorPrinter
 
 printer = ColorPrinter()

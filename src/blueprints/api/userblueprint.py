@@ -7,5 +7,13 @@ from src.controllers.controller_repository import ControllerRepository
 user_blueprint = Blueprint('user_blueprint', __name__, url_prefix="/users")
 user_controller = ControllerRepository().get_user_controller()
 
-user_blueprint.route("/", methods=["POST"])(user_controller.root)
-user_blueprint.route("/<id_num>", methods=["GET", "PUT"])(user_controller.single_user)
+# Create new user
+user_blueprint.route("/", methods=["POST"])(user_controller.create)
+
+# Log in
+user_blueprint.route("/login", methods=["POST"])(user_controller.login)
+
+# For single user, get or update
+user_blueprint.route("/<id_num>", methods=["GET"])(user_controller.get_one)
+user_blueprint.route("/<id_num>", methods=["PUT"])(user_controller.update)
+user_blueprint.route("/<id_num>", methods=["DELETE"])(user_controller.delete)

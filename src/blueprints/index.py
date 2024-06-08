@@ -5,7 +5,7 @@ import os
 import requests
 from flask import Blueprint, session, redirect, request, render_template
 
-API_URL = os.environ.get("API_URL")
+API_URL: str = os.environ.get("API_URL", "")
 index_blueprint = Blueprint('index_blueprint', __name__, url_prefix="/")
 
 
@@ -23,7 +23,7 @@ def login():
   username = request.form['username']
   
   try:
-    response = requests.get(API_URL + "/users/" + username, timeout=5)
+    response = requests.post(API_URL + "/users/login", json={"username": username}, timeout=5)
     user = response.json()
     session["user"] = user["data"]
   except Exception:
