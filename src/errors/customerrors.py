@@ -10,6 +10,13 @@ class NoDataException(Exception):
     self.status = 404
 
 
+class InputInvalidException(Exception):
+  """ Custom exception for when input is invalid. """
+  def __init__(self, message):
+    super().__init__(message)
+    self.status = 400
+
+
 class KeyUnmutableException(Exception):
   """ Custom exception for when trying to change not changable column. """
   def __init__(self, message):
