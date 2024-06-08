@@ -6,7 +6,7 @@ from src.controllers.controller import Controller
 from src.utils.userdao import UserDAO
 from src.utils.response_helper import ResponseHelper
 from src.services.user_service import UserService
-from src.errors.customerrors import NoDataException, KeyUnmutableException
+from src.errors.customerrors import NoDataException, InputInvalidException, KeyUnmutableException
 
 r_helper = ResponseHelper()
 user_dao = UserDAO("user")
@@ -17,12 +17,19 @@ class UserController(Controller):
   def __init__(self, user_dao: UserDAO):
     super().__init__(dao=user_dao)
 
-  def root(self) -> tuple[Response, int]:
+  def create_user(self) -> tuple[Response, int]:
     """Controller for root route."""
     try:
-      if request.method == "POST":
-        result = self.create(request.json)
-        response, status = r_helper.success_response(result, message="New user added.", status=201)
+      input_data = request.json
+
+      if input_data is None or "username" not in input_data:
+        raise InputInvalidException("Missing input input data.")
+
+      result = user_service.create(input_data)
+      response, status = r_helper.success_response(result, message="New user added.", status=201)
+
+    except InputInvalidException as err:
+      response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")
 
@@ -31,17 +38,22 @@ class UserController(Controller):
   def login(self) -> tuple[Response, int]:
     """Controller for root route."""
     try:
-      if request.method == "POST":
-        result = request.json
-        user = user_service.login(result["username"], "ps")
+      input_data = request.json
 
-        response, status = r_helper.success_response(user, message="User logged in.", status=200)
+      if input_data is None or "username" not in input_data:
+        raise InputInvalidException("No username provided.")
+
+      user = user_service.login(input_data["username"], "ps")
+      response, status = r_helper.success_response(user, message="User logged in.", status=200)
+
+    except (NoDataException, InputInvalidException) as err:
+      response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")
 
     return jsonify(response), status
 
-  def single_user(self, id_num = int) -> tuple[Response, int]:
+  def single_user(self, id_num: int) -> tuple[Response, int]:
     """Controller for single user route
 
     Parameters:
