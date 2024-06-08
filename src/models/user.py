@@ -1,23 +1,20 @@
 """
 User model representing a user.
 """
+from __future__ import annotations
 from typing import TypedDict
 
 
-class UserBase(TypedDict):
-  """UserBase for required keys in UserData."""
+class UserInput(TypedDict):
+  """UserInput representing input data when creating a User."""
   username: str
   role: str
-
-
-class UserInput(UserBase, total=False):
-  """UserData from UserBase including optional keys."""
-  signature: str
-  avatar: str
+  signature: str | None
+  avatar: str | None
 
 
 class UserReturnData(UserInput):
-  """UserReturnData representing returned data."""
+  """UserReturnData representing returned data, inhertis from UserInput."""
   user_id: int
 
 
@@ -31,8 +28,8 @@ class User():
       user (UserInput): Dictonary with needed data for user with keys:
         - username (str):
         - role (str):
-        - signature (Optional[str]):
-        - avatar (Optional[str]):
+        - signature (str | None):
+        - avatar (str | None):
 
     Raises:
       KeyError: In case of missing required keys
@@ -40,8 +37,8 @@ class User():
     self._user_id = user_id
     self._username = user_data['username']
     self._role = user_data['role']
-    self._signature = user_data.get('signature', "")
-    self._avatar = user_data.get('avatar', "")
+    self._signature = user_data.get('signature', None)
+    self._avatar = user_data.get('avatar', None)
 
   def update(self, user_data: UserInput):
     """Update the user with provided data.
