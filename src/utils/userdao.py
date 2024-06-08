@@ -2,7 +2,7 @@
 UserDAO is used for accessing users.
 """
 from __future__ import annotations
-from src.models.user import User
+from src.models.user import User, UserReturnData
 from src.utils.dao import DAO
 from src.utils.print_colors import ColorPrinter
 
@@ -11,11 +11,14 @@ printer = ColorPrinter()
 
 class UserDAO(DAO):
   """ UserDAO for accessing posts. """
+  GET_ONE_QUERY_USERNAME = "SELECT id, username, role, signature, avatar FROM user WHERE username = ?"
+  GET_ONE_QUERY_ID = "SELECT id, username, role, signature, avatar FROM user WHERE id = ?"
 
   def __init__(self, table_name: str):
     super().__init__(table_name=table_name)
 
-  def create(self, data: dict[str, str]) -> dict[str, int | str | None]:
+  # TODO update when DAO is refactored with abstract methods
+  def create_user(self, data: dict[str, str]) -> User:
     """ Create (insert) a new entry into database.
 
     Returns:
@@ -29,10 +32,16 @@ class UserDAO(DAO):
     try:
       conn, cur = self._get_connection_and_cursor()
       cur.execute(f"INSERT INTO user (username) VALUES (?)", (data["username"], ))
-
       conn.commit()
 
-      return {"id": cur.lastrowid, **data}
+      cur.execute(self.GET_ONE_QUERY_ID, (cur.lastrowid, ))
+      column_names = [description[0] for description in cur.description]
+      result = cur.fetchone()
+
+      user_data = dict(zip(column_names, result))
+      user_id: int = user_data.pop("id")
+
+      return User(user_id, user_data)  # type: ignore
     except Exception as err:
       printer.print_fail(err)
       raise err
@@ -56,7 +65,7 @@ class UserDAO(DAO):
     try:
       cur = self._connect_get_cursor()
 
-      cur.execute("SELECT * FROM user WHERE username = ?", (username, ))
+      cur.execute(self.GET_ONE_QUERY_USERNAME, (username, ))
       column_names = [description[0] for description in cur.description]
       result = cur.fetchone()
 

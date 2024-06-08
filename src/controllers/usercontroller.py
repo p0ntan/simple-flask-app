@@ -66,9 +66,16 @@ class UserController(Controller):
       if request.method == "GET":
         data = self.get_one(id_num)
         response, status = r_helper.success_response(data)
+
       elif request.method == "PUT":
-        self.update(id_num, request.json)
-        response, status = r_helper.success_response(message="User updated.")
+        input_data = request.json
+
+        if input_data is None or "username" not in input_data:
+          raise InputInvalidException("No username provided.")
+        success = user_service.update(id_num, input_data)
+        message = "User updated." if success else "User not updated."
+
+        response, status = r_helper.success_response(message=message)
     except (NoDataException, KeyUnmutableException) as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:

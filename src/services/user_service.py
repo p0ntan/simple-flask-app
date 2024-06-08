@@ -20,7 +20,7 @@ class UserService:
     """
     self._dao = dao
 
-  def create(self, data: dict[str, str]) -> dict[str, str | int | None]:
+  def create(self, data: dict[str, str]) -> UserReturnData:
     """Creates a new user in the database.
 
     Parameters:
@@ -29,11 +29,23 @@ class UserService:
     Returns:
       UserReturnData: The user as a dictionary if created successfully.
     """
-    user = self._dao.create(data)
+    user = self._dao.create_user(data)
+    return user.to_dict()
+
+  def update(self, user_id: int, data: dict[str, str]) -> bool:
+    """Update a user in the database.
+
+    Parameters:
+      data (dict): New data.
+
+    Returns:
+      Boolean: True if item changed, False otherwise
+    """
+    user = self._dao.update(user_id, data)
     return user
 
   def login(self, username: str, password: str) -> UserReturnData:
-    """Login method for user
+    """Login and get data for a user.
 
     Parameters:
       username (str): The username of the user.
@@ -52,3 +64,15 @@ class UserService:
       raise NoDataException(f"No user found with username: {username}")
 
     return user.to_dict()
+
+  def get_by_id(self, user_id: int) -> UserReturnData:
+    """Update a user in the database.
+
+    Parameters:
+      data (dict): New data.
+
+    Returns:
+      Boolean: True if item changed, False otherwise
+    """
+    user = self._dao.get_one(user_id)
+    return user
