@@ -2,7 +2,7 @@
 UserDAO is used for accessing users.
 """
 from __future__ import annotations
-from src.models.user import UserData
+from src.static.types import UserData
 from src.utils.daos.basedao import DAO
 from src.utils.print_colors import ColorPrinter
 
