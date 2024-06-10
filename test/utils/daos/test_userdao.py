@@ -2,7 +2,7 @@ import os
 import pytest
 import sqlite3
 import unittest.mock as mock
-from src.utils.daos.userdao import UserDAO, User
+from src.utils.daos.userdao import UserDAO, UserData
 
 base_dir = os.path.dirname(__file__)
 test_db = os.path.join(base_dir, "test_data/test_db.sqlite")
@@ -26,9 +26,10 @@ def sut_int():
 
   with mock.patch("src.utils.daos.dao.os.environ.get") as db_path:
     db_path.return_value = test_db
-    sut = UserDAO("user")
+    sut = UserDAO()
     yield sut
     os.remove(test_db)
+
 
 
 @pytest.mark.integration
@@ -36,7 +37,7 @@ class TestIntegrationUserDAO:
   """Integration tests."""
 
   @pytest.mark.parametrize("user_name, expected_user_type", [
-    ("admin", User),
+    ("admin", dict),
     ("nonexistent_user", type(None)),
   ])
   def test_get_user_by_name_type(self, sut_int, user_name, expected_user_type):
@@ -53,4 +54,4 @@ class TestIntegrationUserDAO:
     """Test to get user by username by controlling data."""
     user = sut_int.get_user_by_username(username)
 
-    assert user.to_dict() == expected_user
+    assert user == expected_user

@@ -3,6 +3,7 @@ Repository to handle controllers, using singleton princible.
 """
 from src.utils.daos.dao import DAO
 from src.utils.daos.postdao import PostDAO
+from src.utils.daos.userdao import UserDAO
 from src.controllers.usercontroller import UserController
 from src.controllers.topiccontroller import TopicController
 from src.controllers.postcontroller import PostController
@@ -22,10 +23,10 @@ class ControllerRepository:
     """ Get UserController. Creates an instance if not already in self._controllers.
 
     Returns:
-      Controller:   The UserController for data handling
+      UserController: The UserController for data handling
     """
     if "user_controller" not in self._controllers:
-      user_dao = DAO(table_name="user")
+      user_dao = UserDAO(table_name="user")
       self._controllers["user_controller"] = UserController(user_dao)
     return self._controllers["user_controller"]
 
@@ -33,7 +34,7 @@ class ControllerRepository:
     """ Get TopicController. Creates an instance if not already in self._controllers.
 
     Returns:
-      Controller:   The TopicController for data handling
+      TopicController: The TopicController for data handling
     """
     if "topic_controller" not in self._controllers:
       topic_dao = DAO(table_name="topic")
@@ -45,7 +46,7 @@ class ControllerRepository:
     """ Get PostController. Creates an instance if not already in self._controllers.
 
     Returns:
-      Controller:   The PostController for data handling
+      PostController: The PostController for data handling
     """
     if "post_controller" not in self._controllers:
       post_dao = DAO(table_name="post")

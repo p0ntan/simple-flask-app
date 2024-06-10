@@ -16,7 +16,7 @@ class DAO(ABC):
   DAO is for simpler access for tables in sqlite-db.
   """
 
-  def __init__(self, table_name: str):
+  def __init__(self):
     """
     Parameters:
       table_name (str): tablename for the DAO.
@@ -25,7 +25,6 @@ class DAO(ABC):
       "SQLITE_PATH",
       "./db/db.sqlite"
     )
-    self._table = table_name
     self._connection = None
 
   def _get_connection_and_cursor(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:

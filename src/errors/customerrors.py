@@ -17,6 +17,13 @@ class InputInvalidException(Exception):
     self.status = 400
 
 
+class UnauthorizedException(Exception):
+  """Custom exception for when user is not authorized."""
+  def __init__(self, message):
+    super().__init__(message)
+    self.status = 401
+
+
 class KeyUnmutableException(Exception):
   """ Custom exception for when trying to change not changable column. """
   def __init__(self, message):
