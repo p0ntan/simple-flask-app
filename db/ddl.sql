@@ -36,11 +36,11 @@ CREATE TABLE topic (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	created_by INTEGER NOT NULL,
 	category INTEGER NOT NULL,
+	title TEXT NOT NULL,
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	last_edited TIMESTAMP,
 	deleted TIMESTAMP,
-	disabled BOOLEAN,
-	title TEXT NOT NULL,
+	disabled BOOLEAN DEFAULT FALSE NOT NULL,
 	CONSTRAINT topic_user_FK FOREIGN KEY (created_by) REFERENCES "user"(id),
 	CONSTRAINT topic_category_FK FOREIGN KEY (category) REFERENCES "category"(id)
 );

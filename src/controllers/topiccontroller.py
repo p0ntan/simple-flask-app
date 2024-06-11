@@ -1,49 +1,60 @@
 """
 TopicController is for handling all calls to database regarding topics.
 """
-from flask import jsonify, request
-from src.controllers.controller import Controller
-from src.utils.daos.dao import DAO
-from src.utils.daos.postdao import PostDAO
+from flask import jsonify, request, Response
+from src.controllers.basecontroller import Controller
+from src.services.topic_service import TopicService
 from src.utils.response_helper import ResponseHelper
-from src.errors.customerrors import NoDataException, KeyUnmutableException
+from src.errors.customerrors import NoDataException, KeyUnmutableException, InputInvalidException, UnauthorizedException
 
 r_helper = ResponseHelper()
 
 
 class TopicController(Controller):
   """TopicController handles all dataaccess for topics."""
-  def __init__(self, topic_dao: DAO, post_dao: PostDAO):
-    super().__init__(dao=topic_dao)
-    self._post_dao = post_dao
 
-  def root(self) -> tuple[dict, int]:
-    """Controller for root route."""
+  def __init__(self, service: TopicService):
+    """Initializes the TopicController class.
+    
+    Args:
+      service (TopicService): An instance of the TopicService class.
+    """
+    self._service = service
+
+  def create(self) -> tuple[Response, int]:
+    """Controller for root route.
+  
+    Returns:
+      tuple[Response, int]: The response and status code
+    """
     try:
-      if request.method == "POST":
-        result = self.create(request.json)
-        response, status = r_helper.success_response(result, message="New topic added.", status=201)
+      input_data = request.json
+
+      if input_data is None:
+        raise InputInvalidException("Missing input input data.")
+
+      result = self._service.create(input_data)  # TODO get id from token or other way
+      response, status = r_helper.success_response(result, message="New topic added.", status=201)
+
+    except (InputInvalidException, NoDataException) as err:
+      response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")
 
     return jsonify(response), status
-  
-  def single_topic(self, id_num = int) -> tuple[dict, int]:
-    """Controller for single topic route
 
-    Parameters:
+  def get_one(self, id_num: int) -> tuple[Response, int]:
+    """Controller getting one topic, including creator (user).
+
+    Args:
       id_num(int):  id for topic
 
     Returns:
-      response, status
+      tuple[Response, int]: The response and status code
     """
     try:
-      if request.method == "GET":
-        data = self.get_one(id_num)
-        response, status = r_helper.success_response(data)
-      elif request.method == "PUT":
-        self.update(id_num, request.json)
-        response, status = r_helper.success_response(message="Post updated.")
+      result = self._service.get_by_id(id_num)
+      response, status = r_helper.success_response(result)
     except (NoDataException, KeyUnmutableException) as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
@@ -51,23 +62,64 @@ class TopicController(Controller):
 
     return jsonify(response), status
 
-  def topic_with_posts(self, id_num: int, page_num: int = 0) -> tuple[dict, int]:
-    """When using route for single topic
+  def update(self, id_num: int) -> tuple[Response, int]:
+    """Controller for updating a topic.
 
-    Parameters:
-      id_num(int):    id for topic
-      page_num(int):  pagenumber, default is 0 which is first page. Each page has 10 posts.
+    Args:
+      id_num(int):  id for topic
 
     Returns:
-      tuple[response, status]
+      tuple[Response, int]: The response and status code
     """
     try:
-      if request.method == "GET":
-        data = self._post_dao.get_posts_and_topic(id_num, page_num)
+      input_data = request.json
 
-        response, status = r_helper.success_response(data)
+      if input_data is None:
+        raise InputInvalidException("Missing input data.")
+
+      result = self._service.update(id_num, input_data)
+      response, status = r_helper.success_response(result)
+    except (NoDataException, UnauthorizedException) as err:
+      response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")
 
     return jsonify(response), status
 
+  def topic_with_posts(self, id_num: int, page_num: int = 0) -> tuple[Response, int]:
+    """When using route for single topic
+
+    Args:
+      id_num(int):    id for topic
+      page_num(int):  pagenumber, default is 0 which is first page. Each page has 10 posts.
+
+    Returns:
+      tuple[Response, int]: The response and status code
+    """
+    try:
+      data = self._service.get_topic_posts_users(id_num, page_num)
+
+      response, status = r_helper.success_response(data)
+    except Exception as err:
+      response, status = r_helper.unkown_error(details=f"{err}")
+
+    return jsonify(response), status
+
+  def delete(self, id_num: int) -> tuple[Response, int]:
+    """Deletes a topic.
+
+    Args:
+      id_num (int): The id of the topic.
+
+    Returns:
+      tuple[Response, int]: The response and status code
+    """
+    try:
+      success = self._service.delete(id_num)
+      message, status = ("Topic deleted.", 200) if success else ("Topic not deleted.", 202)
+
+      response, status = r_helper.success_response(message=message, status=status)
+    except Exception as err:
+      response, status = r_helper.unkown_error(details=f"{err}")
+
+    return jsonify(response), status

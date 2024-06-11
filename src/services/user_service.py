@@ -4,7 +4,7 @@ Module for user service, main purpose to handle users in the application.
 This will be used by controllers to keep the logic here and not in controller.
 """
 from src.utils.daos.userdao import UserDAO
-from src.models.user import UserReturnData
+from src.models.user import UserData
 from src.errors.customerrors import NoDataException
 
 
@@ -20,7 +20,7 @@ class UserService:
     """
     self._dao = dao
 
-  def create(self, data: dict[str, str]) -> UserReturnData:
+  def create(self, data: dict[str, str]) -> UserData:
     """Creates a new user in the database.
 
     Parameters:
@@ -29,8 +29,7 @@ class UserService:
     Returns:
       UserReturnData: The user as a dictionary if created successfully.
     """
-    user = self._dao.create(data)
-    return user.to_dict()
+    return self._dao.create(data)
 
   def update(self, id_num: int, data: dict[str, str]) -> bool:
     """Update a user in the database.
@@ -58,7 +57,7 @@ class UserService:
     # TODO implement soft delete
     return False
 
-  def login(self, username: str, password: str) -> UserReturnData:
+  def login(self, username: str, password: str) -> UserData:
     """Login and get data for a user.
 
     Parameters:
@@ -66,8 +65,8 @@ class UserService:
       password (str): The password of the user.
 
     Returns:
-      UserReturnData: The user as a dictionary
-    
+      UserData: The user as a dictionary
+
     Raises:
       NoDataException: If no user is found with the given username.
     """
@@ -77,16 +76,16 @@ class UserService:
     if user is None:
       raise NoDataException(f"No user found with username: {username}")
 
-    return user.to_dict()
+    return user
 
-  def get_by_id(self, user_id: int) -> UserReturnData:
+  def get_by_id(self, user_id: int) -> UserData:
     """Update a user in the database.
 
     Parameters:
       data (dict): New data.
 
     Returns:
-      UserReturnData: The user as a dictionary.
+      UserData: The user as a dictionary.
   
     Raises:
       NoDataException: If no user is found with the given username.
@@ -96,4 +95,4 @@ class UserService:
     if user is None:
       raise NoDataException(f"No user found with user_id: {user_id}")
     
-    return user.to_dict()
+    return user

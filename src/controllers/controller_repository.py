@@ -2,11 +2,9 @@
 Repository to handle controllers, using singleton princible.
 """
 from src.utils.daos.dao import DAO
-from src.utils.daos.postdao import PostDAO
-from src.utils.daos.userdao import UserDAO
-from src.controllers.usercontroller import UserController
-from src.controllers.topiccontroller import TopicController
-from src.controllers.postcontroller import PostController
+from src.utils.daos import PostDAO, TopicDAO, UserDAO
+from src.controllers import UserController, TopicController, PostController
+from src.services import UserService, TopicService
 
 
 class ControllerRepository:
@@ -26,8 +24,9 @@ class ControllerRepository:
       UserController: The UserController for data handling
     """
     if "user_controller" not in self._controllers:
-      user_dao = UserDAO(table_name="user")
-      self._controllers["user_controller"] = UserController(user_dao)
+      user_dao = UserDAO()
+      user_service = UserService(user_dao)
+      self._controllers["user_controller"] = UserController(user_service)
     return self._controllers["user_controller"]
 
   def get_topic_controller(self) -> TopicController:
@@ -37,9 +36,11 @@ class ControllerRepository:
       TopicController: The TopicController for data handling
     """
     if "topic_controller" not in self._controllers:
-      topic_dao = DAO(table_name="topic")
-      post_dao = PostDAO(table_name="post")
-      self._controllers["topic_controller"] = TopicController(topic_dao, post_dao)
+      topic_dao = TopicDAO()
+      user_dao = UserDAO()
+      post_dao = PostDAO("post")
+      topic_service = TopicService(topic_dao, user_dao, post_dao)
+      self._controllers["topic_controller"] = TopicController(topic_service)
     return self._controllers["topic_controller"]
 
   def get_post_controller(self) -> PostController:

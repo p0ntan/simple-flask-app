@@ -2,20 +2,10 @@
 User model representing a user.
 """
 from __future__ import annotations
-from typing import TypedDict
-
-
-class UserInput(TypedDict):
-  """UserInput representing input data when creating a User."""
-  username: str
-  role: str
-  signature: str | None
-  avatar: str | None
-
-
-class UserData(UserInput):
-  """UserData representing user data."""
-  user_id: int
+from typing import Any
+from src.static.types import UserData, UserInput
+from src.utils.daos.userdao import UserDAO
+from src.errors.customerrors import NoDataException
 
 
 class User():
@@ -40,6 +30,11 @@ class User():
     self._signature = user_data.get("signature", None)
     self._avatar = user_data.get("avatar", None)
 
+  @property
+  def id(self) -> int:
+    """Get the id of the user."""
+    return self._user_id
+
   def update(self, user_data: UserInput):
     """Update the user with provided data.
 
@@ -51,16 +46,37 @@ class User():
     self._signature = user_data.get('signature', self._signature)
     self._avatar = user_data.get('avatar', self._avatar)
 
-  def to_dict(self) -> UserData:
+  def to_dict(self) -> dict[str, Any]:
     """Return user data as dictionary.
 
     Returns:
       UserData: Dictionary with user data
     """
-    return {
-      'user_id': self._user_id,
-      'username': self._username,
-      'role': self._role,
-      'signature': self._signature,
-      'avatar': self._avatar
-    }
+    result = {}
+
+    for key, value in self.__dict__.items():
+      key = key[1:] if key[0] == "_" else key
+      result[key] = value.to_dict() if hasattr(value, 'to_dict') else value
+
+    return result
+
+  @classmethod
+  def from_db_by_id(cls, user_id: int, user_dao: UserDAO) -> User:
+    """Initiate user with data from database, by id.
+
+    Parameters:
+      user_id (int):      The id of the user.
+      user_dao (UserDAO): An instance of the UserDAO class.
+
+    Returns:
+      User:               The user object.
+
+    Raises:
+      NoDataException:    If no user is found with given id.
+    """
+    user_data = user_dao.get_one(user_id)
+
+    if user_data is None:
+      raise NoDataException(f"No user found with id: {user_id}")
+
+    return cls(user_data)
