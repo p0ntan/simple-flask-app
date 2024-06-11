@@ -1,4 +1,4 @@
-user_id,topic_id,body,created
+author,topic_id,body,created
 1,2,Är han världens bästa president?,2024-06-08 14:20:31
 1,2,Är nog bättre,2024-06-06 14:20:31
 3,4,Är han rolig eller,2024-06-07 14:20:31

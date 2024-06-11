@@ -51,14 +51,14 @@ CREATE UNIQUE INDEX topic_id_IDX ON topic (id);
 
 CREATE TABLE post (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	user_id INTEGER NOT NULL,
+	author INTEGER NOT NULL,
 	topic_id INTEGER NOT NULL,
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	last_edited TIMESTAMP,
 	deleted TIMESTAMP,
 	title TEXT,
 	body TEXT NOT NULL,
-	CONSTRAINT post_user_FK FOREIGN KEY (user_id) REFERENCES "user"(id)
+	CONSTRAINT post_user_FK FOREIGN KEY (author) REFERENCES "user"(id)
 	CONSTRAINT post_topic_FK FOREIGN KEY (topic_id) REFERENCES "topic"(id)
 );
 

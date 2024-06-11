@@ -14,7 +14,7 @@ INSERT INTO topic (id, created_by, category, title) VALUES (4, 1, 4, "Magnus Tol
 
 -- post
 
-INSERT INTO post (user_id, topic_id, body, created) VALUES (1, 2, "Är han världens bästa president?", "2024-06-08 14:20:31");
-INSERT INTO post (user_id, topic_id, title, body) VALUES (1, 2, "Joe Biden", "Är nog bättre.");
-INSERT INTO post (user_id, topic_id, body) VALUES (3, 4, "Är han rolig eller?");
-INSERT INTO post (user_id, topic_id, body) VALUES (3, 4, "Vad har vi för skit här?");
+INSERT INTO post (author, topic_id, body, created) VALUES (1, 2, "Är han världens bästa president?", "2024-06-08 14:20:31");
+INSERT INTO post (author, topic_id, title, body) VALUES (1, 2, "Joe Biden", "Är nog bättre.");
+INSERT INTO post (author, topic_id, body) VALUES (3, 4, "Är han rolig eller?");
+INSERT INTO post (author, topic_id, body) VALUES (3, 4, "Vad har vi för skit här?");
