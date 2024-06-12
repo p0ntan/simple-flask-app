@@ -5,7 +5,8 @@ from flask import jsonify, request, Response
 from src.controllers.basecontroller import Controller
 from src.utils.response_helper import ResponseHelper
 from src.services.user_service import UserService
-from src.errors.customerrors import NoDataException, InputInvalidException, KeyUnmutableException
+from src.errors.customerrors import NoDataException, InputInvalidException
+from flask_jwt_extended import create_access_token
 
 r_helper = ResponseHelper()
 
@@ -26,36 +27,15 @@ class UserController(Controller):
     try:
       input_data = request.json
 
-      if input_data is None or "username" not in input_data:
-        raise InputInvalidException("No username provided.")
+      if input_data is None:
+        raise InputInvalidException("Missing input data.")
 
       user = self._service.login(input_data["username"], "ps")
-      response, status = r_helper.success_response(user, message="User logged in.", status=200)
+      access_token = create_access_token(identity=user)
+
+      response, status = r_helper.success_response({"jwt": access_token}, message="User logged in.", status=200)
 
     except (NoDataException, InputInvalidException) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
-
-    return jsonify(response), status
-  
-  def delete(self, id_num: int) -> tuple[Response, int]:
-    """Controller for deleting user.
-
-    Parameters:
-      id_num(int):  id for user
-
-    Returns:
-      response, status
-    """
-    # TODO fix delete route
-    try:
-      success = self._service.delete(id_num)
-      message, status = ("User deleted.", 200) if success else ("User not deleted.", 202)
-
-      response, status = r_helper.success_response(message=message, status=status)
-
-    except NoDataException as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")

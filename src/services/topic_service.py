@@ -9,7 +9,7 @@ from src.errors.customerrors import NoDataException
 from src.models.user import User
 from src.models.topic import Topic, TopicData
 from src.utils.daos import TopicDAO, PostDAO, UserDAO
-from src.static.types import TopicData
+from src.static.types import TopicData, UserData
 
 
 class TopicService(BaseService):
@@ -30,11 +30,12 @@ class TopicService(BaseService):
     self._user_dao = user_dao
     self._post_dao = post_dao
 
-  def create(self, topic_data: dict[str, Any]) -> TopicData:
+  def create(self, topic_data: dict[str, Any], creator: UserData) -> TopicData:
     """Creates a new topic.
 
     Args:
       topic_data (dict):  The data for the new topic.
+      creator (UserData): The data of the creator.
 
     Returns:
       TopicData (dict):   The topic as a dictionary if created successfully.
@@ -42,14 +43,8 @@ class TopicService(BaseService):
     Raises:
       NoDataException:    If no user is found with the given id to create the topic.
     """
-    # TODO remember to change way to get id of editor.
-    user_id = topic_data["created_by"]
-    user_data = self._user_dao.get_one(user_id)
-
-    if user_data is None:
-      raise NoDataException(f"No user found with id: {user_id}")
-
-    user = User(user_data)
+    user = User(creator)
+    topic_data["created_by"] = user.id
     # TODO add logic for user control here by calling method on User ex. user.can_create_topic()
     # and maybe raise exception if not allowed, might be the cleanest solution.
     # if not user.can_create_topic():
@@ -78,18 +73,18 @@ class TopicService(BaseService):
 
     return topic_data
 
-  def update(self, topic_id: int, new_data: dict[str, Any]) -> bool:
+  def update(self, topic_id: int, new_data: dict[str, Any], editor_data: UserData) -> bool:
     """Update a topic in the database.
 
     Args:
-      topic_id (int):   The id of the topic.
-      new_data (dict):  New data.
+      topic_id (int):         The id of the topic.
+      new_data (dict):        New data.
+      editor_data (UserData): The data of the editor trying to update topic.
 
     Returns:
-      Boolean:          True if topic changed, False otherwise
+      Boolean:                True if topic changed, False otherwise
     """
-    # TODO remember to change way to get id of editor
-    editor = User.from_db_by_id(new_data["user_id"], self._user_dao)
+    editor = User(editor_data)
     topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
 
     data_to_db = topic.update(new_data, editor)
@@ -118,15 +113,31 @@ class TopicService(BaseService):
       "posts": posts_data
     }
 
-  def delete(self, id_num: int) -> bool:
+  def delete(self, topic_id: int, editor_data: UserData) -> bool:
     """Delete a topic in the database, (soft delete).
+    Controls that the user trying to change the topic is allowed to do so.
 
     Args:
-      id_num (int): The id of the topic.
+      topic_id (int):         The id of the topic.
+      editor_data (UserData): The data of the editor trying to delete topic.
 
     Returns:
-      Boolean: True if item deleted, False otherwise
+      Boolean:                True if item deleted, False otherwise
     """
-    success = self._topic_dao.delete(id_num)
-    # TODO implement soft delete
+    editor = User(editor_data)
+    topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
+
+    topic.control_access(editor)
+    success = self._topic_dao.delete(topic_id)
+
     return success
+
+  def get_latest_topics(self, limit: int = 10) -> list[TopicData]:
+    """Get the latest topics in the database, based on creation date.
+
+    Returns:
+      list[TopicData]: The list of topics.
+    """
+    topics = self._topic_dao.get_latest_topics(limit)
+
+    return topics

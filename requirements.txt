@@ -6,3 +6,4 @@ pylint
 flake8
 python-dotenv
 requests
+flask-jwt-extended

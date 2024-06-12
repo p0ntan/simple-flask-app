@@ -16,3 +16,6 @@ topic_blueprint.route("/<id_num>", methods=["PUT"])(topic_controller.update)
 topic_blueprint.route("/<id_num>", methods=["DELETE"])(topic_controller.delete)
 topic_blueprint.route("/<id_num>/page/", methods=["GET"])(topic_controller.topic_with_posts)
 topic_blueprint.route("/<id_num>/page/<page_num>", methods=["GET"])(topic_controller.topic_with_posts)
+
+# Get latest topics
+topic_blueprint.route("/latest", methods=["GET"])(topic_controller.latest_topics)
