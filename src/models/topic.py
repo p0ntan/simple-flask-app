@@ -50,17 +50,17 @@ class Topic():
     Raises:
       UnauthorizedException: If the user is not authorized to manage the topic.
     """
-    self._control_user(editor)
+    self.control_access(editor)
     # Update logic below.
     self._title = topic_data.get("title", self._title)
 
     return {"title": self._title}
 
-  def _control_user(self, editor: User) -> None:
-    """Control that the user is the one that wrote the topic.
+  def control_access(self, editor: User) -> None:
+    """Control that another user (editor) can manage the topic.
 
     Args:
-      editor (User):          The user to check against the topic's authro.
+      editor (User):          The user to control having access to manage this topic.
 
     Raises:
       UnauthorizedException: If the user is not authorized to manage the topic.

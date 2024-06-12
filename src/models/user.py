@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 from src.static.types import UserData
 from src.utils.daos.userdao import UserDAO
-from src.errors.customerrors import NoDataException
+from src.errors.customerrors import NoDataException, UnauthorizedException
 
 
 class User():
@@ -35,7 +35,7 @@ class User():
     """Get the id of the user."""
     return self._user_id
 
-  def update(self, user_data: dict[str, Any]):
+  def update(self, user_data: dict[str, Any], editor: User):
     """Update the user with provided data.
 
     Args:
@@ -44,17 +44,29 @@ class User():
     Returns:
       new_data (dict):  Dict with only the updated data.
     """
-    self._username = user_data.get("username", self._username)
+    self.control_access(editor)
+
     self._role = user_data.get("role", self._role)
     self._signature = user_data.get("signature", self._signature)
     self._avatar = user_data.get("avatar", self._avatar)
 
     return {
-      "username": self._username,
       # "role": self._role,  TODO: Add add rights for only admin
       "signature": self._signature,
       "avatar": self._avatar
     }
+
+  def control_access(self, editor: User) -> None:
+    """Control that another user (editor) can manage the user.
+
+    Args:
+      editor (User):          The user to control having access to manage this user.
+
+    Raises:
+      UnauthorizedException:  If the user (editor) is not authorized to manage the topic.
+    """
+    if editor.id != self.id:  # TODO add better logic, like admin/moderator.
+      raise UnauthorizedException("User not authorized to manage this user.")
 
   def to_dict(self) -> UserData:
     """Return user data as dictionary.

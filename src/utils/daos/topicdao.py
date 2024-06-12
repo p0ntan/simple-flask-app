@@ -148,7 +148,7 @@ class TopicDAO(DAO):
         conn.close()
 
   def delete(self, id_num: int) -> bool:
-    """Delete topic from database (soft delete).
+    """Delete topic from database (soft delete) by setting deleted to current time.
 
     Args:
       id_num (int): unique id for the topic to delete

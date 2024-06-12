@@ -9,7 +9,7 @@ from src.errors.customerrors import NoDataException
 from src.models.user import User
 from src.models.topic import Topic, TopicData
 from src.utils.daos import TopicDAO, PostDAO, UserDAO
-from src.static.types import TopicData
+from src.static.types import TopicData, UserData
 
 
 class TopicService(BaseService):
@@ -78,18 +78,18 @@ class TopicService(BaseService):
 
     return topic_data
 
-  def update(self, topic_id: int, new_data: dict[str, Any]) -> bool:
+  def update(self, topic_id: int, new_data: dict[str, Any], editor_data: UserData) -> bool:
     """Update a topic in the database.
 
     Args:
-      topic_id (int):   The id of the topic.
-      new_data (dict):  New data.
+      topic_id (int):         The id of the topic.
+      new_data (dict):        New data.
+      editor_data (UserData): The data of the editor trying to update topic.
 
     Returns:
-      Boolean:          True if topic changed, False otherwise
+      Boolean:                True if topic changed, False otherwise
     """
-    # TODO remember to change way to get id of editor
-    editor = User.from_db_by_id(new_data["user_id"], self._user_dao)
+    editor = User(editor_data)
     topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
 
     data_to_db = topic.update(new_data, editor)
@@ -118,15 +118,21 @@ class TopicService(BaseService):
       "posts": posts_data
     }
 
-  def delete(self, id_num: int) -> bool:
+  def delete(self, topic_id: int, editor_data: UserData) -> bool:
     """Delete a topic in the database, (soft delete).
+    Controls that the user trying to change the topic is allowed to do so.
 
     Args:
-      id_num (int): The id of the topic.
+      topic_id (int):         The id of the topic.
+      editor_data (UserData): The data of the editor trying to delete topic.
 
     Returns:
-      Boolean: True if item deleted, False otherwise
+      Boolean:                True if item deleted, False otherwise
     """
-    success = self._topic_dao.delete(id_num)
-    # TODO implement soft delete
+    editor = User(editor_data)
+    topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
+
+    topic.control_access(editor)
+    success = self._topic_dao.delete(topic_id)
+
     return success

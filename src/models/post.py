@@ -51,18 +51,18 @@ class Post():
     Raises:
       UnauthorizedException: If the user is not authorized to manage the post.
     """
-    self._control_user(editor)
+    self.control_user(editor)
     # Update logic below.
     self._title = post_data.get("title", self._title)
     self._body = post_data.get("body", self._body)
 
     return {"title": self._title, "body": self._body}
 
-  def _control_user(self, editor: User) -> None:
-    """Control that the user can manage the post.
+  def control_user(self, editor: User) -> None:
+    """Control that the user (editor) can manage the post.
 
     Args:
-      editor (User):          The user to check against the topic's authro.
+      editor (User):          The user to control having access to manage this post.
 
     Raises:
       UnauthorizedException: If the user is not authorized to manage the topic.

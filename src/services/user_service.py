@@ -34,33 +34,39 @@ class UserService(BaseService):
     """
     return self._dao.create(data)
 
-  def update(self, user_id: int, new_data: dict[str, Any]) -> bool:
+  def update(self, user_id: int, new_data: dict[str, Any], editor_data: UserData) -> bool:
     """Update a user in the database.
 
     Args:
-      user_id (int):    The id of the user.
-      new_data (dict):  New data.
+      user_id (int):          The id of the user.
+      new_data (dict):        New data.
+      editor_data (UserData): The data of the editor trying to update user.
 
     Returns:
-      Boolean:          True if topic changed, False otherwise
+      Boolean:                True if topic changed, False otherwise
     """
-    # TODO remember to change way to get id of editor
+    editor = User(editor_data)
     user = User.from_db_by_id(user_id, self._dao)
 
-    data_to_db = user.update(new_data)
+    data_to_db = user.update(new_data, editor)
     result = self._dao.update(user_id, data_to_db)  # TODO returns true if nothing has changed but user is found
 
     return result
 
-  def delete(self, id_num: int) -> bool:
+  def delete(self, id_num: int, editor_data: UserData) -> bool:
     """Delete a user in the database.
 
     Parameters:
-      id_num (int): The id of the user.
+      id_num (int):           The id of the user.
+      editor_data (UserData): The data of the editor trying to delete user.
 
     Returns:
       Boolean: True if item deleted, False otherwise
     """
+    editor = User(editor_data)
+    user = User.from_db_by_id(id_num, self._dao)
+
+    user.control_access(editor)
     # user = self._dao.delete(id_num)
     # TODO implement soft delete
     return False

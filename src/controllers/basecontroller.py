@@ -3,7 +3,9 @@ Abstract class for all controllers.
 
 They should all have create, get_one, update and delete methods.
 """
-from abc import ABC, abstractmethod
+from abc import ABC
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 from flask import Response, request, jsonify
 from src.services.base_service import BaseService
 from src.utils.response_helper import ResponseHelper
@@ -12,8 +14,8 @@ from src.errors.customerrors import InputInvalidException, NoDataException, KeyU
 r_helper = ResponseHelper()
 
 
-class Controller(ABC):
-  """Abstract class for controllers."""
+class Controller:
+  """Base class for controllers."""
 
   def __init__(self, service: BaseService, controller_name: str):
     """Initializes the Controller class.
@@ -66,6 +68,7 @@ class Controller(ABC):
 
     return jsonify(response), status
 
+  @jwt_required()
   def update(self, id_num: int) -> tuple[Response, int]:
     """Controller for updating entry.
 
@@ -81,7 +84,8 @@ class Controller(ABC):
       if input_data is None:
         raise InputInvalidException("Missing input data.")
 
-      success = self._service.update(id_num, input_data)
+      current_user = get_jwt_identity()
+      success = self._service.update(id_num, input_data, current_user)
       message, status = (f"{self._controller} updated.", 200) if success else (f"{self._controller} not updated.", 202)
 
       response, status = r_helper.success_response(message=message, status=status)
@@ -98,6 +102,7 @@ class Controller(ABC):
 
     return jsonify(response), status
 
+  @jwt_required()
   def delete(self, id_num: int) -> tuple[Response, int]:
     """Controller for deleting entry.
 
@@ -109,12 +114,14 @@ class Controller(ABC):
     """
     # TODO fix delete route
     try:
-      success = self._service.delete(id_num)
+      current_user = get_jwt_identity()
+      success = self._service.delete(id_num, current_user)
+
       message, status = (f"{self._controller} deleted.", 200) if success else (f"{self._controller} not deleted.", 202)
 
       response, status = r_helper.success_response(message=message, status=status)
 
-    except NoDataException as err:
+    except (NoDataException, UnauthorizedException) as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")

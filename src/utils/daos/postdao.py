@@ -48,15 +48,6 @@ class PostDAO(DAO):
     """
     try:
       cur = self._connect_get_cursor()
-
-      query = self.GET_ONE_QUERY + """WHERE post.topic_id = ? AND post.deleted IS NULL
-        ORDER BY post.created ASC
-        LIMIT 10
-        OFFSET ?
-      """
-
-      print(query)
-
       rows = cur.execute("""
         SELECT 
           post.id AS post_id,
