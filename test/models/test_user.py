@@ -27,13 +27,16 @@ class TestUnitUser:
 
   def test_update_user(self):
     """Test if update updates the user correctly."""
-    input_data = {"user_id": 1, "username": "test", "role": "admin"}
+    input_data = {"user_id": 1, "username": "test", "role": "admin", "signature": None, "avatar": None}
     user_data = UserData(**input_data)
     user = User(user_data)
+    editor = User(user_data)
 
-    new_data  = {"username": "updated_test", "role": "author"}
-    user.update(new_data)
+    new_sign = "This is a test signature"
+    new_avatar = "./link/to.test"
+    new_data  = {"signature": new_sign, "avatar": new_avatar}
+    user.update(new_data, editor)
 
     result: UserData = user.to_dict()
 
-    assert result["username"] == "updated_test" and result["role"] == "author"
+    assert result["signature"] == new_sign and result["avatar"] == new_avatar
