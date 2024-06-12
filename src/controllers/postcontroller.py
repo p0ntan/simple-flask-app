@@ -1,50 +1,22 @@
 """
 PostController is for handling all calls to database regarding posts.
 """
-from flask import jsonify, request
-from src.controllers.controller import Controller
-from src.utils.daos.dao import DAO
+from flask import jsonify, request, Response
+from src.controllers.basecontroller import Controller
+from src.services import PostService
 from src.utils.response_helper import ResponseHelper
-from src.errors.customerrors import NoDataException, KeyUnmutableException
+from src.errors.customerrors import NoDataException, KeyUnmutableException, InputInvalidException
 
 r_helper = ResponseHelper()
 
 
 class PostController(Controller):
-  """ PostController handles all dataaccess for posts. """
-  def __init__(self, post_dao: DAO):
-    super().__init__(dao=post_dao)
+  """PostController handles all dataaccess for posts."""
+  def __init__(self, service: PostService, controller_name: str):
+    """Initializes the PostController class.
 
-  def root(self) -> tuple[dict, int]:
-    """Controller for root route."""
-    try:  
-      if request.method == "POST":
-        result = self.create(request.json)
-        response, status = r_helper.success_response(result, message="New post added.", status=201)
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
-
-    return jsonify(response), status
-
-  def single_post(self, id_num = int) -> tuple[dict, int]:
-    """Controller for single post route
-
-    Parameters:
-      id_num(int):  id for post
-
-    Returns:
-      response, status
+    Args:
+      service (PostService): An instance of the PostService class.
+      controller_name (str): The name of the controller.
     """
-    try:
-      if request.method == "GET":
-        data = self.get_one(id_num)
-        response, status = r_helper.success_response(data)
-      elif request.method == "PUT":
-        self.update(id_num, request.json)
-        response, status = r_helper.success_response(message="Post updated.")
-    except (NoDataException, KeyUnmutableException) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
-
-    return jsonify(response), status
+    super().__init__(service, controller_name)

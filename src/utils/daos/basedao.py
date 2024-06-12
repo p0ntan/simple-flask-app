@@ -13,18 +13,16 @@ printer = ColorPrinter()
 
 class DAO(ABC):
   """
-  DAO is for simpler access for tables in sqlite-db.
+  DAO is a class with some db-connecting methods and abstrac methods for CRUD.
   """
 
-  def __init__(self):
-    """
-    Parameters:
-      table_name (str): tablename for the DAO.
-    """
+  def __init__(self, table_name: str):
+    """Constructor for DAO."""
     self._db_path = os.environ.get(
       "SQLITE_PATH",
       "./db/db.sqlite"
     )
+    self._table = table_name
     self._connection = None
 
   def _get_connection_and_cursor(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
@@ -53,7 +51,7 @@ class DAO(ABC):
       self._connection.close()
 
     self._connection = None
-  
+
   @abstractmethod
   def create(self, data: dict) -> Any:
     pass
@@ -62,10 +60,58 @@ class DAO(ABC):
   def get_one(self, id_num: int) -> Any:
     pass
 
-  @abstractmethod
   def update(self, id_num: int, data: dict) -> bool:
-    pass
+    """Update entry.
 
-  # @abstractmethod
-  # def delete(self, id_num: int) -> bool:
-  #   pass
+    Parameters:
+      id_num (int): unique id for the entry to update
+      data (dict):  dictionary with new data
+
+    Returns:
+      boolean:      True if item changed, False otherwise
+
+    Raises:
+      Exception:    In case of any error
+    """
+    conn = None
+    try:
+      conn, cur = self._get_connection_and_cursor()
+
+      columns = ', '.join([f'{k} = ?' for k in data.keys()])
+
+      cur.execute(f"UPDATE {self._table} SET {columns} WHERE id = ?", (*data.values(), id_num, ))
+      conn.commit()
+
+      return cur.rowcount > 0
+    except Exception as err:
+      printer.print_fail(err)
+      raise err
+    finally:
+      if conn is not None:
+        conn.close()
+
+  def delete(self, id_num: int) -> bool:
+    """Delete entry from database (soft delete).
+
+    Args:
+      id_num (int): unique id for the entry to delete
+
+    Returns:
+      boolean:      True if item deleted, False otherwise
+
+    Raises:
+      Exception:    In case of any error
+    """
+    conn = None
+    try:
+      conn, cur = self._get_connection_and_cursor()
+      cur.execute(f"UPDATE {self._table} SET deleted = CURRENT_TIMESTAMP WHERE id = ?", (id_num, ))
+      conn.commit()
+
+      return cur.rowcount > 0
+    except Exception as err:
+      printer.print_fail(err)
+      raise err
+    finally:
+      if conn is not None:
+        conn.close()
