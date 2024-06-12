@@ -42,7 +42,7 @@ class TopicController(Controller):
       result = self._service.create(input_data, current_user)
       response, status = r_helper.success_response(result, message=f"New {self._controller} added.", status=201)
 
-    except (InputInvalidException, NoDataException) as err:
+    except (InputInvalidException, NoDataException, UnauthorizedException) as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")
@@ -63,7 +63,7 @@ class TopicController(Controller):
       data = self._service.get_topic_posts_users(id_num, page_num)
 
       response, status = r_helper.success_response(data)
-    except (NoDataException, UnauthorizedException) as err:
+    except NoDataException as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")

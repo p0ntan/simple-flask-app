@@ -7,7 +7,7 @@ from flask_jwt_extended import jwt_required
 from src.controllers.basecontroller import Controller
 from src.services import PostService
 from src.utils.response_helper import ResponseHelper
-from src.errors.customerrors import NoDataException, InputInvalidException
+from src.errors.customerrors import NoDataException, InputInvalidException, UnauthorizedException
 
 r_helper = ResponseHelper()
 
@@ -40,7 +40,7 @@ class PostController(Controller):
       result = self._service.create(input_data, current_user)
       response, status = r_helper.success_response(result, message=f"New {self._controller} added.", status=201)
 
-    except (InputInvalidException, NoDataException) as err:
+    except (InputInvalidException, NoDataException, UnauthorizedException) as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")
