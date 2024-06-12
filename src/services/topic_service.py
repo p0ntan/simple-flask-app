@@ -4,6 +4,7 @@ Module for topic service, main purpose to handle topics in the application.
 This will be used by controllers to keep the logic here and not in controller.
 """
 from typing import Any
+from src.services.base_service import BaseService
 from src.errors.customerrors import NoDataException
 from src.models.user import User
 from src.models.topic import Topic, TopicData
@@ -11,7 +12,7 @@ from src.utils.daos import TopicDAO, PostDAO, UserDAO
 from src.static.types import TopicData
 
 
-class TopicService:
+class TopicService(BaseService):
   """
   TopicService is for handling all calls to models and database regarding topics.
   """

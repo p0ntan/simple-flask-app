@@ -11,31 +11,15 @@ r_helper = ResponseHelper()
 
 class UserController(Controller):
   """ UserController handles all dataaccess for users. """
-  def __init__(self, service: UserService):
+  def __init__(self, service: UserService, controller_name: str):
     """Initializes the UserController class.
     
     Args:
       service (UserService): An instance of the UserService class.
+      controller_name (str): The name of the controller.
     """
     self._service = service
-
-  def create(self) -> tuple[Response, int]:
-    """Controller for root route."""
-    try:
-      input_data = request.json
-
-      if input_data is None or "username" not in input_data:
-        raise InputInvalidException("Missing input input data.")
-
-      result = self._service.create(input_data)
-      response, status = r_helper.success_response(result, message="New user added.", status=201)
-
-    except InputInvalidException as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
-
-    return jsonify(response), status
+    self._controller = controller_name
 
   def login(self) -> tuple[Response, int]:
     """Controller for root route."""
@@ -49,52 +33,6 @@ class UserController(Controller):
       response, status = r_helper.success_response(user, message="User logged in.", status=200)
 
     except (NoDataException, InputInvalidException) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
-
-    return jsonify(response), status
-
-  def get_one(self, id_num: int) -> tuple[Response, int]:
-    """Controller for getting one user.
-
-    Parameters:
-      id_num(int):  id for user
-
-    Returns:
-      response, status
-    """
-    try:
-      data = self._service.get_by_id(id_num)
-      response, status = r_helper.success_response(data)
-
-    except NoDataException as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
-
-    return jsonify(response), status
-
-  def update(self, id_num: int) -> tuple[Response, int]:
-    """Controller for updating user.
-
-    Parameters:
-      id_num(int):  id for user
-
-    Returns:
-      response, status
-    """
-    try:
-      input_data = request.json
-
-      if input_data is None or "username" not in input_data:
-        raise InputInvalidException("No username provided.")
-      success = self._service.update(id_num, input_data)
-      message = "User updated." if success else "User not updated."
-
-      response, status = r_helper.success_response(message=message)
-
-    except (NoDataException, KeyUnmutableException, InputInvalidException) as err:
       response, status = r_helper.error_response(err.status, details=f"{err}")
     except Exception as err:
       response, status = r_helper.unkown_error(details=f"{err}")

@@ -13,7 +13,7 @@ user_blueprint.route("/", methods=["POST"])(user_controller.create)
 # Log in
 user_blueprint.route("/login", methods=["POST"])(user_controller.login)
 
-# For single user, get or update
+# For single user
 user_blueprint.route("/<id_num>", methods=["GET"])(user_controller.get_one)
 user_blueprint.route("/<id_num>", methods=["PUT"])(user_controller.update)
 user_blueprint.route("/<id_num>", methods=["DELETE"])(user_controller.delete)

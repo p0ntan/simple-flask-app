@@ -14,8 +14,8 @@ class UserDAO(DAO):
   GET_ONE_QUERY_USERNAME = "SELECT id AS user_id, username, role, signature, avatar FROM user WHERE username = ?"
   GET_ONE_QUERY_ID = "SELECT id as user_id, username, role, signature, avatar FROM user WHERE id = ?"
 
-  def __init__(self):
-    super().__init__()
+  def __init__(self, table_name: str):
+    super().__init__(table_name)
 
   def create(self, data: dict[str, str]) -> UserData:
     """Create (insert) a new entry into database.
@@ -50,7 +50,7 @@ class UserDAO(DAO):
       if conn is not None:
         conn.close()
 
-  # TODO make this method better
+  # TODO make this method better, or move it to basedao if they all use it in the same way.
   def update(self, id_num: int, data: dict) -> bool:
     """Update entry.
 

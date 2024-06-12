@@ -3,7 +3,7 @@ User model representing a user.
 """
 from __future__ import annotations
 from typing import Any
-from src.static.types import UserData, UserInput
+from src.static.types import UserData
 from src.utils.daos.userdao import UserDAO
 from src.errors.customerrors import NoDataException
 
@@ -13,7 +13,7 @@ class User():
   def __init__(self, user_data: UserData):
     """Initiate the user.
 
-    Parameters:
+    Args:
       user (UserData): Dictonary with needed data for user with keys:
         - user_id (int):
         - username (str):
@@ -35,16 +35,26 @@ class User():
     """Get the id of the user."""
     return self._user_id
 
-  def update(self, user_data: UserInput):
+  def update(self, user_data: dict[str, Any]):
     """Update the user with provided data.
 
-    Parameters:
-      user_data (UserInput): Dictionary with keys to update.
+    Args:
+      user_data (dict): Dictionary with keys to update.
+    
+    Returns:
+      new_data (dict):  Dict with only the updated data.
     """
-    self._username = user_data.get('username', self._username)
-    self._role = user_data.get('role', self._role)
-    self._signature = user_data.get('signature', self._signature)
-    self._avatar = user_data.get('avatar', self._avatar)
+    self._username = user_data.get("username", self._username)
+    self._role = user_data.get("role", self._role)
+    self._signature = user_data.get("signature", self._signature)
+    self._avatar = user_data.get("avatar", self._avatar)
+
+    return {
+      "username": self._username,
+      # "role": self._role,  TODO: Add add rights for only admin
+      "signature": self._signature,
+      "avatar": self._avatar
+    }
 
   def to_dict(self) -> dict[str, Any]:
     """Return user data as dictionary.
@@ -64,7 +74,7 @@ class User():
   def from_db_by_id(cls, user_id: int, user_dao: UserDAO) -> User:
     """Initiate user with data from database, by id.
 
-    Parameters:
+    Args:
       user_id (int):      The id of the user.
       user_dao (UserDAO): An instance of the UserDAO class.
 

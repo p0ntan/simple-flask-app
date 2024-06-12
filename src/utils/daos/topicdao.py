@@ -29,7 +29,11 @@ class TopicDAO(DAO):
     FROM topic
     JOIN user ON topic.created_by = user.id
     WHERE topic.id = ?
+    AND topic.deleted IS NULL
   """
+
+  def __init__(self, table_name: str):
+    super().__init__(table_name)
 
   def create(self, data: dict[str, str | int]) -> TopicData:
     """ Create (insert) a new entry into database.
@@ -158,6 +162,7 @@ class TopicDAO(DAO):
     conn = None
     try:
       conn, cur = self._get_connection_and_cursor()
+      # TODO add soft delete for users topic and posts, with same timestamp?
       cur.execute(f"UPDATE topic SET deleted = CURRENT_TIMESTAMP WHERE id = ?", (id_num, ))
       conn.commit()
 

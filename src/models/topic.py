@@ -41,7 +41,7 @@ class Topic():
     """Update the topic with provided data.
 
     Args:
-      topic_data (TopicData): Dictionary with keys to update.
+      topic_data (dict):      Dictionary with keys to update.
       editor (User):          The user who is wanting to update the topic.
 
     Returns:

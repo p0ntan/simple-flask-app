@@ -3,12 +3,15 @@ Module for user service, main purpose to handle users in the application.
 
 This will be used by controllers to keep the logic here and not in controller.
 """
+from typing import Any
+from src.services.base_service import BaseService
 from src.utils.daos.userdao import UserDAO
-from src.models.user import UserData
+from src.models import User
+from src.static.types import UserData
 from src.errors.customerrors import NoDataException
 
 
-class UserService:
+class UserService(BaseService):
   """
   UserService is used for user handling.
   """
@@ -31,18 +34,23 @@ class UserService:
     """
     return self._dao.create(data)
 
-  def update(self, id_num: int, data: dict[str, str]) -> bool:
+  def update(self, user_id: int, new_data: dict[str, Any]) -> bool:
     """Update a user in the database.
 
-    Parameters:
-      id_num (int): The id of the user.
-      data (dict):  New data.
+    Args:
+      user_id (int):    The id of the user.
+      new_data (dict):  New data.
 
     Returns:
-      Boolean: True if item changed, False otherwise
+      Boolean:          True if topic changed, False otherwise
     """
-    user = self._dao.update(id_num, data)
-    return user
+    # TODO remember to change way to get id of editor
+    user = User.from_db_by_id(user_id, self._dao)
+
+    data_to_db = user.update(new_data)
+    result = self._dao.update(user_id, data_to_db)  # TODO returns true if nothing has changed but user is found
+
+    return result
 
   def delete(self, id_num: int) -> bool:
     """Delete a user in the database.
@@ -79,13 +87,13 @@ class UserService:
     return user
 
   def get_by_id(self, user_id: int) -> UserData:
-    """Update a user in the database.
+    """Get a user in the database.
 
     Parameters:
-      data (dict): New data.
+      user_id (int):  The id of the user.
 
     Returns:
-      UserData: The user as a dictionary.
+      UserData:       The user as a dictionary.
   
     Raises:
       NoDataException: If no user is found with the given username.
