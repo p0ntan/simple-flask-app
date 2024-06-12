@@ -49,6 +49,23 @@ class TopicController(Controller):
 
     return jsonify(response), status
 
+  def latest_topics(self) -> tuple[Response, int]:
+    """Get latest topics, based on what date the topic was created.
+
+    Returns:
+      tuple[Response, int]: The response and status code
+    """
+    try:
+      data = self._service.get_latest_topics()
+
+      response, status = r_helper.success_response(data)
+    except NoDataException as err:
+      response, status = r_helper.error_response(err.status, details=f"{err}")
+    except Exception as err:
+      response, status = r_helper.unkown_error(details=f"{err}")
+
+    return jsonify(response), status
+
   def topic_with_posts(self, id_num: int, page_num: int = 0) -> tuple[Response, int]:
     """When using route for single topic
 
@@ -60,7 +77,7 @@ class TopicController(Controller):
       tuple[Response, int]: The response and status code
     """
     try:
-      data = self._service.get_topic_posts_users(id_num, page_num)
+      data = self._service.get_topic_posts_users(id_num, int(page_num))
 
       response, status = r_helper.success_response(data)
     except NoDataException as err:

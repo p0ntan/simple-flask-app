@@ -173,3 +173,57 @@ class TopicDAO(DAO):
     finally:
       if conn is not None:
         conn.close()
+
+  def get_latest_topics(self, limit: int) -> list[TopicData]:
+    """Get the latest topics in the database, based on creation date.
+
+    Returns:
+      list[TopicData]: The list of topics.
+    """
+    conn = None
+    try:
+      conn, cur = self._get_connection_and_cursor()
+      rows = cur.execute("""
+        SELECT 
+          topic.id AS topic_id,
+          topic.title,
+          topic.category,
+          topic.created,
+          topic.last_edited,
+          topic.deleted,
+          topic.disabled,
+          user.id as user_id,
+          user.username,
+          user.role,
+          user.signature,
+          user.avatar
+        FROM topic
+        JOIN user ON topic.created_by = user.id 
+        WHERE topic.deleted IS NULL
+        ORDER BY created DESC
+        LIMIT ?
+      """, (limit, ))
+
+      column_names = [description[0] for description in cur.description]
+
+      topics_data: list[TopicData] = []
+
+      for topic in rows:
+        topic_with_keys = dict(zip(column_names, topic))
+        created_by = {
+          "user_id": topic_with_keys.pop("user_id"),
+          "username": topic_with_keys.pop("username"),
+          "role": topic_with_keys.pop("role"),
+          "signature": topic_with_keys.pop("signature"),
+          "avatar": topic_with_keys.pop("avatar")
+        }
+        topic_with_keys["created_by"] = created_by
+        topics_data.append(TopicData(**topic_with_keys))
+
+      return topics_data
+    except Exception as err:
+      printer.print_fail(err)
+      raise err
+    finally:
+      if conn is not None:
+        conn.close()

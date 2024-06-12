@@ -131,3 +131,13 @@ class TopicService(BaseService):
     success = self._topic_dao.delete(topic_id)
 
     return success
+
+  def get_latest_topics(self, limit: int = 10) -> list[TopicData]:
+    """Get the latest topics in the database, based on creation date.
+
+    Returns:
+      list[TopicData]: The list of topics.
+    """
+    topics = self._topic_dao.get_latest_topics(limit)
+
+    return topics
