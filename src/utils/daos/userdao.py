@@ -50,36 +50,36 @@ class UserDAO(DAO):
       if conn is not None:
         conn.close()
 
-  # TODO make this method better, or move it to basedao if they all use it in the same way.
-  def update(self, id_num: int, data: dict) -> bool:
-    """Update entry.
+  # # TODO make this method better, or move it to basedao if they all use it in the same way.
+  # def update(self, id_num: int, data: dict) -> bool:
+  #   """Update entry.
 
-    Parameters:
-      id_num (int): unique id for the entry to update
-      data (dict):  dictionary with new data
+  #   Parameters:
+  #     id_num (int): unique id for the entry to update
+  #     data (dict):  dictionary with new data
 
-    Returns:
-      boolean:      True if item changed, False otherwise
+  #   Returns:
+  #     boolean:      True if item changed, False otherwise
 
-    Raises:
-      Exception:    In case of any error
-    """
-    conn = None
-    try:
-      conn, cur = self._get_connection_and_cursor()
+  #   Raises:
+  #     Exception:    In case of any error
+  #   """
+  #   conn = None
+  #   try:
+  #     conn, cur = self._get_connection_and_cursor()
 
-      columns = ', '.join([f'{k} = ?' for k in data.keys()])
+  #     columns = ', '.join([f'{k} = ?' for k in data.keys()])
 
-      cur.execute(f"UPDATE user SET {columns} WHERE id = ?", (*data.values(), id_num, ))
-      conn.commit()
+  #     cur.execute(f"UPDATE user SET {columns} WHERE id = ?", (*data.values(), id_num, ))
+  #     conn.commit()
 
-      return cur.rowcount > 0
-    except Exception as err:
-      printer.print_fail(err)
-      raise err
-    finally:
-      if conn is not None:
-        conn.close()
+  #     return cur.rowcount > 0
+  #   except Exception as err:
+  #     printer.print_fail(err)
+  #     raise err
+  #   finally:
+  #     if conn is not None:
+  #       conn.close()
 
   def get_user_by_username(self, username: str) -> UserData | None:
     """Retrieves a user from the database by their username.

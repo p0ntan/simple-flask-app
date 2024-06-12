@@ -1,5 +1,6 @@
 import pytest
-from src.models.user import User, UserInput, UserData
+from src.models.user import User
+from src.static.types import UserData
 
 @pytest.mark.models
 @pytest.mark.unit
@@ -30,7 +31,7 @@ class TestUnitUser:
     user_data = UserData(**input_data)
     user = User(user_data)
 
-    new_data  = UserInput(**{"username": "updated_test", "role": "author"})
+    new_data  = {"username": "updated_test", "role": "author"}
     user.update(new_data)
 
     result: UserData = user.to_dict()

@@ -56,7 +56,7 @@ class User():
       "avatar": self._avatar
     }
 
-  def to_dict(self) -> dict[str, Any]:
+  def to_dict(self) -> UserData:
     """Return user data as dictionary.
 
     Returns:
@@ -68,7 +68,7 @@ class User():
       key = key[1:] if key[0] == "_" else key
       result[key] = value.to_dict() if hasattr(value, 'to_dict') else value
 
-    return result
+    return UserData(**result)
 
   @classmethod
   def from_db_by_id(cls, user_id: int, user_dao: UserDAO) -> User:

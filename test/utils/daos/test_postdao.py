@@ -25,7 +25,7 @@ def sut_int():
   conn.commit()
   conn.close()
 
-  with mock.patch("src.utils.daos.dao.os.environ.get") as db_path:
+  with mock.patch("src.utils.daos.basedao.os.environ.get") as db_path:
     db_path.return_value = test_db
     sut = PostDAO("post")
     yield sut
@@ -35,6 +35,32 @@ def sut_int():
 @pytest.mark.integration
 class TestIntegrationPostDAO:
   """Integration tests."""
+
+  @pytest.mark.parametrize("id, expected",[
+    (1, True),
+    (200, False),
+  ])
+  def test_delete(self, sut_int, id, expected):
+    """Test return value when updating a user."""
+    result = sut_int.delete(id)
+
+    assert result == expected
+
+  @pytest.mark.parametrize("id",[
+    (1),
+  ])
+  def test_delete_data(self, sut_int, id):
+    """Test data when updating a user."""
+    result = sut_int.delete(id)
+
+    conn = sqlite3.connect(test_db)
+    cur = conn.cursor()
+    cur.execute("SELECT deleted from post where id = ?", (id, ))
+    result = cur.fetchone()
+
+    conn.close()
+
+    assert re.match("[0-9]{4}-[0-9]{2}-[0-9]{2}", result[0])
 
   @pytest.mark.parametrize("topic_id, page, expected_posts",[
     (1, 0, 10),
