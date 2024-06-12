@@ -30,11 +30,12 @@ class TopicService(BaseService):
     self._user_dao = user_dao
     self._post_dao = post_dao
 
-  def create(self, topic_data: dict[str, Any]) -> TopicData:
+  def create(self, topic_data: dict[str, Any], creator: UserData) -> TopicData:
     """Creates a new topic.
 
     Args:
       topic_data (dict):  The data for the new topic.
+      creator (UserData): The data of the creator.
 
     Returns:
       TopicData (dict):   The topic as a dictionary if created successfully.
@@ -42,14 +43,8 @@ class TopicService(BaseService):
     Raises:
       NoDataException:    If no user is found with the given id to create the topic.
     """
-    # TODO remember to change way to get id of editor.
-    user_id = topic_data["created_by"]
-    user_data = self._user_dao.get_one(user_id)
-
-    if user_data is None:
-      raise NoDataException(f"No user found with id: {user_id}")
-
-    user = User(user_data)
+    user = User(creator)
+    topic_data["created_by"] = user.id
     # TODO add logic for user control here by calling method on User ex. user.can_create_topic()
     # and maybe raise exception if not allowed, might be the cleanest solution.
     # if not user.can_create_topic():

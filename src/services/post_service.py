@@ -24,7 +24,7 @@ class PostService(BaseService):
     self._dao = dao
     self._user_dao = user_dao
 
-  def create(self, data: dict[str, Any]) -> PostData:
+  def create(self, data: dict[str, Any], creator: UserData) -> PostData:
     """Creates a new post in the database.
 
     Args:
@@ -33,6 +33,12 @@ class PostService(BaseService):
     Returns:
       PostData:     The post as a dictionary if created successfully.
     """
+    user = User(creator)
+    data["author"] = user.id
+    # TODO add logic for user control here by calling method on User ex. user.can_create_post()
+    # and maybe raise exception if not allowed, might be the cleanest solution.
+    # if not user.can_create_post():
+    #     raise Exception("User is not allowed to create topic")
     return self._dao.create(data)
 
   def update(self, post_id: int, new_data: dict[str, Any], editor_data: UserData) -> bool:

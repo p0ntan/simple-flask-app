@@ -1,9 +1,8 @@
 """
-Abstract class for all controllers.
+Baseclass for all controllers.
 
 They should all have create, get_one, update and delete methods.
 """
-from abc import ABC
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask import Response, request, jsonify
