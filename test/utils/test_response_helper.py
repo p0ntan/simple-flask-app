@@ -1,3 +1,8 @@
+"""
+Test for response helper.
+
+Note that it is expected to use the right datatypes for the parameters.
+"""
 import pytest
 from src.utils.response_helper import ResponseHelper
 
@@ -8,7 +13,6 @@ def sut():
   return ResponseHelper()
 
 
-@pytest.mark.testing
 @pytest.mark.unit
 class TestUnitResponseHelper:
   """Unit test for response helper."""
