@@ -1,49 +1,40 @@
 """
 Usercontroller is for handling all calls to database regarding users.
 """
-from flask import jsonify, request
-from src.controllers.controller import Controller
-from src.utils.dao import DAO
+from flask import jsonify, request, Response
+from src.controllers.basecontroller import Controller
 from src.utils.response_helper import ResponseHelper
-from src.errors.customerrors import NoDataException, KeyUnmutableException
+from src.services.user_service import UserService
+from src.errors.customerrors import NoDataException, InputInvalidException
+from flask_jwt_extended import create_access_token
 
 r_helper = ResponseHelper()
 
 class UserController(Controller):
   """ UserController handles all dataaccess for users. """
-  def __init__(self, user_dao: DAO):
-    super().__init__(dao=user_dao)
+  def __init__(self, service: UserService, controller_name: str):
+    """Initializes the UserController class.
+    
+    Args:
+      service (UserService): An instance of the UserService class.
+      controller_name (str): The name of the controller.
 
-  def root(self) -> tuple[dict, int]:
-    """Controller for root route."""
-    try:
-      if request.method == "POST":
-        result = self.create(request.json)
-        response, status = r_helper.success_response(result, message="New user added.", status=201)
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
-
-    return jsonify(response), status
-
-  def single_user(self, id_num = int) -> tuple[dict, int]:
-    """Controller for single user route
-
-    Parameters:
-      id_num(int):  id for user
-
-    Returns:
-      response, status
+    Raises:
+      InputInvalidException:  If input data is missing.
     """
-    try:
-      if request.method == "GET":
-        data = self.get_one(id_num)
-        response, status = r_helper.success_response(data)
-      elif request.method == "PUT":
-        self.update(id_num, request.json)
-        response, status = r_helper.success_response(message="User updated.")
-    except (NoDataException, KeyUnmutableException) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
+    self._service = service
+    self._controller = controller_name
+
+  def login(self) -> tuple[Response, int]:
+    """Controller for login route."""
+    input_data = request.json
+
+    if input_data is None:
+      raise InputInvalidException("Missing input data.")
+
+    user = self._service.login(input_data["username"], "ps")
+    access_token = create_access_token(identity=user)
+
+    response, status = r_helper.success_response({"jwt": access_token}, message="User logged in.", status=200)
 
     return jsonify(response), status

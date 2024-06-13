@@ -13,7 +13,7 @@ CREATE TABLE "user" (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username TEXT NOT NULL UNIQUE,
 	password TEXT,
-	role TEST(15) DEFAULT "author",
+	role TEST(15) DEFAULT "author" NOT NULL,
 	signature TEXT(150),
 	avatar TEXT(150)
 );
@@ -36,11 +36,11 @@ CREATE TABLE topic (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	created_by INTEGER NOT NULL,
 	category INTEGER NOT NULL,
+	title TEXT NOT NULL,
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	last_edited TIMESTAMP,
 	deleted TIMESTAMP,
-	disabled BOOLEAN,
-	title TEXT NOT NULL,
+	disabled BOOLEAN DEFAULT FALSE NOT NULL,
 	CONSTRAINT topic_user_FK FOREIGN KEY (created_by) REFERENCES "user"(id),
 	CONSTRAINT topic_category_FK FOREIGN KEY (category) REFERENCES "category"(id)
 );
@@ -51,14 +51,14 @@ CREATE UNIQUE INDEX topic_id_IDX ON topic (id);
 
 CREATE TABLE post (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	user_id INTEGER NOT NULL,
+	author INTEGER NOT NULL,
 	topic_id INTEGER NOT NULL,
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	last_edited TIMESTAMP,
 	deleted TIMESTAMP,
 	title TEXT,
 	body TEXT NOT NULL,
-	CONSTRAINT post_user_FK FOREIGN KEY (user_id) REFERENCES "user"(id)
+	CONSTRAINT post_user_FK FOREIGN KEY (author) REFERENCES "user"(id)
 	CONSTRAINT post_topic_FK FOREIGN KEY (topic_id) REFERENCES "topic"(id)
 );
 

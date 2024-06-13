@@ -1,13 +1,13 @@
 """
 Class for helping creating responses
 """
-
+from typing import Any
 
 class ResponseHelper:
   """
   A class for creating correct responses for API.
   """
-  def success_response(self, data: any = None, message: str = None, status: int = 200) -> tuple[dict, int]:
+  def success_response(self, data: Any = None, message: str | None = None, status: int = 200) -> tuple[dict, int]:
     """ Creates a success response.
 
     Parameters:
@@ -30,7 +30,7 @@ class ResponseHelper:
 
     return response, status
 
-  def error_response(self, errorcode: int = 400, message: str = None, details: str = None) -> tuple[dict, int]:
+  def error_response(self, errorcode: int = 400, message: str | None = None, details: str | None = None) -> tuple[dict, int]:
     """ Creates a error response.
 
     Parameters:
@@ -56,7 +56,7 @@ class ResponseHelper:
 
     return response, errorcode
 
-  def unkown_error(self, details: str = None) -> tuple[dict, int]:
+  def unkown_error(self, details: str | None = None) -> tuple[dict, int]:
     """ Creates an unknown error
 
     Parameters:

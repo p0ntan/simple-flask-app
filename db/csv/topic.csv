@@ -1,0 +1,1001 @@
+id,created_by,category,title,created
+1,26,20,Spirit in the Sky,2023-12-28 12:10:44
+2,31,15,Baker Street,2024-05-24 12:47:04
+3,107,11,A String of Pearls,2024-01-13 23:02:46
+4,160,9,No Scrubs,2024-02-05 14:04:32
+5,18,13,Knock Three Times,2024-01-20 15:20:39
+6,158,16,Fast Car,2024-05-19 17:16:33
+7,31,2,Mr Brightside,2024-02-17 00:37:25
+8,48,2,California Girls,2024-03-13 07:17:33
+9,38,2,Smoke Gets in Your Eyes,2023-12-16 13:22:34
+10,101,15,How Do You Mend a Broken Heart,2024-04-20 17:51:21
+11,101,9,50 Ways to Leave Your Lover,2024-01-20 12:54:48
+12,174,7,Money For Nothing,2024-06-03 02:59:35
+13,27,9,Toxic,2024-03-02 14:09:32
+14,23,4,(I Can't Get No) Satisfaction,2024-04-09 01:07:16
+15,18,18,Dance to the Music,2024-05-18 06:30:51
+16,99,1,19th Nervous Breakdown,2024-04-26 09:55:39
+17,174,3,Whispering,2024-02-22 18:01:20
+18,124,11,Grenade,2024-03-23 16:33:03
+19,97,10,Baker Street,2024-02-01 02:41:58
+20,84,1,Wind Beneath My Wings,2024-03-22 14:07:34
+21,81,11,Volare,2024-02-05 03:53:32
+22,159,19,The Tide is High,2023-11-26 08:17:00
+23,21,7,Kryptonite,2024-03-28 00:15:39
+24,169,13,Dreams,2024-02-28 23:53:35
+25,172,13,Thriller,2024-02-19 04:49:58
+26,177,4,Iris,2023-12-02 21:04:05
+27,174,1,Roll With It,2024-02-17 15:49:12
+28,178,7,A-Tisket A-Tasket,2024-03-17 07:52:12
+29,75,13,The Prisoner's Song,2024-01-18 02:58:30
+30,170,4,Make Love to Me,2024-02-20 20:40:57
+31,181,7,Bye,2023-12-17 23:40:26
+32,145,2,Blue Suede Shoes,2024-04-25 21:52:45
+33,63,12,Seasons in the Sun,2024-03-17 12:43:14
+34,50,13,Running Scared,2024-02-03 04:35:49
+35,200,20,Why Don't You Believe Me?,2024-02-24 07:18:13
+36,166,3,You Make Me Feel Like Dancing,2024-03-15 06:35:22
+37,146,2,Call Me,2023-12-18 21:17:32
+38,121,16,Give Me Everything,2024-02-25 02:43:43
+39,12,10,Wabash Cannonball,2024-01-12 08:44:40
+40,22,16,Don't Leave Me This Way,2024-01-25 00:32:18
+41,76,6,Theme From 'A Summer Place',2024-02-16 12:00:23
+42,171,19,I Can't Stop Loving You,2024-06-06 16:55:25
+43,111,5,We Will Rock You,2024-04-16 21:59:42
+44,109,20,When a Man Loves a Woman,2024-01-18 22:19:52
+45,86,6,Ode To Billie Joe,2023-12-05 20:06:41
+46,130,4,Tighten Up,2024-05-27 22:37:01
+47,117,19,Nights in White Satin,2024-06-07 04:15:16
+48,90,20,Hey Baby,2024-04-21 05:09:39
+49,61,14,Stairway to Heaven,2024-02-07 21:21:46
+50,38,5,All I Wanna Do,2024-05-14 09:55:41
+51,162,15,Long Cool Woman in a Black Dress,2024-05-27 05:59:21
+52,138,10,Strange Fruit,2024-01-12 06:19:42
+53,186,17,Fast Car,2024-03-27 12:16:30
+54,47,19,Love Will Keep Us Together,2024-04-25 02:11:07
+55,157,1,Born to Run,2024-03-31 09:57:37
+56,194,17,We Got The Beat,2024-02-24 07:53:23
+57,40,19,Let it Be,2024-03-22 01:58:20
+58,100,8,Go Your Own Way,2024-03-28 05:21:30
+59,40,15,Promiscuous,2024-03-29 12:59:10
+60,194,3,Sunshine of Your Love,2024-01-10 08:56:25
+61,6,10,Go Your Own Way,2024-03-28 04:37:48
+62,97,6,Ticket to Ride,2023-12-22 13:41:08
+63,131,14,Change the World,2024-03-27 03:56:19
+64,175,12,I Heard it Through the Grapevine,2024-04-24 00:28:19
+65,153,3,What'd I Say,2024-01-23 16:23:03
+66,84,15,Singing The Blues,2024-05-16 20:36:20
+67,20,11,Let's Stay Together,2024-03-16 08:44:54
+68,77,12,Let's Stay Together,2024-03-29 08:04:06
+69,51,1,A Whiter Shade of Pale,2024-06-01 09:02:58
+70,55,14,It's Still Rock 'n' Roll to Me,2024-04-04 00:10:43
+71,181,11,Pon De Replay,2024-04-02 14:16:16
+72,1,11,Cat's in the Cradle,2024-01-05 07:20:10
+73,160,11,Rapture,2024-02-06 06:57:18
+74,140,9,Sweet Child O' Mine,2024-02-17 20:47:05
+75,73,7,If You Leave Me Now,2023-12-06 18:15:38
+76,157,11,Livin' On a Prayer,2023-11-30 10:38:44
+77,53,14,That'll Be the Day,2024-03-07 02:30:24
+78,197,14,How Much is That Doggy in the Window?,2024-05-25 21:31:19
+79,47,9,Honky Tonk,2024-06-04 11:39:46
+80,196,20,The Streak,2024-05-27 15:34:19
+81,93,16,Moonlight Cocktail,2023-12-05 10:27:59
+82,145,19,Volare,2024-01-31 14:32:50
+83,10,3,One O'Clock Jump,2024-04-01 07:15:41
+84,192,12,Baby Come Back,2024-02-08 22:46:18
+85,156,8,Soul Man,2023-12-28 13:41:09
+86,61,14,Mr Tambourine Man,2024-05-09 23:17:35
+87,55,8,The Letter,2024-01-05 06:39:14
+88,33,6,Let's Groove,2024-01-12 06:04:38
+89,17,16,House of the Rising Sun,2024-05-02 04:07:19
+90,67,9,Use Somebody,2024-03-21 19:50:10
+91,4,12,Down Hearted Blues,2024-02-10 00:35:10
+92,70,12,That's What Friends Are For,2024-04-28 01:10:38
+93,51,12,I Shot the Sheriff,2024-01-22 09:41:26
+94,37,12,Best of My Love,2024-03-13 02:34:11
+95,111,14,Cars,2024-01-23 10:02:32
+96,8,15,Prisoner of Love,2024-01-10 19:50:10
+97,22,12,Sweet Child O' Mine,2024-04-03 08:39:07
+98,137,6,(Your Love Keeps Lifting Me) Higher & Higher,2024-02-06 02:46:26
+99,199,4,Burn,2024-05-04 00:12:35
+100,197,7,Jumpin' Jack Flash,2024-02-01 14:09:23
+101,122,9,A String of Pearls,2024-01-26 16:50:51
+102,66,14,Ghostbusters,2024-02-04 13:17:33
+103,91,12,19th Nervous Breakdown,2024-04-29 03:08:48
+104,54,15,Because of You,2024-01-29 18:20:38
+105,92,20,Make it With You,2024-04-01 17:54:18
+106,38,7,With Or Without You,2024-03-13 16:51:47
+107,141,12,Somethin' Stupid,2024-02-04 17:36:34
+108,127,5,Last Train to Clarksville,2024-01-15 11:31:18
+109,186,4,Tennessee Waltz,2024-01-01 22:22:02
+110,185,14,House of the Rising Sun,2023-12-25 16:34:25
+111,87,18,She Drives Me Crazy,2023-11-30 20:42:26
+112,191,20,I'm a Believer,2024-03-09 10:14:41
+113,100,13,Superstar,2024-04-20 11:00:26
+114,176,16,Get Down Tonight,2024-01-15 19:46:52
+115,200,5,Feel Good Inc,2024-03-21 03:12:55
+116,126,15,Mack the Knife,2024-05-20 12:49:48
+117,63,6,(Everything I Do) I Do it For You,2023-12-05 15:11:06
+118,19,9,Rum & Coca-Cola,2024-03-17 20:34:39
+119,173,16,The Girl From Ipanema,2024-04-16 02:43:30
+120,141,11,I'll Never Smile Again,2024-02-12 19:40:48
+121,102,17,Wipe Out,2024-04-09 15:59:10
+122,179,4,Pony Time,2024-03-21 21:25:32
+123,74,18,Doo Wop (That Thing),2024-05-22 18:23:16
+124,116,6,Being With You,2024-05-24 12:54:52
+125,116,2,The Reason,2024-03-13 02:55:56
+126,99,13,Sweet Soul Music,2024-05-09 09:07:53
+127,147,17,Duke of Earl,2024-03-12 10:50:26
+128,64,3,Brother Louie,2024-01-09 13:49:47
+129,99,3,Nothing Compares 2 U,2024-06-06 23:30:44
+130,138,3,Believe,2024-01-15 19:31:11
+131,181,12,I Can't Get Next to You,2024-01-20 21:32:22
+132,117,11,Hips don't lie,2024-02-23 21:19:46
+133,144,10,With Or Without You,2024-04-25 16:37:49
+134,44,15,Someday,2023-12-28 12:29:21
+135,161,2,We Are the Champions,2024-01-30 20:31:40
+136,169,19,Rich Girl,2024-04-15 17:08:46
+137,200,6,Toxic,2023-12-29 04:00:27
+138,61,12,Ring of Fire,2024-04-06 05:28:30
+139,168,16,If You Leave Me Now,2023-12-21 00:54:27
+140,105,9,(I've Got a Gal In) Kalamazoo,2024-01-11 10:54:31
+141,56,5,What's Going On?,2023-12-06 13:42:22
+142,134,12,50 Ways to Leave Your Lover,2024-02-27 13:15:26
+143,11,8,Where is the Love?,2023-12-08 18:47:51
+144,169,20,Too Young,2023-12-10 04:24:51
+145,115,19,The Way You Move,2024-05-25 06:24:12
+146,145,7,I Just Wanna Be Your Everything,2023-12-01 23:19:54
+147,58,9,Smooth,2024-02-13 03:22:06
+148,178,17,Up Around the Bend,2024-02-13 18:10:37
+149,99,6,I'm Walking Behind You,2023-12-02 19:23:00
+150,30,14,Beautiful Day,2024-06-04 20:48:45
+151,9,4,1999,2024-03-23 18:55:17
+152,131,7,How Will I Know,2024-03-16 23:16:51
+153,21,14,It Had to Be You,2024-03-27 22:08:09
+154,97,11,Imagine,2024-01-31 05:40:38
+155,175,14,The Song From Moulin Rouge (Where Is Your Heart),2024-04-28 08:37:25
+156,135,14,Another Brick in the Wall (part 2),2024-04-29 15:59:18
+157,177,17,Get Down Tonight,2024-05-18 21:49:16
+158,56,5,12th Street Rag,2024-03-13 23:19:11
+159,9,6,Sailing,2023-11-26 12:44:16
+160,118,3,Tears of a Clown,2024-05-16 09:16:33
+161,72,13,Honky Tonk Woman,2024-02-13 23:36:43
+162,100,11,Oh,2024-02-15 07:33:34
+163,19,13,Best of My Love,2024-03-08 03:26:56
+164,115,4,Respect,2024-04-03 14:21:28
+165,7,3,You're So Vain,2024-02-27 21:07:22
+166,138,15,Pop Muzik,2024-04-16 13:08:04
+167,70,5,Paperback Writer,2024-04-28 01:00:58
+168,126,7,Dreamlover,2024-01-20 18:07:02
+169,27,2,Stop! in the Name of Love,2024-05-23 23:09:49
+170,6,18,Runaway,2024-04-04 17:07:53
+171,140,17,Your Cheatin' Heart,2024-05-11 01:27:42
+172,79,12,Need You Tonight,2024-03-19 01:38:04
+173,166,1,Walk Like an Egyptian,2024-02-07 19:56:28
+174,150,20,Weak,2024-04-05 21:02:43
+175,194,1,Born to Be Wild,2024-06-08 07:05:04
+176,77,9,Have You Ever Really Loved a Woman?,2024-02-01 13:05:37
+177,133,10,The Sounds of Silence,2024-01-02 15:29:44
+178,81,8,I Will Follow Him,2023-12-03 07:40:51
+179,38,5,Baker Street,2023-12-02 10:26:44
+180,114,14,Apologize,2024-06-08 13:39:10
+181,111,12,Nature Boy,2023-12-29 00:47:36
+182,154,19,Piano Man,2023-12-10 12:25:54
+183,100,12,Greatest Love of All,2024-04-04 19:08:59
+184,139,19,Bad Day,2024-06-05 18:07:08
+185,74,4,Happy Together,2024-04-04 20:19:22
+186,7,6,Why Don't You Believe Me?,2024-02-27 14:00:22
+187,149,9,Hit the Road,2024-02-20 04:14:00
+188,153,10,Morning Train (Nine to Five),2024-02-29 02:54:20
+189,127,4,Don't Fence Me In,2024-05-08 11:58:57
+190,95,1,Don't Let the Sun Go Down On Me,2024-01-20 08:51:19
+191,65,15,We've Only Just Begun,2024-02-09 20:45:17
+192,18,18,Time of the Season,2024-05-03 04:54:09
+193,62,17,You Can't Hurry Love,2024-03-22 00:40:53
+194,126,1,Boogie Woogie Bugle Boy,2024-05-16 09:35:47
+195,15,7,Fallin',2024-03-24 04:27:03
+196,120,18,Wipe Out,2023-12-27 13:04:18
+197,18,3,(You Keep Me) Hangin' On,2024-03-17 06:05:55
+198,189,20,Hey There Delilah,2024-04-09 00:01:19
+199,198,12,Some Enchanted Evening,2023-12-03 19:16:38
+200,6,6,Battle of New Orleans,2024-03-18 13:48:49
+201,62,11,I'm Sorry,2024-04-03 00:59:25
+202,46,14,A Woman in Love,2024-02-22 08:05:25
+203,184,5,Temperature,2024-04-20 14:16:08
+204,42,12,Firework,2023-12-14 18:16:04
+205,117,15,Georgia On My Mind,2023-12-28 16:44:12
+206,178,14,The End of the World,2024-02-11 02:52:23
+207,157,13,All Shook Up,2024-04-13 17:32:01
+208,112,1,Mrs Brown You've Got a Lovely Daughter,2024-03-10 08:11:25
+209,86,17,Ain't No Mountain High Enough,2024-05-30 06:17:27
+210,188,19,The Boys of Summer,2023-12-21 15:25:40
+211,136,17,You're Beautiful,2024-03-26 12:24:33
+212,132,20,Cars,2024-05-18 01:36:18
+213,141,18,Sexyback,2024-04-28 01:39:12
+214,5,6,I Just Wanna Be Your Everything,2024-02-02 15:14:27
+215,16,7,Sugar Shack,2024-05-19 12:56:54
+216,68,6,Tighten Up,2024-05-10 07:03:19
+217,142,2,My Blue Heaven,2023-11-26 21:12:03
+218,137,9,Hanky Panky,2024-03-29 12:52:46
+219,102,14,Third Man Theme,2024-06-10 13:47:53
+220,137,6,Boogie Oogie Oogie,2024-05-12 04:20:41
+221,93,8,Arthur's Theme (Best That You Can Do),2024-04-27 19:51:34
+222,35,20,Get Off of My Cloud,2024-01-19 07:00:27
+223,42,1,Fallin',2024-02-12 05:05:38
+224,75,11,Foolish Games,2024-04-30 12:18:36
+225,9,19,Crying,2024-04-25 04:31:30
+226,28,2,The Joker,2024-02-01 09:17:57
+227,49,16,My Heart Will Go On,2024-04-22 19:50:41
+228,124,3,Afternoon Delight,2024-05-16 18:03:35
+229,86,6,Doo Wop (That Thing),2024-06-06 11:48:54
+230,58,14,Strawberry Fields Forever,2024-03-16 19:10:51
+231,77,7,Whispering,2024-03-04 08:30:09
+232,4,9,The Gypsy,2023-12-05 02:21:54
+233,130,13,Truly Madly Deeply,2024-04-01 10:27:58
+234,146,14,A Tree in the Meadow,2024-02-18 08:28:19
+235,4,8,Tighten Up,2024-04-26 23:20:55
+236,96,1,Just My Imagination (Running Away With Me),2023-12-30 00:23:01
+237,31,16,I Just Called to Say I Love You,2024-05-02 12:23:26
+238,73,10,Shake You Down,2024-02-25 01:44:16
+239,119,20,Come On-a My House,2023-12-08 23:07:28
+240,130,10,Unforgettable,2024-02-12 20:57:23
+241,132,15,Respect,2024-06-11 07:53:48
+242,185,16,Hold On,2024-03-10 23:08:42
+243,196,9,Abracadabra,2024-05-22 12:43:16
+244,104,2,Smooth,2023-12-14 06:49:27
+245,171,17,Knock Three Times,2024-02-29 17:19:12
+246,25,6,I Kissed A Girl,2024-02-19 03:00:11
+247,176,7,Unforgettable,2024-02-28 09:15:31
+248,79,8,Hit the Road,2024-04-04 20:46:14
+249,192,10,I Honestly Love You,2024-03-06 13:44:52
+250,168,13,All You Need is Love,2024-03-01 04:10:48
+251,200,15,Indian Reservation (The Lament Of The Cherokee Reservation Indian),2023-12-03 16:05:31
+252,124,9,Honey,2024-06-02 06:57:07
+253,95,11,It Had to Be You,2024-04-14 07:38:24
+254,133,11,Stranger On the Shore,2024-04-26 16:03:04
+255,164,9,Take The 'A' Train,2024-04-10 03:59:31
+256,134,9,Disco Lady,2024-01-31 09:40:22
+257,193,13,Beauty & the Beast,2023-12-10 06:59:14
+258,82,8,My Love,2024-04-26 16:57:43
+259,123,6,It's Too Late,2024-06-04 11:08:38
+260,45,18,Let it Be,2024-01-15 12:28:03
+261,121,17,Mickey,2024-06-04 17:41:40
+262,92,15,Minnie the Moocher,2023-12-05 04:29:00
+263,117,2,Like a Rolling Stone,2024-04-13 12:38:19
+264,165,4,Me & Mrs Jones,2024-01-27 15:03:14
+265,15,8,The Way You Look Tonight,2024-05-10 19:30:58
+266,142,11,Come Together,2024-03-30 05:00:14
+267,137,20,Kiss From a Rose,2024-06-06 13:13:50
+268,31,19,Magic Carpet Ride,2024-03-08 19:23:48
+269,150,17,Mercy Mercy Me (The Ecology),2024-05-02 09:03:15
+270,33,10,This Love,2023-12-11 04:13:22
+271,136,3,Whatcha Say,2023-12-22 14:31:30
+272,73,1,The Last Dance,2024-02-04 17:49:09
+273,22,9,Losing My Religion,2023-12-16 11:55:07
+274,104,17,Groovin',2023-12-03 10:08:01
+275,14,9,The Sign,2024-04-08 07:29:04
+276,119,5,Fast Car,2024-01-19 05:31:41
+277,109,17,Ain't No Sunshine,2024-03-10 15:13:03
+278,149,10,I Wanna Love You,2024-04-01 09:59:25
+279,144,11,Rock With You,2024-01-12 09:01:21
+280,54,20,Tutti Frutti,2024-06-11 11:08:06
+281,54,16,I Can't Get Next to You,2023-12-30 13:11:37
+282,191,14,Mule Train,2024-04-17 15:46:19
+283,105,2,Yellow Rose of Texas,2024-02-06 16:56:59
+284,182,11,The Joker,2023-12-06 15:28:42
+285,54,2,Somebody That I Used to Know,2024-01-03 14:52:35
+286,37,4,Papa Was a Rolling Stone,2024-02-12 17:13:01
+287,183,10,Hello,2024-05-12 10:20:44
+288,23,19,The Streak,2024-04-09 02:05:01
+289,43,6,Green Onions,2024-02-09 00:50:27
+290,11,7,Na Na Hey Hey (Kiss Him Goodbye),2023-12-13 17:44:39
+291,109,8,Hey Ya!,2023-12-15 10:41:15
+292,11,11,Lady,2024-03-05 21:18:25
+293,80,2,The Sweet Escape,2024-04-14 07:27:06
+294,70,11,Like a Virgin,2023-12-27 14:40:42
+295,23,20,Piano Man,2023-12-11 18:01:57
+296,105,12,Locked Out Of Heaven,2024-02-03 09:50:44
+297,3,10,Feel Good Inc,2024-01-14 07:41:43
+298,121,14,Hanky Panky,2024-01-16 00:45:22
+299,24,16,A Whiter Shade of Pale,2023-12-10 08:05:47
+300,42,9,Soldier Boy,2024-06-10 02:15:42
+301,100,4,Cat's in the Cradle,2024-01-28 18:50:05
+302,109,11,God Bless the Child,2024-04-13 22:39:05
+303,130,10,9 to 5,2024-05-18 07:34:57
+304,183,17,Prisoner of Love,2023-12-05 15:31:15
+305,143,14,Kiss & Say Goodbye,2024-02-11 22:41:40
+306,53,12,Call Me,2024-01-28 22:19:09
+307,36,19,My Blue Heaven,2024-01-12 05:58:23
+308,62,10,Like a Prayer,2024-03-25 05:29:13
+309,18,13,Rock Your Baby,2024-03-18 10:31:52
+310,76,9,Firework,2023-12-19 23:55:10
+311,87,13,We Belong Together,2024-03-13 01:08:59
+312,6,13,Locked Out Of Heaven,2024-03-03 00:19:46
+313,70,13,How to Save a Life,2024-02-18 08:45:47
+314,179,5,Da Doo Ron Ron (When He Walked Me Home),2024-04-18 17:17:39
+315,138,16,Green Tambourine,2024-03-01 06:39:17
+316,69,19,Please Mr Postman,2024-04-26 06:33:52
+317,88,18,That's the Way (I Like It),2024-04-08 11:56:46
+318,20,5,My Sharona,2023-12-01 19:08:45
+319,64,1,Knock Three Times,2024-03-19 20:26:44
+320,70,18,Morning Train (Nine to Five),2024-01-03 08:45:04
+321,9,3,Wicked Game,2024-06-04 18:00:48
+322,69,12,Buttons & Bows,2024-03-06 06:09:53
+323,18,8,One of These Nights,2024-04-20 17:20:25
+324,119,3,The Glow-Worm,2024-05-03 05:50:37
+325,119,9,Footloose,2024-01-15 09:31:17
+326,8,20,Why Don't You Believe Me?,2024-06-02 22:18:43
+327,26,20,Kiss & Say Goodbye,2024-04-01 02:48:12
+328,9,15,Theme From 'Shaft',2024-01-17 11:05:50
+329,78,17,I'm Your Boogie Man,2024-03-20 05:25:17
+330,63,19,Locked Out Of Heaven,2024-01-30 05:39:40
+331,46,3,Hanky Panky,2024-03-26 09:49:41
+332,182,1,Dardanella,2024-02-21 03:37:21
+333,161,8,Kung Fu Fighting,2024-04-06 16:08:13
+334,129,18,Don't You Want Me,2024-03-09 01:43:55
+335,168,16,Doo Wop (That Thing),2023-12-21 07:34:29
+336,19,16,I Want to Hold Your Hand,2024-02-27 12:01:23
+337,170,15,Baby Got Back,2024-03-12 15:29:09
+338,81,10,Nature Boy,2024-02-07 10:51:11
+339,186,5,Drop it Like It's Hot,2024-04-14 18:53:55
+340,47,14,I Went to Your Wedding,2024-03-03 13:33:16
+341,30,12,Love is a Many Splendoured Thing,2024-05-02 11:57:25
+342,106,9,One,2023-12-11 10:37:57
+343,82,20,Pick Up the Pieces,2024-05-08 02:03:34
+344,153,16,Walk This Way,2023-12-27 18:25:21
+345,151,4,Under the Boardwalk,2023-11-28 02:32:11
+346,51,13,We Can Work it Out,2024-02-03 00:48:14
+347,193,20,Dizzy,2024-05-23 07:59:16
+348,32,11,Band On the Run,2024-01-07 00:18:09
+349,61,14,Blurred Lines,2024-03-08 07:59:29
+350,75,15,Ballad of the Green Berets,2024-04-29 22:23:47
+351,91,11,Love Me Do,2024-01-12 10:58:33
+352,98,11,On Bended Knee,2024-05-27 00:50:14
+353,154,13,Let's Stay Together,2024-05-13 05:25:12
+354,131,3,Piano Man,2024-04-23 20:59:43
+355,17,9,I Can't Stop Loving You,2024-03-05 10:58:43
+356,29,18,Freak Me,2024-02-08 22:16:07
+357,77,13,Let it Snow! Let it Snow! Let it Snow!,2024-05-02 06:44:45
+358,175,2,Tom Dooley,2024-02-17 00:12:18
+359,28,14,Get Back,2024-01-06 03:23:47
+360,55,14,How Do You Mend a Broken Heart,2024-01-22 08:36:18
+361,194,19,Shining Star,2024-01-31 08:57:08
+362,173,18,If I Didn't Care,2024-01-21 19:38:44
+363,129,1,Love Child,2024-06-01 19:52:34
+364,24,8,Promiscuous,2024-05-16 08:35:55
+365,187,16,Singing The Blues,2024-04-07 04:36:04
+366,36,20,Strawberry Fields Forever,2024-03-12 01:10:53
+367,129,1,A Woman in Love,2024-03-27 18:31:46
+368,97,4,Upside Down,2024-01-30 14:13:21
+369,8,16,Escape (The Pina Colada Song),2024-04-24 00:23:44
+370,69,1,Personality,2024-03-04 12:18:36
+371,195,14,American Pie,2024-04-06 08:49:39
+372,177,11,Spill the Wine,2024-03-09 17:45:58
+373,191,8,One Bad Apple,2024-02-07 13:04:09
+374,25,14,I Wanna Love You,2024-02-01 01:49:24
+375,75,11,Wedding Bell Blues,2024-04-27 04:37:15
+376,178,20,Hound Dog,2023-12-13 16:10:41
+377,41,11,When a Man Loves a Woman,2024-04-07 20:36:29
+378,57,4,Georgy Girl,2024-03-04 16:38:09
+379,172,11,We Will Rock You,2024-03-29 08:03:49
+380,17,14,Magic,2024-05-06 13:29:20
+381,52,13,Whispering,2024-03-14 16:56:16
+382,136,13,Walk On the Wild Side,2024-01-01 05:56:25
+383,157,14,One Sweet Day,2023-12-26 12:25:00
+384,132,2,Lookin' Out My Back Door,2024-04-19 04:02:46
+385,156,11,Tears in Heaven,2023-11-27 22:16:45
+386,54,3,Wind Beneath My Wings,2024-06-01 05:25:48
+387,83,11,California Girls,2024-02-21 21:27:05
+388,100,11,Hungry Heart,2024-04-07 04:54:49
+389,54,12,So Much in Love,2024-04-07 13:16:21
+390,52,19,Walk On the Wild Side,2024-05-22 12:45:58
+391,85,16,You've Lost That Lovin' Feelin',2024-02-23 14:12:44
+392,107,7,Don't You Want Me,2024-03-29 18:15:29
+393,80,12,Sunshine of Your Love,2024-03-09 17:55:14
+394,127,17,Jive Talkin',2024-05-05 11:26:35
+395,69,12,Total Eclipse of the Heart,2023-12-28 05:34:07
+396,56,7,Make it With You,2023-12-31 17:30:27
+397,40,4,Celebration,2023-11-29 09:35:28
+398,155,10,Let Me Love You,2024-04-29 14:13:20
+399,51,6,Jack & Diane,2024-02-11 21:50:06
+400,175,16,Lean On Me,2024-04-16 19:18:56
+401,129,10,Band On the Run,2024-03-14 23:50:33
+402,103,2,Sunshine of Your Love,2024-06-11 00:08:50
+403,3,8,T For Texas (Blue Yodel No 1),2024-03-19 06:45:39
+404,152,8,Prisoner of Love,2024-03-18 05:21:23
+405,49,15,(Sittin' On) the Dock of the Bay,2023-12-26 19:24:43
+406,6,6,Nothin' on You,2023-12-19 14:02:29
+407,195,19,No Scrubs,2024-05-07 01:12:27
+408,156,18,Blaze of Glory,2024-04-29 04:14:12
+409,176,6,We Are Family,2024-03-07 23:10:26
+410,139,14,Turn! Turn! Turn! (To Everything There is a Season),2024-02-11 12:16:07
+411,175,7,Will It Go Round In Circles,2024-06-11 07:03:42
+412,135,16,Toxic,2024-05-28 20:15:23
+413,14,17,Hello,2024-01-11 23:57:19
+414,11,18,Mack the Knife,2024-05-09 22:32:15
+415,187,11,Locked Out Of Heaven,2024-05-04 18:33:07
+416,16,15,Freebird,2024-05-26 03:13:56
+417,148,3,Wind Beneath My Wings,2024-05-03 07:45:12
+418,28,8,Bridge Over Troubled Water,2024-01-03 00:12:48
+419,45,19,Battle of New Orleans,2024-02-29 14:18:08
+420,153,3,Ring of Fire,2024-05-02 15:02:30
+421,77,11,War,2024-02-22 08:03:35
+422,134,20,Un-Break My Heart,2024-03-01 05:51:55
+423,161,1,This Land is Your Land,2024-05-22 11:31:32
+424,83,14,Stranger On the Shore,2024-01-08 02:10:52
+425,137,6,Family Affair,2024-01-08 12:28:32
+426,166,13,You Light Up My Life,2024-05-13 07:36:51
+427,141,19,Love is a Many Splendoured Thing,2024-05-14 22:50:16
+428,79,2,Baby Got Back,2024-03-21 01:52:59
+429,174,16,Mule Train,2023-12-13 05:06:40
+430,94,19,You're So Vain,2024-01-30 08:39:12
+431,95,5,Harper Valley PTA,2024-03-11 14:46:08
+432,73,12,Apologize,2024-02-21 04:28:28
+433,58,4,Brand New Key,2024-04-01 17:29:16
+434,171,12,Weak,2023-12-17 17:34:37
+435,188,18,Ring of Fire,2024-04-18 00:57:44
+436,146,5,Night Fever,2024-03-01 02:29:38
+437,81,20,Hanky Panky,2024-05-19 05:11:55
+438,165,2,Bohemian Rhapsody,2024-04-27 00:21:28
+439,20,9,Honky Tonk,2024-03-29 17:24:42
+440,143,7,Dancing in the Dark,2024-04-02 02:09:37
+441,71,20,We Built This City,2024-01-28 17:56:48
+442,74,6,Say You,2024-03-09 10:38:19
+443,61,6,Smoke Gets in Your Eyes,2024-03-09 11:23:39
+444,135,6,Judy in Disguise (With Glasses),2024-01-17 18:20:15
+445,177,10,Hang On Sloopy,2024-05-07 18:09:27
+446,192,11,Memories Are Made of This,2024-05-20 17:29:22
+447,6,16,Whole Lotta Love,2023-11-30 02:25:11
+448,35,8,Dancing in the Street,2024-03-17 07:16:08
+449,36,9,Tutti Frutti,2024-01-07 02:17:08
+450,48,19,We Are Family,2023-12-31 15:49:35
+451,105,17,We Are Young,2024-02-10 18:09:45
+452,192,18,That Lucky Old Sun (Just Rolls Around Heaven All Day),2024-01-10 01:26:55
+453,80,16,Hotel California,2024-02-14 06:31:27
+454,37,15,Secret Love,2024-05-23 21:00:49
+455,55,11,Georgy Girl,2024-06-11 15:41:17
+456,63,14,Over the Rainbow,2024-01-10 21:02:19
+457,110,19,One Sweet Day,2024-01-18 12:26:04
+458,134,4,Freebird,2023-12-24 01:54:19
+459,33,20,How You Remind Me,2024-05-28 10:00:14
+460,132,13,Band of Gold,2024-01-11 18:43:22
+461,127,2,Walk On the Wild Side,2024-04-04 01:31:58
+462,192,7,Love Me Do,2024-04-27 01:54:48
+463,65,19,Slow Poke,2024-03-05 08:31:44
+464,6,19,(I've Got a Gal In) Kalamazoo,2024-04-12 01:31:38
+465,75,4,Superstition,2023-12-06 09:23:56
+466,71,5,Rehab,2024-04-13 04:10:22
+467,147,14,Hey Jude,2023-11-29 13:11:21
+468,11,4,Till I Waltz Again With You,2024-01-13 17:30:17
+469,80,14,You're So Vain,2024-04-04 02:42:07
+470,72,12,Ghostbusters,2023-12-09 08:39:36
+471,93,1,Spirit in the Sky,2024-04-23 19:20:03
+472,10,20,The Tide is High,2023-12-17 08:40:55
+473,35,15,Smells Like Teen Spirit,2024-02-09 23:47:30
+474,95,10,The Tracks of My Tears,2024-01-02 05:17:12
+475,157,4,Wabash Cannonball,2023-12-31 10:56:37
+476,14,1,Nothin' on You,2024-01-27 23:45:06
+477,70,16,Queen of Hearts,2024-03-26 01:58:06
+478,17,17,I'll Take You There,2024-01-19 07:30:05
+479,111,16,Baker Street,2024-04-09 02:04:37
+480,24,15,Hello Dolly,2024-05-24 06:16:28
+481,125,16,Waterfalls,2024-05-08 13:45:44
+482,153,6,You're Still the One,2024-01-18 11:57:15
+483,66,5,Macarena,2024-04-07 05:31:20
+484,47,7,Hey Baby,2024-04-24 13:44:20
+485,78,20,He's So Fine,2024-05-24 19:32:26
+486,71,11,Ticket to Ride,2024-01-02 07:04:41
+487,173,12,Philadelphia Freedom,2024-04-29 21:39:23
+488,54,5,My Boyfriend's Back,2024-01-18 21:20:25
+489,84,16,Hot Child In The City,2023-12-06 01:50:30
+490,42,12,Waterfalls,2024-01-07 09:51:30
+491,122,19,Chain of Fools,2024-06-03 08:26:43
+492,38,16,One Sweet Day,2024-06-03 03:26:01
+493,95,16,Jumpin' Jack Flash,2023-12-28 18:29:02
+494,68,20,Stayin' Alive,2024-04-03 03:56:46
+495,6,12,Since U Been Gone,2024-03-07 01:10:49
+496,90,16,Hang On Sloopy,2023-12-31 15:17:35
+497,197,15,Macarena,2023-12-01 17:30:51
+498,42,1,More Than Words,2024-06-02 09:52:42
+499,192,6,I'll Never Smile Again,2024-03-13 22:29:30
+500,106,1,The Way You Move,2024-01-23 06:59:26
+501,79,16,Losing My Religion,2024-04-15 22:07:57
+502,125,13,Pon De Replay,2023-12-11 08:33:52
+503,162,9,Daydream Believer,2024-04-30 01:24:26
+504,91,18,Daydream Believer,2024-04-16 17:26:58
+505,39,17,I Need You Now,2024-03-07 22:19:56
+506,195,17,Take Me Home,2024-04-18 00:49:05
+507,186,15,Judy in Disguise (With Glasses),2024-06-05 12:53:27
+508,121,8,Are You Lonesome Tonight?,2024-04-29 09:15:40
+509,59,18,If You Don't Know Me By Now,2024-04-26 23:07:53
+510,75,1,Lola,2024-04-28 18:39:16
+511,190,18,Doo Wop (That Thing),2024-02-01 00:53:28
+512,11,1,Take On Me,2024-04-22 04:44:18
+513,60,2,Wichita Lineman,2024-02-18 23:55:34
+514,73,2,Hollaback Girl,2024-06-02 07:41:02
+515,6,16,Doo Wop (That Thing),2024-04-28 20:59:03
+516,125,16,Kiss On My List,2023-12-01 14:58:30
+517,175,6,Dreamlover,2023-12-31 05:14:04
+518,147,20,You Make Me Feel Like Dancing,2024-05-29 05:25:51
+519,150,10,Tonight's the Night (Gonna Be Alright),2024-03-02 05:28:47
+520,110,12,Rush Rush,2024-02-17 14:56:00
+521,157,1,Vogue,2024-05-14 16:12:11
+522,1,1,Earth Angel,2024-02-12 03:48:46
+523,75,11,Boulevard of Broken Dreams,2023-12-17 22:40:35
+524,38,15,Dardanella,2024-01-26 17:23:23
+525,1,19,The Streak,2024-01-26 03:44:21
+526,191,16,Yellow Rose of Texas,2024-03-30 06:27:56
+527,35,13,I Believe I Can Fly,2024-03-17 06:57:55
+528,142,6,All Night Long (All Night),2024-01-04 21:57:25
+529,163,9,Won't Get Fooled Again,2024-02-17 18:58:20
+530,153,7,Shop Around,2024-03-01 05:03:07
+531,75,20,U Can't Touch This,2024-04-16 07:48:56
+532,194,20,On the Atchison,2023-12-24 07:13:06
+533,159,16,Unforgettable,2024-02-10 12:14:26
+534,99,13,Higher Love,2024-02-02 03:49:41
+535,108,16,I'll Never Smile Again,2024-03-01 07:04:01
+536,105,10,Aquarius/Let The Sunshine In,2024-03-18 17:20:34
+537,78,1,It's Still Rock 'n' Roll to Me,2024-05-14 00:28:02
+538,165,14,Love Me Tender,2023-12-21 01:40:13
+539,142,2,In the Year 2525 (Exordium & Terminus),2024-05-31 17:51:00
+540,125,2,Dancing in the Street,2024-04-27 20:30:42
+541,13,15,Right Back Where We Started From,2024-06-12 10:38:22
+542,198,2,Three Times a Lady,2024-03-03 03:46:16
+543,195,18,Help!,2024-04-01 22:50:07
+544,77,7,In the Mood,2024-01-11 05:53:18
+545,39,15,Blurred Lines,2024-02-27 11:03:32
+546,50,7,Fast Car,2024-05-25 08:35:46
+547,74,20,Dreamlover,2024-01-18 21:35:24
+548,172,10,(You Keep Me) Hangin' On,2024-03-03 00:35:09
+549,100,19,On My Own,2024-05-28 19:11:16
+550,190,20,I Can't Get Started,2024-03-19 10:45:57
+551,183,10,Fire & Rain,2024-02-06 16:48:42
+552,179,11,That's the Way (I Like It),2023-11-28 19:24:55
+553,45,10,Call Me,2023-12-19 03:38:35
+554,27,3,Sleepy Lagoon,2024-05-22 08:08:55
+555,41,13,Superstar,2024-01-17 04:48:59
+556,12,3,Just Dance,2024-01-08 00:22:36
+557,111,7,Dreams,2024-03-01 04:09:34
+558,163,16,Empire State Of Mind,2024-04-15 17:28:25
+559,44,14,You Send Me,2024-04-24 00:03:20
+560,30,13,Viva La Vida,2024-04-28 18:58:53
+561,7,11,Roll Over Beethoven,2024-01-23 22:49:07
+562,100,7,Battle of New Orleans,2024-01-25 10:18:18
+563,95,4,Summer in the City,2024-01-04 03:15:11
+564,26,19,I Got You Babe,2023-12-08 18:19:19
+565,92,2,Pennies From Heaven,2023-12-11 09:22:08
+566,87,3,Centerfold,2024-04-04 19:29:13
+567,178,10,Night & Day,2023-12-02 19:18:59
+568,99,7,Stronger,2024-04-15 12:32:38
+569,148,6,It's Still Rock 'n' Roll to Me,2024-03-03 12:59:14
+570,99,11,Tom Dooley,2024-01-25 19:34:53
+571,24,3,These Boots Are Made For Walking,2024-01-27 19:38:48
+572,112,2,Hey Ya!,2024-06-05 11:19:49
+573,109,2,Party Rock Anthem,2023-12-03 00:46:30
+574,87,5,Rock With You,2024-03-27 15:10:47
+575,6,3,All I Wanna Do,2024-03-06 10:30:30
+576,95,9,Hard to Say I'm Sorry,2023-12-12 22:31:42
+577,79,9,Stay (I Missed You),2024-04-19 00:18:16
+578,23,7,That Old Black Magic,2024-05-15 13:10:23
+579,170,16,Ray of Light,2024-01-18 19:26:24
+580,125,1,Night & Day,2024-06-11 14:19:46
+581,67,15,In the End,2024-05-03 03:54:01
+582,150,5,A String of Pearls,2024-05-17 08:51:13
+583,126,16,Dreams,2024-04-23 21:32:03
+584,129,6,Brother,2024-04-18 02:37:57
+585,8,1,Believe,2024-02-13 03:50:00
+586,103,15,Ray of Light,2024-01-26 18:42:01
+587,5,3,Harbour Lights,2024-01-22 15:50:18
+588,90,16,Delicado,2024-03-24 21:42:35
+589,84,5,I Can See Clearly Now,2024-02-08 12:50:33
+590,143,15,Bye,2023-12-21 04:48:37
+591,169,15,That'll Be the Day,2024-03-25 02:59:24
+592,161,15,Pick Up the Pieces,2023-12-22 16:18:26
+593,80,10,Dreamlover,2024-03-06 04:37:18
+594,18,20,We Found Love,2023-12-13 01:34:52
+595,183,11,You Send Me,2023-12-20 11:53:17
+596,130,7,Love to Love You Baby,2024-05-09 20:23:53
+597,125,9,Freebird,2024-04-04 01:52:44
+598,8,3,Rag Mop,2024-01-30 15:20:36
+599,123,4,I Only Have Eyes For You,2024-02-23 23:35:22
+600,37,11,What's Going On?,2023-12-05 22:30:19
+601,188,1,You've Got a Friend,2024-04-29 23:22:43
+602,54,17,The Love You Save,2024-05-26 13:49:49
+603,116,1,We Didn't Start the Fire,2024-05-18 16:14:46
+604,140,16,Hanky Panky,2024-02-07 12:55:24
+605,54,18,Hanky Panky,2023-12-04 23:40:22
+606,115,16,Downtown,2023-12-19 09:54:46
+607,27,6,Bleeding Love,2024-03-24 06:01:05
+608,117,8,How Will I Know,2024-03-02 09:25:11
+609,94,4,Centerfold,2024-04-10 18:52:47
+610,11,17,Surfin' USA,2024-05-19 14:50:51
+611,118,13,Take On Me,2024-02-17 12:21:37
+612,21,9,Don't Stop 'Til You Get Enough,2024-02-25 19:14:00
+613,31,18,We Built This City,2023-12-11 21:24:52
+614,78,20,Roses Are Red,2024-04-04 01:42:49
+615,156,8,Harper Valley PTA,2024-03-19 05:36:01
+616,161,13,Walk On the Wild Side,2024-04-05 05:48:31
+617,165,7,We Belong Together,2024-03-14 02:32:28
+618,34,16,Roll With It,2024-03-19 18:40:59
+619,67,17,(Ghost) Riders in the Sky,2024-02-01 03:06:32
+620,122,20,96 Tears,2023-12-17 14:52:10
+621,186,20,Because You Loved Me,2023-12-30 22:48:44
+622,164,4,Losing My Religion,2024-02-26 01:22:49
+623,72,12,Freebird,2024-03-27 15:44:22
+624,167,17,Bennie & the Jets,2024-05-14 03:13:24
+625,136,17,You make Me Wanna,2024-02-18 05:13:44
+626,172,10,I've Heard That Song Before,2024-03-29 22:10:19
+627,36,12,Hey There,2024-04-12 19:04:48
+628,157,17,Drop it Like It's Hot,2024-05-24 15:20:24
+629,198,17,Rock Your Baby,2024-02-28 05:06:59
+630,106,16,Walk This Way,2024-04-28 14:08:30
+631,51,9,Grenade,2023-12-26 22:57:56
+632,127,16,Ben,2024-06-04 16:51:20
+633,166,9,Can't Buy Me Love,2024-02-14 06:22:00
+634,104,3,Kryptonite,2024-06-01 12:24:08
+635,29,15,It's My Party,2024-02-22 10:03:11
+636,133,20,(Sittin' On) the Dock of the Bay,2024-05-02 03:08:34
+637,85,11,Karma Chameleon,2024-03-20 11:11:10
+638,73,18,Rags to Riches,2024-03-17 10:28:34
+639,172,7,Boogie Woogie Bugle Boy,2024-03-20 13:09:54
+640,139,17,You Belong to Me,2023-12-02 07:21:38
+641,5,11,Faith,2023-12-23 12:08:48
+642,38,7,Hey Baby,2024-02-26 03:50:44
+643,34,13,Judy in Disguise (With Glasses),2024-02-24 03:22:12
+644,50,7,I Can't Go For That (No Can Do),2024-05-18 09:40:36
+645,165,7,If I Didn't Care,2023-12-15 01:26:59
+646,95,4,Stagger Lee,2023-12-28 18:14:58
+647,182,10,Auf Wiederseh'n Sweetheart,2024-03-23 11:33:36
+648,166,13,Sailing,2023-12-23 08:04:07
+649,69,5,Eve of Destruction,2024-04-17 21:54:38
+650,20,4,Makin' Whoopee,2024-01-16 04:36:09
+651,59,18,Bye Bye,2024-03-17 17:43:19
+652,20,15,Doo Wop (That Thing),2024-01-21 16:31:53
+653,13,19,Johnny B Goode,2023-12-04 18:54:05
+654,137,8,Do Wah Diddy Diddy,2024-03-15 04:36:43
+655,85,11,Toxic,2023-12-16 15:41:46
+656,187,8,Blaze of Glory,2024-03-04 13:11:00
+657,97,14,December 1963 (Oh What a Night),2024-05-26 07:22:37
+658,124,9,Shake Down,2024-02-28 22:15:53
+659,68,19,Firework,2024-06-03 00:02:52
+660,105,8,Bye,2024-04-21 23:57:02
+661,166,20,Say Say Say,2024-06-08 18:07:20
+662,125,5,Creep,2024-05-24 18:55:47
+663,52,12,Hotel California,2023-12-05 14:59:52
+664,115,10,(Everything I Do) I Do it For You,2023-12-17 20:30:17
+665,122,17,Nobody Does it Better,2024-02-03 19:05:13
+666,16,11,Love Is Blue (L'Amour Est Bleu),2024-01-13 21:05:54
+667,5,9,To Sir,2024-01-04 17:02:44
+668,83,2,Losing My Religion,2024-05-22 07:08:43
+669,4,16,Sir Duke,2024-03-21 16:18:26
+670,15,13,Na Na Hey Hey (Kiss Him Goodbye),2024-01-24 18:18:14
+671,44,16,For What It's Worth (Stop,2024-05-07 04:17:51
+672,97,13,Glamorous,2023-12-10 19:42:48
+673,43,2,Volare,2024-05-01 14:51:42
+674,37,15,Baby Love,2024-03-31 17:36:04
+675,149,15,Disco Duck,2024-04-02 16:58:57
+676,122,17,Jump,2024-05-08 16:29:54
+677,186,6,Right Back Where We Started From,2024-03-02 00:18:11
+678,137,10,Chapel of Love,2024-01-09 20:16:16
+679,34,3,Three Coins in the Fountain,2024-03-26 15:15:13
+680,104,12,Big Girls Don't Cry,2024-04-20 10:36:37
+681,183,10,Uncle Albert (Admiral Halsey),2024-05-22 07:33:51
+682,86,20,Blaze of Glory,2024-01-13 08:38:25
+683,107,11,Another One Bites the Dust,2024-04-03 08:17:19
+684,23,17,Roll With It,2023-12-26 16:03:14
+685,3,12,Minnie the Moocher,2023-12-17 00:51:46
+686,16,15,Say It Right,2024-03-23 10:13:40
+687,175,7,Un-Break My Heart,2024-06-02 11:15:32
+688,194,7,Thank You (Falettinme be Mice Elf Again),2024-03-15 07:12:41
+689,153,5,Love Child,2024-06-10 11:34:10
+690,104,5,I Can't Get Started,2024-03-09 16:32:29
+691,100,6,Long Cool Woman in a Black Dress,2024-01-16 05:53:13
+692,90,2,Say Say Say,2024-04-16 05:54:57
+693,67,4,Twist & Shout,2024-02-15 18:17:10
+694,140,17,Just the Way You Are,2024-01-16 09:03:33
+695,72,11,Summer in the City,2024-03-07 07:16:07
+696,10,14,Cry,2024-05-14 08:29:58
+697,124,7,Fire & Rain,2024-05-11 09:48:34
+698,37,2,Lookin' Out My Back Door,2024-01-08 07:12:03
+699,61,13,Theme From 'Greatest American Hero' (Believe It Or Not),2024-05-17 14:05:28
+700,107,8,You're So Vain,2024-04-03 15:37:30
+701,111,3,Black Or White,2023-12-03 12:28:59
+702,184,8,Tonight's the Night (Gonna Be Alright),2024-02-29 12:36:44
+703,200,5,Maniac,2024-01-06 03:16:07
+704,108,13,All My Lovin' (You're Never Gonna Get It),2024-01-05 01:49:22
+705,28,8,My Girl,2024-02-03 21:59:22
+706,87,5,TSOP (The Sound of Philadelphia),2023-12-07 19:38:27
+707,46,5,Frankenstein,2024-01-17 09:25:20
+708,117,17,La Bamba,2023-11-30 00:36:29
+709,113,6,Wake Me Up Before You Go Go,2024-05-19 22:50:58
+710,101,6,Losing My Religion,2024-04-02 11:37:27
+711,122,4,Build Me Up Buttercup,2024-03-14 00:42:00
+712,4,4,He's a Rebel,2023-11-29 19:14:17
+713,96,1,Yakety Yak,2024-05-19 19:05:53
+714,102,20,Brother Louie,2024-03-26 21:54:31
+715,181,11,Mr Tambourine Man,2024-01-23 14:12:53
+716,4,6,Tutti Frutti,2024-04-28 22:15:28
+717,80,5,Burn,2024-04-24 09:26:46
+718,4,12,Boom Boom Pow,2023-12-05 17:37:56
+719,164,13,Born to Be Wild,2024-04-13 15:06:25
+720,192,18,Near You,2024-01-25 18:37:47
+721,28,5,Working My Way Back to You,2024-05-19 04:18:16
+722,193,14,Living For the City,2023-12-16 14:09:09
+723,117,1,Groovin',2024-01-24 17:18:51
+724,96,10,Hit the Road,2024-01-06 07:19:17
+725,50,3,Great Balls of Fire,2023-12-21 20:23:21
+726,116,15,Spirit in the Sky,2024-05-20 02:38:01
+727,172,12,Rock With You,2024-04-20 17:19:16
+728,93,19,Personality,2023-12-31 05:18:29
+729,123,15,Tangerine,2024-05-01 03:37:38
+730,67,18,9 to 5,2024-03-06 00:34:41
+731,65,2,Come On Eileen,2024-06-07 18:58:24
+732,173,11,Let's Dance,2024-01-05 06:55:14
+733,111,14,Queen of Hearts,2024-03-06 23:13:00
+734,92,9,Walk Like a Man,2023-12-01 03:02:04
+735,63,3,Mood Indigo,2024-01-22 03:01:19
+736,35,17,Jessie's Girl,2023-12-22 21:46:53
+737,141,11,You Send Me,2024-01-22 17:48:07
+738,50,17,The Christmas Song (Chestnuts Roasting On An Open Fire),2024-02-26 06:56:14
+739,148,12,Believe,2024-03-19 07:45:24
+740,27,3,Begin the Beguine,2024-03-16 03:08:52
+741,137,12,Be My Love,2023-11-26 20:28:57
+742,165,4,9 to 5,2024-05-24 23:29:55
+743,198,7,Moonlight Serenade,2024-04-05 13:17:00
+744,85,4,All I Wanna Do,2024-05-14 12:49:38
+745,126,8,Let's Hear it For the Boy,2024-02-29 21:07:47
+746,98,18,Every Little Thing She Does is Magic,2024-03-31 16:20:04
+747,70,8,Na Na Hey Hey (Kiss Him Goodbye),2024-06-12 06:50:08
+748,179,10,Ticket to Ride,2023-12-14 17:25:23
+749,173,9,I Feel Fine,2024-01-04 09:58:12
+750,19,8,There goes my baby,2024-03-25 01:53:03
+751,15,6,Yakety Yak,2024-01-15 03:02:15
+752,108,1,Wild Wild West,2024-05-06 17:35:28
+753,152,16,St Louis Blues,2023-12-02 11:00:26
+754,148,19,I'm Sorry,2024-03-07 07:00:50
+755,32,3,Addicted to Love,2024-01-23 19:41:55
+756,149,1,Smooth,2023-12-25 17:23:20
+757,64,5,Ring My Bell,2024-01-18 06:44:44
+758,166,3,People Got to Be Free,2024-05-19 13:48:11
+759,98,9,Happy Together,2024-03-11 01:09:14
+760,149,9,Pon De Replay,2024-02-16 01:14:42
+761,161,3,Dancing in the Dark,2023-11-28 06:18:33
+762,179,14,Me & Mrs Jones,2023-12-29 18:37:37
+763,156,18,Say My Name,2024-05-21 09:42:28
+764,109,13,Up Around the Bend,2024-04-29 21:16:02
+765,171,18,Rhinestone Cowboy,2024-04-13 22:13:12
+766,115,13,Keep On Loving You,2024-05-18 07:26:50
+767,19,11,I Still Haven't Found What I'm Looking For,2024-01-10 05:46:49
+768,149,14,My Boyfriend's Back,2024-02-28 15:50:48
+769,139,5,My Guy,2024-01-13 08:58:34
+770,49,7,Something,2024-04-11 20:03:30
+771,134,14,My Heart Will Go On,2023-12-14 14:26:14
+772,132,15,December 1963 (Oh What a Night),2023-12-20 20:51:10
+773,152,1,Soldier Boy,2024-01-09 22:20:35
+774,62,16,What a Fool Believes,2023-12-25 03:08:48
+775,177,6,Sh-Boom (Life Could Be a Dream),2024-02-06 04:46:12
+776,189,18,Prisoner of Love,2024-05-07 09:28:57
+777,105,13,Born to Be Wild,2024-02-20 20:56:40
+778,164,11,Rock the Boat,2024-03-31 19:23:36
+779,58,20,I Want to Know What Love Is,2024-04-25 07:25:37
+780,192,13,How Do I Live?,2024-05-26 03:16:26
+781,127,20,I Think I Love You,2024-01-26 13:38:44
+782,26,18,Hold On,2024-01-19 18:36:55
+783,58,18,Foolish Games,2023-12-15 18:46:07
+784,108,9,Rudolph,2024-06-07 04:32:07
+785,176,7,Alone Again (Naturally),2024-01-31 19:57:22
+786,116,17,One O'Clock Jump,2024-03-08 02:16:38
+787,119,8,Strange Fruit,2024-04-19 01:10:06
+788,70,8,Against All Odds (Take a Look At Me Now),2024-05-07 13:13:42
+789,166,12,Hello,2024-06-01 21:53:19
+790,93,9,The Power of Love,2023-12-12 15:34:13
+791,159,7,Runaway,2024-02-18 20:23:10
+792,47,11,Bohemian Rhapsody,2023-12-17 04:31:44
+793,179,6,Sailing,2023-12-05 13:15:46
+794,5,9,Check On It,2023-12-26 14:24:39
+795,200,10,Take My Breath Away,2024-05-08 18:35:14
+796,1,18,Brother,2024-02-23 08:42:17
+797,148,12,Cracklin' Rosie,2024-01-22 01:29:32
+798,164,7,Viva La Vida,2024-02-01 11:15:35
+799,20,10,Another Brick in the Wall (part 2),2024-05-26 12:15:08
+800,41,15,Good Vibrations,2024-05-06 01:18:14
+801,61,14,Waterfalls,2023-12-09 03:55:11
+802,5,10,I'll Be There,2024-01-27 17:50:12
+803,105,17,Caldonia Boogie (What Makes Your Big Head So Hard),2024-05-29 23:28:44
+804,90,17,In the Summertime,2023-12-15 17:45:55
+805,198,16,Runaround Sue,2024-05-21 10:34:54
+806,196,14,Dancing in the Street,2023-12-23 08:58:01
+807,12,8,Hey There,2024-05-17 18:31:20
+808,45,2,God Bless the Child,2024-02-14 15:23:49
+809,147,19,My Boyfriend's Back,2023-12-02 15:32:34
+810,56,5,Hips don't lie,2024-01-14 22:33:58
+811,67,2,Just Dance,2024-04-06 13:39:03
+812,65,8,The Girl From Ipanema,2024-05-02 14:59:25
+813,145,11,Spirit in the Sky,2024-01-27 05:04:10
+814,20,11,I Want to Hold Your Hand,2024-05-19 16:30:59
+815,158,12,You Always Hurt the One You Love,2024-01-31 22:43:20
+816,172,6,Paint it Black,2024-03-14 09:28:56
+817,51,17,Cathy's Clown,2024-05-30 18:02:01
+818,29,12,U Can't Touch This,2023-12-04 17:40:46
+819,166,10,We Can Work it Out,2024-01-30 07:42:31
+820,120,11,Walk On the Wild Side,2024-06-09 20:58:47
+821,37,5,Believe,2023-12-14 02:08:16
+822,104,18,(Everything I Do) I Do it For You,2024-05-21 20:57:17
+823,194,16,Tik-Toc,2024-04-28 22:08:49
+824,174,6,Have You Ever Really Loved a Woman?,2023-12-22 10:08:38
+825,98,15,The Gypsy,2024-04-01 04:31:35
+826,134,5,You Belong With Me,2024-05-09 06:13:57
+827,118,16,Band of Gold,2024-06-10 17:22:02
+828,172,7,Duke of Earl,2024-02-03 10:07:28
+829,86,15,Rags to Riches,2023-12-04 07:56:24
+830,153,5,YMCA,2024-06-08 22:01:46
+831,33,9,Will It Go Round In Circles,2024-02-19 03:07:23
+832,30,8,Hot Stuff,2023-12-07 18:46:07
+833,73,8,Blue Tango,2024-01-10 18:11:53
+834,16,2,The Prisoner's Song,2024-01-03 08:59:48
+835,101,18,Billie Jean,2024-04-14 02:16:02
+836,87,3,Green Tambourine,2024-01-04 16:10:10
+837,180,13,Dilemma,2024-04-09 13:07:13
+838,187,3,Like a Virgin,2024-04-05 14:02:02
+839,4,15,My Blue Heaven,2024-02-15 20:06:53
+840,7,13,Another Night,2024-02-29 12:53:30
+841,94,16,You Really Got Me,2024-04-28 09:07:45
+842,97,7,Wicked Game,2024-04-25 16:26:29
+843,45,16,A Tree in the Meadow,2024-02-27 09:56:44
+844,11,20,Tom Dooley,2024-04-15 01:14:04
+845,122,10,Summer in the City,2024-03-25 09:51:35
+846,183,1,Up Up & Away,2024-01-11 06:45:03
+847,14,4,Livin' On a Prayer,2024-03-30 18:50:55
+848,60,7,Maniac,2024-05-21 18:52:49
+849,174,8,Bad Day,2024-05-11 05:36:53
+850,127,19,Que sera sera (Whatever will be will be),2024-03-18 22:15:18
+851,5,4,(I Can't Get No) Satisfaction,2024-02-19 19:03:53
+852,173,17,Bye Bye Love,2023-11-29 01:33:06
+853,104,18,Touch Me,2024-02-22 17:25:25
+854,33,15,Be Bop a Lula,2024-01-17 02:29:52
+855,65,14,Swinging On a Star,2024-02-12 07:38:50
+856,92,9,Twist & Shout,2024-01-02 03:50:07
+857,191,11,Sing,2024-05-24 04:59:01
+858,107,16,Hey Ya!,2024-03-20 07:30:45
+859,1,6,9 to 5,2024-05-15 14:50:41
+860,73,16,Flashdance. What a Feeling,2024-05-03 09:46:41
+861,156,7,ABC,2024-05-08 15:54:50
+862,32,5,Hotel California,2024-03-30 21:03:48
+863,44,2,My Eyes Adored You,2023-12-29 23:20:13
+864,170,14,Ray of Light,2023-12-13 18:26:40
+865,134,12,My Guy,2023-12-14 22:17:47
+866,44,17,Horse With No Name,2024-04-01 12:33:54
+867,128,12,All You Need is Love,2023-12-06 15:20:24
+868,153,20,Love Child,2023-12-24 17:05:51
+869,8,12,Candle in the Wind '97,2024-05-18 01:58:50
+870,24,11,If I Didn't Care,2024-03-07 03:49:02
+871,126,16,Iris,2024-03-06 22:09:04
+872,53,6,Magic Carpet Ride,2024-01-09 04:34:43
+873,38,20,Keep On Loving You,2024-05-24 04:21:52
+874,196,8,Wedding Bell Blues,2024-03-09 17:26:21
+875,78,15,Mercy Mercy Me (The Ecology),2024-02-21 09:28:03
+876,20,9,You Don't Bring Me Flowers,2024-01-07 02:36:11
+877,148,16,Blaze of Glory,2024-02-11 05:12:34
+878,83,7,Gives You Hell,2024-05-04 23:22:04
+879,172,15,I Honestly Love You,2024-03-22 06:46:40
+880,97,1,How Much is That Doggy in the Window?,2024-02-26 23:12:06
+881,124,6,That's the Way Love Goes,2024-04-02 03:23:54
+882,75,17,The First Time Ever I Saw Your Face,2024-04-10 11:24:22
+883,195,9,Too Young,2024-03-24 04:05:42
+884,35,1,Rag Mop,2024-01-24 05:23:58
+885,118,5,Aquarius/Let The Sunshine In,2024-05-30 21:25:58
+886,16,1,Black Velvet,2023-11-26 02:49:00
+887,144,19,I Believe I Can Fly,2024-02-15 03:29:55
+888,18,1,Let's Hear it For the Boy,2024-06-10 00:21:14
+889,144,12,Love Theme From 'A Star is Born' (Evergreen),2023-12-14 23:18:16
+890,83,10,Tears of a Clown,2024-02-16 05:58:00
+891,187,19,Hero,2024-05-11 00:01:43
+892,111,8,I'm a Believer,2024-01-01 11:45:12
+893,62,20,Mickey,2024-03-30 08:10:27
+894,34,19,Hey There,2024-06-06 11:35:15
+895,154,3,Stop! in the Name of Love,2024-03-03 03:01:16
+896,3,7,Strawberry Fields Forever,2024-05-15 05:27:16
+897,68,3,As Time Goes By,2023-12-02 23:09:31
+898,37,18,Don't You (Forget About Me),2024-06-08 13:01:36
+899,81,11,Miss You Much,2023-12-27 01:00:24
+900,3,9,You've Lost That Lovin' Feelin',2024-02-29 01:04:36
+901,48,17,Cracklin' Rosie,2023-11-25 18:31:32
+902,145,18,Nothing's Gonna Stop Us Now,2024-02-07 03:52:42
+903,93,8,Magic,2024-04-15 04:39:29
+904,131,8,Somethin' Stupid,2024-02-02 17:49:45
+905,185,15,Yeah!,2024-03-09 15:49:15
+906,164,5,Night & Day,2024-02-04 23:56:41
+907,131,16,Change the World,2024-03-04 13:31:04
+908,142,14,Turn! Turn! Turn! (To Everything There is a Season),2023-11-29 11:37:26
+909,25,18,People Got to Be Free,2024-06-07 10:17:06
+910,80,13,Travellin' Band,2024-05-06 21:54:44
+911,116,6,Puttin' on the Ritz,2024-01-01 15:27:15
+912,163,19,Feel Good Inc,2024-02-07 10:58:47
+913,80,14,Look Away,2024-03-22 11:36:43
+914,37,7,Don't Go Breaking My Heart,2024-01-02 14:24:08
+915,128,5,Incense & Peppermints,2024-02-15 15:48:51
+916,57,1,Tha Crossroads,2024-06-05 02:43:24
+917,134,1,We Can Work it Out,2024-05-09 07:59:41
+918,19,4,Harbour Lights,2024-03-05 20:14:56
+919,142,7,Bad Day,2024-05-25 22:13:14
+920,46,8,Like a Prayer,2024-04-20 23:43:10
+921,199,13,Born to Run,2023-12-04 11:00:56
+922,110,9,The Tracks of My Tears,2024-04-09 15:14:24
+923,160,16,Weak,2024-01-18 05:41:10
+924,96,1,How High the Moon,2024-05-08 23:01:58
+925,198,18,Travellin' Band,2024-03-05 07:01:52
+926,36,1,Need You Tonight,2024-05-31 07:38:07
+927,144,7,Peggy Sue,2024-02-28 18:56:53
+928,7,14,St Louis Blues,2024-02-13 18:05:49
+929,200,6,A Whole New World (Aladdin's Theme),2023-12-04 04:05:40
+930,147,12,Red Red Wine,2023-12-10 01:41:16
+931,84,14,My Sharona,2024-01-02 19:34:52
+932,118,2,We Are the World,2024-04-04 11:54:07
+933,101,1,Make Love to Me,2024-03-11 07:23:19
+934,116,13,Goodnight,2024-02-14 16:29:17
+935,25,8,Lady,2024-01-28 06:09:02
+936,110,1,Always On My Mind,2024-02-11 16:28:26
+937,139,6,Shout,2024-04-14 00:17:26
+938,37,20,Papa's Got a Brand New Bag,2024-03-10 15:19:01
+939,137,8,Duke of Earl,2023-12-31 19:32:17
+940,122,2,More Than a Feeling,2024-04-21 11:57:20
+941,128,10,Joy to the World,2024-05-19 04:35:52
+942,50,1,Hey Jude,2024-03-08 23:11:01
+943,75,15,Battle of New Orleans,2024-02-22 02:08:06
+944,99,12,Like a Virgin,2024-05-30 18:38:07
+945,199,5,Spill the Wine,2024-01-19 12:45:59
+946,174,3,How High the Moon,2024-06-07 03:06:20
+947,48,4,Mister Sandman,2024-04-30 11:51:22
+948,53,3,Sleep Walk,2023-12-13 18:45:36
+949,83,17,Cry Like a Baby,2024-04-04 18:19:21
+950,165,12,God Bless the Child,2024-02-12 02:30:17
+951,133,5,Hot Child In The City,2024-05-23 04:39:56
+952,135,2,My Man,2024-05-25 16:59:11
+953,177,7,Leader of the Pack,2024-03-09 03:08:01
+954,101,1,My Sharona,2023-12-28 18:23:56
+955,76,10,Yakety Yak,2024-03-31 20:06:54
+956,48,12,Rock the Boat,2024-01-09 11:21:19
+957,117,9,Eight Days a Week,2023-12-01 15:16:27
+958,183,7,Baby One More Time,2024-02-09 07:12:21
+959,96,3,Drops of Jupiter (Tell Me),2024-02-20 16:21:07
+960,193,18,I'm Walking Behind You,2024-05-15 07:39:14
+961,23,5,Blueberry Hill,2023-12-19 06:37:02
+962,78,1,Ain't Misbehavin',2024-04-02 07:51:28
+963,169,2,Sweet Child O' Mine,2024-01-31 14:13:27
+964,184,9,Walk Like an Egyptian,2024-01-21 13:25:51
+965,47,8,Philadelphia Freedom,2024-04-01 02:50:55
+966,139,17,I Honestly Love You,2024-02-04 18:34:41
+967,165,9,Bye,2023-12-05 23:27:03
+968,28,9,Do Ya Think I'm Sexy?,2024-03-07 22:34:37
+969,145,16,Bad Day,2024-04-12 11:20:51
+970,159,12,Streets of Philadelphia,2024-03-07 16:09:15
+971,12,14,Green Onions,2024-03-27 05:07:12
+972,191,7,It's My Party,2024-03-08 10:59:26
+973,158,1,There goes my baby,2024-02-28 13:00:24
+974,76,18,Like a Virgin,2024-01-26 17:35:01
+975,103,9,Somebody That I Used to Know,2024-02-11 23:58:07
+976,155,4,Goodnight,2024-05-04 21:15:57
+977,73,4,Baker Street,2024-01-03 22:27:14
+978,41,18,Great Balls of Fire,2024-02-09 07:10:47
+979,29,7,Morning Train (Nine to Five),2024-02-27 10:28:00
+980,178,15,Come Together,2024-01-16 17:10:21
+981,182,17,Take The 'A' Train,2023-12-27 17:40:07
+982,103,10,Truly Madly Deeply,2024-01-25 03:00:30
+983,122,11,Just the Way You Are,2024-05-12 01:01:39
+984,98,8,Bad Day,2024-03-16 07:42:06
+985,47,13,Respect,2024-02-08 03:09:04
+986,134,19,Miss You,2024-03-05 04:50:02
+987,170,17,Blueberry Hill,2024-03-03 21:09:42
+988,168,13,Get Back,2024-02-10 05:06:55
+989,55,15,Build Me Up Buttercup,2024-01-12 22:00:25
+990,13,14,Fast Car,2023-11-30 21:50:33
+991,52,4,Ain't That a Shame,2023-12-24 06:15:45
+992,82,14,Whoomp! (There it Is),2023-12-01 15:41:20
+993,188,4,Mack the Knife,2024-02-13 09:49:55
+994,53,8,Miss You,2024-02-24 00:30:46
+995,84,3,Downtown,2024-02-09 13:57:04
+996,5,3,Without You,2024-02-22 06:17:08
+997,112,17,These Boots Are Made For Walking,2023-12-13 12:22:11
+998,136,8,Careless Whisper,2024-05-07 14:51:58
+999,200,19,12th Street Rag,2024-06-02 02:36:07
+1000,138,9,You make Me Wanna,2024-05-17 00:29:18

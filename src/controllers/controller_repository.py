@@ -1,11 +1,9 @@
 """
 Repository to handle controllers, using singleton princible.
 """
-from src.utils.dao import DAO
-from src.utils.postdao import PostDAO
-from src.controllers.usercontroller import UserController
-from src.controllers.topiccontroller import TopicController
-from src.controllers.postcontroller import PostController
+from src.utils.daos import PostDAO, TopicDAO, UserDAO
+from src.controllers import UserController, TopicController, PostController
+from src.services import UserService, TopicService, PostService
 
 
 class ControllerRepository:
@@ -22,32 +20,37 @@ class ControllerRepository:
     """ Get UserController. Creates an instance if not already in self._controllers.
 
     Returns:
-      Controller:   The UserController for data handling
+      UserController: The UserController for data handling
     """
     if "user_controller" not in self._controllers:
-      user_dao = DAO(table_name="user")
-      self._controllers["user_controller"] = UserController(user_dao)
+      user_dao = UserDAO("user")
+      user_service = UserService(user_dao)
+      self._controllers["user_controller"] = UserController(user_service, "user")
     return self._controllers["user_controller"]
 
   def get_topic_controller(self) -> TopicController:
     """ Get TopicController. Creates an instance if not already in self._controllers.
 
     Returns:
-      Controller:   The TopicController for data handling
+      TopicController: The TopicController for data handling
     """
     if "topic_controller" not in self._controllers:
-      topic_dao = DAO(table_name="topic")
-      post_dao = PostDAO(table_name="post")
-      self._controllers["topic_controller"] = TopicController(topic_dao, post_dao)
+      topic_dao = TopicDAO("topic")
+      user_dao = UserDAO("user")
+      post_dao = PostDAO("post")
+      topic_service = TopicService(topic_dao, user_dao, post_dao)
+      self._controllers["topic_controller"] = TopicController(topic_service, "topic")
     return self._controllers["topic_controller"]
 
   def get_post_controller(self) -> PostController:
     """ Get PostController. Creates an instance if not already in self._controllers.
 
     Returns:
-      Controller:   The PostController for data handling
+      PostController: The PostController for data handling
     """
     if "post_controller" not in self._controllers:
-      post_dao = DAO(table_name="post")
-      self._controllers["post_controller"] = PostController(post_dao)
+      post_dao = PostDAO("post")
+      user_dao = UserDAO("user")
+      post_service = PostService(post_dao, user_dao)
+      self._controllers["post_controller"] = PostController(post_service, "post")
     return self._controllers["post_controller"]

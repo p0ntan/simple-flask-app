@@ -6,7 +6,7 @@
 function setup()
 {
   sqlite3 db.sqlite < ddl.sql
-  sqlite3 db.sqlite < insert.sql
+  python reset_db.py
 }
 
 setup
