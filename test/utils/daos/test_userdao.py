@@ -1,5 +1,4 @@
 import os
-import re
 import pytest
 import sqlite3
 import unittest.mock as mock

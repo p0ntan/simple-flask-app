@@ -18,18 +18,18 @@ class UserData(UserInput):
 
 
 class TopicType(TypedDict):
-  """Topic type."""
+  """Topic type, base for required keys."""
   topic_id: int
   title: str
   category: int
   created: str
-  last_edited: str | None
-  deleted: str | None
   disabled: bool
 
 class TopicData(TopicType, total=False):
-  """Topic data."""
+  """Topic data, with optional keys."""
   created_by: UserData
+  last_edited: str | None
+  deleted: str | None
 
 
 class PostType(TypedDict):

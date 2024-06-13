@@ -5,7 +5,7 @@ This will be used by controllers to keep the logic here and not in controller.
 """
 from typing import Any
 from src.services.base_service import BaseService
-from src.errors.customerrors import NoDataException
+from src.errors.customerrors import NoDataException, UnauthorizedException
 from src.models.user import User
 from src.models.topic import Topic, TopicData
 from src.utils.daos import TopicDAO, PostDAO, UserDAO
@@ -101,9 +101,6 @@ class TopicService(BaseService):
 
     Returns:
       topic_data (dict):  The topic and posts as a dictionary.
-
-    Raises:
-      NoDataException:    If no topic is found with the given username.
     """
     topic_data = self.get_by_id(topic_id)
     posts_data = self._post_dao.get_post_and_users_with_pagination(topic_id, pagnation)
@@ -123,11 +120,16 @@ class TopicService(BaseService):
 
     Returns:
       Boolean:                True if item deleted, False otherwise
+    
+    Raises:
+      UnauthorizedException:  If the user is not allowed to delete the topic.
     """
     editor = User(editor_data)
     topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
 
-    topic.control_access(editor)
+    if not topic.editor_has_permission(editor):
+      raise UnauthorizedException("User not authorized to delete topic.")
+
     success = self._topic_dao.delete(topic_id)
 
     return success

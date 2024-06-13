@@ -38,7 +38,7 @@ class Topic():
     self._disabled = topic_data.get('disabled', False)
 
   def update(self, topic_data: dict[str, Any], editor: User) -> dict[str, Any]:
-    """Update the topic with provided data.
+    """Update the topic, only updating avalible attributes for editor based on editor's access to post.
 
     Args:
       topic_data (dict):      Dictionary with keys to update.
@@ -50,23 +50,25 @@ class Topic():
     Raises:
       UnauthorizedException: If the user is not authorized to manage the topic.
     """
-    self.control_access(editor)
+    if not self.editor_has_permission(editor):
+      raise UnauthorizedException("User not authorized to manage topic.")
+    
     # Update logic below.
     self._title = topic_data.get("title", self._title)
 
     return {"title": self._title}
-
-  def control_access(self, editor: User) -> None:
-    """Control that another user (editor) can manage the topic.
+  
+  def editor_has_permission(self, editor: User) -> bool:
+    """Control that another user (editor) can manage the topic based on id and access.
 
     Args:
-      editor (User):          The user to control having access to manage this topic.
+      editor (User):          The editor to control having access to manage this topic.
 
-    Raises:
-      UnauthorizedException: If the user is not authorized to manage the topic.
+    Returns:
+      has_permission (bool):  True if edditor has permission, False if not.
     """
-    if editor.id != self._created_by.id:  # TODO add better logic, like admin/moderator.
-      raise UnauthorizedException("User not authorized to manage topic.")
+    # TODO add more (better) logic when time comes, like admin/moderator.
+    return editor.id == self._created_by.id
 
   def to_dict(self) -> TopicData:
     """Return topic data as dictionary.
