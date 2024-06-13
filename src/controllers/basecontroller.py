@@ -1,14 +1,15 @@
 """
 Baseclass for all controllers.
 
-They should all have create, get_one, update and delete methods.
+They should all have create, get_one, update and delete methods which can be overrun in the inheriting classes.
+All errors raised here or in the inheriting classes or in any of the classes used in the controllers will be handled at a higher level (the apiblueprint).
 """
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask import Response, request, jsonify
 from src.services.base_service import BaseService
 from src.utils.response_helper import ResponseHelper
-from src.errors.customerrors import InputInvalidException, NoDataException, KeyUnmutableException, UnauthorizedException
+from src.errors.customerrors import InputInvalidException
 
 r_helper = ResponseHelper()
 
@@ -30,21 +31,18 @@ class Controller:
     """Controller for root route, creating a new entry.
   
     Returns:
-      tuple[Response, int]: The response and status code
+      tuple[Response, int]:   The response and status code
+    
+    Raises:
+      InputInvalidException:  If input data is missing.
     """
-    try:
-      input_data = request.json
+    input_data = request.json
 
-      if input_data is None:
-        raise InputInvalidException("Missing input data.")
+    if input_data is None:
+      raise InputInvalidException("Missing input data.")
 
-      result = self._service.create(input_data)  # TODO get id from token or other way
-      response, status = r_helper.success_response(result, message=f"New {self._controller} added.", status=201)
-
-    except (InputInvalidException, NoDataException) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
+    result = self._service.create(input_data)  # TODO get id from token or other way
+    response, status = r_helper.success_response(result, message=f"New {self._controller} added.", status=201)
 
     return jsonify(response), status
 
@@ -57,47 +55,34 @@ class Controller:
     Returns:
       tuple[Response, int]: The response and status code
     """
-    try:
-      result = self._service.get_by_id(id_num)
-      response, status = r_helper.success_response(result)
-    except (NoDataException, KeyUnmutableException) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
+    result = self._service.get_by_id(id_num)
+    response, status = r_helper.success_response(result)
 
     return jsonify(response), status
 
   @jwt_required()
   def update(self, id_num: int) -> tuple[Response, int]:
-    """Controller for updating entry.
+    """Controller for updating entry. Getting new data from request body.
 
-    Parameters:
+    Args:
       id_num(int):  id for entry
 
     Returns:
       tuple[Response, int]: The response and status code
+
+    Raises:
+      InputInvalidException:  If input data is missing.
     """
-    try:
-      input_data = request.json
+    input_data = request.json
 
-      if input_data is None:
-        raise InputInvalidException("Missing input data.")
+    if input_data is None:
+      raise InputInvalidException("Missing input data.")
 
-      current_user = get_jwt_identity()
-      success = self._service.update(id_num, input_data, current_user)
-      message, status = (f"{self._controller} updated.", 200) if success else (f"{self._controller} not updated.", 202)
+    current_user = get_jwt_identity()
+    success = self._service.update(id_num, input_data, current_user)
+    message, status = (f"{self._controller} updated.", 200) if success else (f"{self._controller} not updated.", 202)
 
-      response, status = r_helper.success_response(message=message, status=status)
-
-    except (
-      NoDataException,
-      KeyUnmutableException,
-      InputInvalidException,
-      UnauthorizedException
-    ) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
+    response, status = r_helper.success_response(message=message, status=status)
 
     return jsonify(response), status
 
@@ -105,24 +90,16 @@ class Controller:
   def delete(self, id_num: int) -> tuple[Response, int]:
     """Controller for deleting entry.
 
-    Parameters:
+    Args:
       id_num(int):  id for entry
 
     Returns:
       tuple[Response, int]: The response and status code
     """
-    # TODO fix delete route
-    try:
-      current_user = get_jwt_identity()
-      success = self._service.delete(id_num, current_user)
+    current_user = get_jwt_identity()
+    success = self._service.delete(id_num, current_user)
 
-      message, status = (f"{self._controller} deleted.", 200) if success else (f"{self._controller} not deleted.", 202)
-
-      response, status = r_helper.success_response(message=message, status=status)
-
-    except (NoDataException, UnauthorizedException) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
+    message, status = (f"{self._controller} deleted.", 200) if success else (f"{self._controller} not deleted.", 202)
+    response, status = r_helper.success_response(message=message, status=status)
 
     return jsonify(response), status

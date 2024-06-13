@@ -22,10 +22,3 @@ class UnauthorizedException(Exception):
   def __init__(self, message):
     super().__init__(message)
     self.status = 401
-
-
-class KeyUnmutableException(Exception):
-  """ Custom exception for when trying to change not changable column. """
-  def __init__(self, message):
-    super().__init__(message)
-    self.status = 400

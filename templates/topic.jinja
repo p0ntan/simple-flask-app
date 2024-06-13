@@ -1,0 +1,15 @@
+{% set title = topic.title %}
+{% from 'components/post.jinja' import render_post %}
+
+{% include 'header.jinja' %}
+<!-- Page content-->
+<div class="container-xxl">
+  <h1 class="">
+    {{topic.title}}
+  </h1>
+  {% for post in posts %}
+    {{ render_post(post) }}
+  {% endfor %}
+</div>
+
+{% include 'footer.jinja' %}

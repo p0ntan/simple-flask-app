@@ -9,12 +9,18 @@ API_URL: str = os.environ.get("API_URL", "")
 index_blueprint = Blueprint('index_blueprint', __name__, url_prefix="/")
 
 
+@index_blueprint.context_processor
+def inject_user():
+  """Inject user into context."""
+  user = session.get("user", None)
+  return {"user": user}
+
+
 @index_blueprint.route("/")
 def index():
   """Index route for page."""
-  user = session.get("user", None)
 
-  return render_template("index.jinja", user=user)
+  return render_template("index.jinja")
 
 
 @index_blueprint.route("/login", methods=["post"])
@@ -39,3 +45,30 @@ def logout():
   session.pop("user")
 
   return redirect("/")
+
+
+@index_blueprint.route("/new-topics", methods=["get"])
+def new_topics():
+  """Latest topics route."""
+  try:
+    response = requests.get(API_URL + "/topics/latest", timeout=5)
+    topics = response.json()["data"]
+  except Exception:
+    topics = []
+
+  return render_template("new-topics.jinja", topics=topics)
+
+
+@index_blueprint.route("/topic/<id_num>", methods=["get"])
+def single_topic(id_num: int):
+  """Latest topics route."""
+  topic_data = {}
+  page = request.args.get("page", 0)
+
+  try:
+    response = requests.get(f"{API_URL}/topics/{id_num}/page/{page}", timeout=5)
+    topic_data = response.json()["data"]
+  except Exception:
+    pass
+
+  return render_template("topic.jinja", topic=topic_data.get("topic", None), posts=topic_data.get("posts", None))

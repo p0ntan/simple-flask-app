@@ -6,7 +6,6 @@ import sqlite3
 from abc import ABC, abstractmethod
 from typing import Any
 from src.utils.print_colors import ColorPrinter
-from src.errors.customerrors import KeyUnmutableException
 
 printer = ColorPrinter()
 

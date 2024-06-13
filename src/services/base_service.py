@@ -20,7 +20,11 @@ class BaseService(ABC):
 
   @abstractmethod
   def get_by_id(self, *args, **kwargs) -> Any:
-    """Gets one item from the database."""
+    """Gets one item from the database.
+
+    Raises:
+      NoDataException: If no user is found with the given username.
+    """
 
   @abstractmethod
   def update(self, *args, **kwargs) -> bool:
