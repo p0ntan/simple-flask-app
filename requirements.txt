@@ -1,9 +1,9 @@
+python-dotenv
 flask
 flask-cors
+flask-jwt-extended
+requests
 pytest
 pytest-cov
 pylint
 flake8
-python-dotenv
-requests
-flask-jwt-extended
