@@ -18,26 +18,23 @@ class UserController(Controller):
     Args:
       service (UserService): An instance of the UserService class.
       controller_name (str): The name of the controller.
+
+    Raises:
+      InputInvalidException:  If input data is missing.
     """
     self._service = service
     self._controller = controller_name
 
   def login(self) -> tuple[Response, int]:
-    """Controller for root route."""
-    try:
-      input_data = request.json
+    """Controller for login route."""
+    input_data = request.json
 
-      if input_data is None:
-        raise InputInvalidException("Missing input data.")
+    if input_data is None:
+      raise InputInvalidException("Missing input data.")
 
-      user = self._service.login(input_data["username"], "ps")
-      access_token = create_access_token(identity=user)
+    user = self._service.login(input_data["username"], "ps")
+    access_token = create_access_token(identity=user)
 
-      response, status = r_helper.success_response({"jwt": access_token}, message="User logged in.", status=200)
-
-    except (NoDataException, InputInvalidException) as err:
-      response, status = r_helper.error_response(err.status, details=f"{err}")
-    except Exception as err:
-      response, status = r_helper.unkown_error(details=f"{err}")
+    response, status = r_helper.success_response({"jwt": access_token}, message="User logged in.", status=200)
 
     return jsonify(response), status
