@@ -2,7 +2,7 @@
 Baseclass for all controllers.
 
 They should all have create, get_one, update and delete methods which can be overrun in the inheriting classes.
-A
+All errors raised here or in the inheriting classes or in any of the classes used in the controllers will be handled at a higher level (the apiblueprint).
 """
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -96,7 +96,6 @@ class Controller:
     Returns:
       tuple[Response, int]: The response and status code
     """
-    # TODO fix delete route
     current_user = get_jwt_identity()
     success = self._service.delete(id_num, current_user)
 
