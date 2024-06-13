@@ -1,0 +1,15 @@
+{% set title = "Latest topics" %}
+{% from 'components/topic-box.jinja' import render_topic %}
+
+{% include 'header.jinja' %}
+<!-- Page content-->
+<div class="container-xxl">
+  <h1 class="">
+    New topics
+  </h1>
+  {% for topic in topics %}
+    {{ render_topic(topic) }}
+  {% endfor %}
+</div>
+
+{% include 'footer.jinja' %}

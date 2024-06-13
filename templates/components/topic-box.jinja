@@ -1,0 +1,8 @@
+{% macro render_topic(data) %}
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title"><a href="/topic/{{data.topic_id}}">{{ data.title }}</a> <span class="badge text-bg-secondary">New</span></h5>
+      <p class="card-text text">Created: {{data.created[:10]}}</p>
+    </div>
+  </div>
+{% endmacro %}

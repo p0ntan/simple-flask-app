@@ -1,0 +1,21 @@
+{% macro render_post(data) %}
+  <div class="bg-primary-subtle px-2" style="width: 100%">
+    <p class="mb-0">Posted: {{ data.created }}</p>
+  </div>
+  <div class="row mx-0" style="min-height: 16em">
+    <div class="col-md-3 bg-body-tertiary">
+      <h5 class="py-2">{{ data.author.username}}</h5>
+      {{ data.author.role }}
+      {# <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> #}
+    </div>
+    <div class="col py-2 d-flex flex-column">
+      <p>
+        {{ data.body }}
+      </p>
+      
+      {% if data.last_updated %}
+        <p class="text-end mt-auto">Last edited: {{ data.last_updated }}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}
