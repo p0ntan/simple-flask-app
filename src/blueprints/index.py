@@ -5,7 +5,7 @@ import os
 import requests
 from flask import Blueprint, session, redirect, request, render_template
 
-API_URL: str = os.environ.get("API_URL", "")
+API_URL: str = os.environ.get("API_URL", "http://python-test.lenticode.com/api")
 index_blueprint = Blueprint('index_blueprint', __name__, url_prefix="/")
 
 
