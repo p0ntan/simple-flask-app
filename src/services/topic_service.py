@@ -3,143 +3,151 @@ Module for topic service, main purpose to handle topics in the application.
 
 This will be used by controllers to keep the logic here and not in controller.
 """
+
 from typing import Any
 from src.services.base_service import BaseService
 from src.errors.customerrors import NoDataException, UnauthorizedException
 from src.models.user import User
-from src.models.topic import Topic, TopicData
+from src.models.topic import Topic
 from src.utils.daos import TopicDAO, PostDAO, UserDAO
 from src.static.types import TopicData, UserData
 
 
 class TopicService(BaseService):
-  """
-  TopicService is for handling all calls to models and database regarding topics.
-  """
-
-  def __init__(self, topic_dao: TopicDAO, user_dao: UserDAO, post_dao: PostDAO) -> None:
     """
-    Initializes the TopicService class.
-
-    Args:
-      topic_dao (TopicDAO): An instance of the TopicDAO class.
-      user_dao (UserDAO):   An instance of the UserDAO class.
-      post_dao (PostDAO):   An instance of the PostDAO class.
+    TopicService is for handling all calls to models and database regarding topics.
     """
-    self._topic_dao = topic_dao
-    self._user_dao = user_dao
-    self._post_dao = post_dao
 
-  def create(self, topic_data: dict[str, Any], creator: UserData) -> TopicData:
-    """Creates a new topic.
+    def __init__(
+        self, topic_dao: TopicDAO, user_dao: UserDAO, post_dao: PostDAO
+    ) -> None:
+        """
+        Initializes the TopicService class.
 
-    Args:
-      topic_data (dict):  The data for the new topic.
-      creator (UserData): The data of the creator.
+        Args:
+          topic_dao (TopicDAO): An instance of the TopicDAO class.
+          user_dao (UserDAO):   An instance of the UserDAO class.
+          post_dao (PostDAO):   An instance of the PostDAO class.
+        """
+        self._topic_dao = topic_dao
+        self._user_dao = user_dao
+        self._post_dao = post_dao
 
-    Returns:
-      TopicData (dict):   The topic as a dictionary if created successfully.
-    
-    Raises:
-      NoDataException:    If no user is found with the given id to create the topic.
-    """
-    user = User(creator)
-    topic_data["created_by"] = user.id
-    # TODO add logic for user control here by calling method on User ex. user.can_create_topic()
-    # and maybe raise exception if not allowed, might be the cleanest solution.
-    # if not user.can_create_topic():
-    #     raise Exception("User is not allowed to create topic")
-    new_topic_data = self._topic_dao.create(topic_data)
-    topic = Topic(user, new_topic_data)
+    def create(self, topic_data: dict[str, Any], creator: UserData) -> TopicData:
+        """Creates a new topic.
 
-    return topic.to_dict()
+        Args:
+          topic_data (dict):  The data for the new topic.
+          creator (UserData): The data of the creator.
 
-  def get_by_id(self, topic_id: int) -> TopicData:
-    """Get one topic in the database.
+        Returns:
+          TopicData (dict):   The topic as a dictionary if created successfully.
 
-    Args:
-      topic_id (int):   The id of the topic.
+        Raises:
+          NoDataException:    If no user is found with the given id to create the topic.
+        """
+        user = User(creator)
+        topic_data["created_by"] = user.id
+        # TODO add logic for user control here by calling method on User ex. user.can_create_topic()
+        # and maybe raise exception if not allowed, might be the cleanest solution.
+        # if not user.can_create_topic():
+        #     raise Exception("User is not allowed to create topic")
+        new_topic_data = self._topic_dao.create(topic_data)
+        topic = Topic(user, new_topic_data)
 
-    Returns:
-      TopicData (dict): The topic as a dictionary, including user.
-  
-    Raises:
-      NoDataException:  If no user is found with the given username.
-    """
-    topic_data = self._topic_dao.get_one(topic_id)
+        return topic.to_dict()
 
-    if topic_data is None:
-      raise NoDataException(f"No topic found with topic_id: {topic_id}")
+    def get_by_id(self, topic_id: int) -> TopicData:
+        """Get one topic in the database.
 
-    return topic_data
+        Args:
+          topic_id (int):   The id of the topic.
 
-  def update(self, topic_id: int, new_data: dict[str, Any], editor_data: UserData) -> bool:
-    """Update a topic in the database.
+        Returns:
+          TopicData (dict): The topic as a dictionary, including user.
 
-    Args:
-      topic_id (int):         The id of the topic.
-      new_data (dict):        New data.
-      editor_data (UserData): The data of the editor trying to update topic.
+        Raises:
+          NoDataException:  If no user is found with the given username.
+        """
+        topic_data = self._topic_dao.get_one(topic_id)
 
-    Returns:
-      Boolean:                True if topic changed, False otherwise
-    """
-    editor = User(editor_data)
-    topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
+        if topic_data is None:
+            raise NoDataException(f"No topic found with topic_id: {topic_id}")
 
-    data_to_db = topic.update(new_data, editor)
-    result = self._topic_dao.update(topic_id, data_to_db)  # TODO returns true if nothing has changed but user is found
+        return topic_data
 
-    return result
+    def update(
+        self, topic_id: int, new_data: dict[str, Any], editor_data: UserData
+    ) -> bool:
+        """Update a topic in the database.
 
-  def get_topic_posts_users(self, topic_id: int, pagnation: int = 0) -> dict[str, Any]:
-    """Get topic and posts for topic.
-    
-    Args:
-      topic_id (int):     The id of the topic.
-      pagnation (int):    The number of pages to get.
+        Args:
+          topic_id (int):         The id of the topic.
+          new_data (dict):        New data.
+          editor_data (UserData): The data of the editor trying to update topic.
 
-    Returns:
-      topic_data (dict):  The topic and posts as a dictionary.
-    """
-    topic_data = self.get_by_id(topic_id)
-    posts_data = self._post_dao.get_post_and_users_with_pagination(topic_id, pagnation)
+        Returns:
+          Boolean:                True if topic changed, False otherwise
+        """
+        editor = User(editor_data)
+        topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
 
-    return {
-      "topic": topic_data,
-      "posts": posts_data
-    }
+        data_to_db = topic.update(new_data, editor)
+        result = self._topic_dao.update(
+            topic_id, data_to_db
+        )  # TODO returns true if nothing has changed but user is found
 
-  def delete(self, topic_id: int, editor_data: UserData) -> bool:
-    """Delete a topic in the database, (soft delete).
-    Controls that the user trying to change the topic is allowed to do so.
+        return result
 
-    Args:
-      topic_id (int):         The id of the topic.
-      editor_data (UserData): The data of the editor trying to delete topic.
+    def get_topic_posts_users(
+        self, topic_id: int, pagnation: int = 0
+    ) -> dict[str, Any]:
+        """Get topic and posts for topic.
 
-    Returns:
-      Boolean:                True if item deleted, False otherwise
-    
-    Raises:
-      UnauthorizedException:  If the user is not allowed to delete the topic.
-    """
-    editor = User(editor_data)
-    topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
+        Args:
+          topic_id (int):     The id of the topic.
+          pagnation (int):    The number of pages to get.
 
-    if not topic.editor_has_permission(editor):
-      raise UnauthorizedException("User not authorized to delete topic.")
+        Returns:
+          topic_data (dict):  The topic and posts as a dictionary.
+        """
+        topic_data = self.get_by_id(topic_id)
+        posts_data = self._post_dao.get_post_and_users_with_pagination(
+            topic_id, pagnation
+        )
 
-    success = self._topic_dao.delete(topic_id)
+        return {"topic": topic_data, "posts": posts_data}
 
-    return success
+    def delete(self, topic_id: int, editor_data: UserData) -> bool:
+        """Delete a topic in the database, (soft delete).
+        Controls that the user trying to change the topic is allowed to do so.
 
-  def get_latest_topics(self, limit: int = 10) -> list[TopicData]:
-    """Get the latest topics in the database, based on creation date.
+        Args:
+          topic_id (int):         The id of the topic.
+          editor_data (UserData): The data of the editor trying to delete topic.
 
-    Returns:
-      list[TopicData]: The list of topics.
-    """
-    topics = self._topic_dao.get_latest_topics(limit)
+        Returns:
+          Boolean:                True if item deleted, False otherwise
 
-    return topics
+        Raises:
+          UnauthorizedException:  If the user is not allowed to delete the topic.
+        """
+        editor = User(editor_data)
+        topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
+
+        if not topic.editor_has_permission(editor):
+            raise UnauthorizedException("User not authorized to delete topic.")
+
+        success = self._topic_dao.delete(topic_id)
+
+        return success
+
+    def get_latest_topics(self, limit: int = 10) -> list[TopicData]:
+        """Get the latest topics in the database, based on creation date.
+
+        Returns:
+          list[TopicData]: The list of topics.
+        """
+        topics = self._topic_dao.get_latest_topics(limit)
+
+        return topics

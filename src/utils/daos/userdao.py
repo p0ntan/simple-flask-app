@@ -1,6 +1,7 @@
 """
 UserDAO is used for accessing users.
 """
+
 from __future__ import annotations
 from src.static.types import UserData
 from src.utils.daos.basedao import DAO
@@ -10,137 +11,140 @@ printer = ColorPrinter()
 
 
 class UserDAO(DAO):
-  """ UserDAO for accessing posts. """
-  GET_ONE_QUERY_USERNAME = "SELECT id AS user_id, username, role, signature, avatar FROM user WHERE username = ?"
-  GET_ONE_QUERY_ID = "SELECT id as user_id, username, role, signature, avatar FROM user WHERE id = ?"
+    """UserDAO for accessing posts."""
 
-  def __init__(self, table_name: str):
-    super().__init__(table_name)
+    GET_ONE_QUERY_USERNAME = "SELECT id AS user_id, username, role, signature, avatar FROM user WHERE username = ?"
+    GET_ONE_QUERY_ID = (
+        "SELECT id as user_id, username, role, signature, avatar FROM user WHERE id = ?"
+    )
 
-  def create(self, data: dict[str, str]) -> UserData:
-    """Create (insert) a new entry into database.
+    def __init__(self, table_name: str):
+        super().__init__(table_name)
 
-    Parameters:
-      data (dict):  The data for the new user.
+    def create(self, data: dict[str, str]) -> UserData:
+        """Create (insert) a new entry into database.
 
-    Returns:
-      UserData:     Dictonary with the new user.
+        Parameters:
+          data (dict):  The data for the new user.
 
-    Raises:
-      Exception:    in case of any error like unique entry already exist.
-    """
-    conn = None
+        Returns:
+          UserData:     Dictonary with the new user.
 
-    try:
-      conn, cur = self._get_connection_and_cursor()
-      cur.execute(f"INSERT INTO user (username) VALUES (?)", (data["username"], ))
-      conn.commit()
+        Raises:
+          Exception:    in case of any error like unique entry already exist.
+        """
+        conn = None
 
-      cur.execute(self.GET_ONE_QUERY_ID, (cur.lastrowid, ))
-      column_names = [description[0] for description in cur.description]
-      result = cur.fetchone()
+        try:
+            conn, cur = self._get_connection_and_cursor()
+            cur.execute("INSERT INTO user (username) VALUES (?)", (data["username"],))
+            conn.commit()
 
-      user_data = dict(zip(column_names, result))
+            cur.execute(self.GET_ONE_QUERY_ID, (cur.lastrowid,))
+            column_names = [description[0] for description in cur.description]
+            result = cur.fetchone()
 
-      return UserData(**user_data)
-    except Exception as err:
-      printer.print_fail(err)
-      raise err
-    finally:
-      if conn is not None:
-        conn.close()
+            user_data = dict(zip(column_names, result))
 
-  # # TODO make this method better, or move it to basedao if they all use it in the same way.
-  # def update(self, id_num: int, data: dict) -> bool:
-  #   """Update entry.
+            return UserData(**user_data)
+        except Exception as err:
+            printer.print_fail(err)
+            raise err
+        finally:
+            if conn is not None:
+                conn.close()
 
-  #   Parameters:
-  #     id_num (int): unique id for the entry to update
-  #     data (dict):  dictionary with new data
+    # # TODO make this method better, or move it to basedao if they all use it in the same way.
+    # def update(self, id_num: int, data: dict) -> bool:
+    #   """Update entry.
 
-  #   Returns:
-  #     boolean:      True if item changed, False otherwise
+    #   Parameters:
+    #     id_num (int): unique id for the entry to update
+    #     data (dict):  dictionary with new data
 
-  #   Raises:
-  #     Exception:    In case of any error
-  #   """
-  #   conn = None
-  #   try:
-  #     conn, cur = self._get_connection_and_cursor()
+    #   Returns:
+    #     boolean:      True if item changed, False otherwise
 
-  #     columns = ', '.join([f'{k} = ?' for k in data.keys()])
+    #   Raises:
+    #     Exception:    In case of any error
+    #   """
+    #   conn = None
+    #   try:
+    #     conn, cur = self._get_connection_and_cursor()
 
-  #     cur.execute(f"UPDATE user SET {columns} WHERE id = ?", (*data.values(), id_num, ))
-  #     conn.commit()
+    #     columns = ', '.join([f'{k} = ?' for k in data.keys()])
 
-  #     return cur.rowcount > 0
-  #   except Exception as err:
-  #     printer.print_fail(err)
-  #     raise err
-  #   finally:
-  #     if conn is not None:
-  #       conn.close()
+    #     cur.execute(f"UPDATE user SET {columns} WHERE id = ?", (*data.values(), id_num, ))
+    #     conn.commit()
 
-  def get_user_by_username(self, username: str) -> UserData | None:
-    """Retrieves a user from the database by their username.
+    #     return cur.rowcount > 0
+    #   except Exception as err:
+    #     printer.print_fail(err)
+    #     raise err
+    #   finally:
+    #     if conn is not None:
+    #       conn.close()
 
-    Parameters:
-      username (str): The username of the user to retrieve.
+    def get_user_by_username(self, username: str) -> UserData | None:
+        """Retrieves a user from the database by their username.
 
-    Returns:
-      UserData:       Dictonary with the user.
-      None:           None if not found.
+        Parameters:
+          username (str): The username of the user to retrieve.
 
-    Raises:
-      Exception:      If an error occurs while retrieving the user.
-    """
-    try:
-      cur = self._connect_get_cursor()
+        Returns:
+          UserData:       Dictonary with the user.
+          None:           None if not found.
 
-      cur.execute(self.GET_ONE_QUERY_USERNAME, (username, ))
-      column_names = [description[0] for description in cur.description]
-      result = cur.fetchone()
+        Raises:
+          Exception:      If an error occurs while retrieving the user.
+        """
+        try:
+            cur = self._connect_get_cursor()
 
-      if result is None:
-        return result
+            cur.execute(self.GET_ONE_QUERY_USERNAME, (username,))
+            column_names = [description[0] for description in cur.description]
+            result = cur.fetchone()
 
-      user_data = dict(zip(column_names, result))
+            if result is None:
+                return result
 
-      return UserData(**user_data)
-    except Exception as error:
-      printer.print_fail(error)
-      raise error
-    finally:
-      self._disconnect()
+            user_data = dict(zip(column_names, result))
 
-  def get_one(self, id_num: int) -> UserData | None:
-    """Retrieves a user from the database by their id.
+            return UserData(**user_data)
+        except Exception as error:
+            printer.print_fail(error)
+            raise error
+        finally:
+            self._disconnect()
 
-    Parameters:
-      id_num (int): The id of the user to retrieve.
+    def get_one(self, id_num: int) -> UserData | None:
+        """Retrieves a user from the database by their id.
 
-    Returns:
-      UserData:     Dictonary with the user.
-      None:         None if not found.
+        Parameters:
+          id_num (int): The id of the user to retrieve.
 
-    Raises:
-      Exception:    If an error occurs while retrieving the user.
-    """
-    try:
-      cur = self._connect_get_cursor()
+        Returns:
+          UserData:     Dictonary with the user.
+          None:         None if not found.
 
-      cur.execute(self.GET_ONE_QUERY_ID, (id_num, ))
-      column_names = [description[0] for description in cur.description]
-      result = cur.fetchone()
+        Raises:
+          Exception:    If an error occurs while retrieving the user.
+        """
+        try:
+            cur = self._connect_get_cursor()
 
-      if result is None:
-        return result
+            cur.execute(self.GET_ONE_QUERY_ID, (id_num,))
+            column_names = [description[0] for description in cur.description]
+            result = cur.fetchone()
 
-      user_data = dict(zip(column_names, result))
+            if result is None:
+                return result
 
-      return UserData(**user_data)
-    except Exception as error:
-      printer.print_fail(error)
-      raise error
-    finally:
-      self._disconnect()
+            user_data = dict(zip(column_names, result))
+
+            return UserData(**user_data)
+        except Exception as error:
+            printer.print_fail(error)
+            raise error
+        finally:
+            self._disconnect()

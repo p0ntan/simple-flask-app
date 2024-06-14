@@ -1,6 +1,7 @@
 """
 TopicController is for handling all calls to database regarding topics.
 """
+
 from flask import jsonify, request, Response
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -13,61 +14,63 @@ r_helper = ResponseHelper()
 
 
 class TopicController(Controller):
-  """TopicController handles all dataaccess for topics."""
+    """TopicController handles all dataaccess for topics."""
 
-  def __init__(self, service: TopicService, controller_name: str):
-    """Initializes the PostController class.
+    def __init__(self, service: TopicService, controller_name: str):
+        """Initializes the PostController class.
 
-    Args:
-      service (PostService): An instance of the PostService class.
-      controller_name (str): The name of the controller.
-    """
-    self._service = service
-    self._controller = controller_name
+        Args:
+          service (PostService): An instance of the PostService class.
+          controller_name (str): The name of the controller.
+        """
+        self._service = service
+        self._controller = controller_name
 
-  @jwt_required()
-  def create(self) -> tuple[Response, int]:
-    """Controller for root route, creating a new topic.
-  
-    Returns:
-      tuple[Response, int]: The response and status code
+    @jwt_required()
+    def create(self) -> tuple[Response, int]:
+        """Controller for root route, creating a new topic.
 
-    Raises:
-      InputInvalidException:  If input data is missing.
-    """
-    input_data = request.json
+        Returns:
+          tuple[Response, int]: The response and status code
 
-    if input_data is None:
-      raise InputInvalidException("Missing input data.")
-    
-    current_user = get_jwt_identity()
-    result = self._service.create(input_data, current_user)
-    response, status = r_helper.success_response(result, message=f"New {self._controller} added.", status=201)
+        Raises:
+          InputInvalidException:  If input data is missing.
+        """
+        input_data = request.json
 
-    return jsonify(response), status
+        if input_data is None:
+            raise InputInvalidException("Missing input data.")
 
-  def latest_topics(self) -> tuple[Response, int]:
-    """Get latest topics, based on what date the topic was created.
+        current_user = get_jwt_identity()
+        result = self._service.create(input_data, current_user)
+        response, status = r_helper.success_response(
+            result, message=f"New {self._controller} added.", status=201
+        )
 
-    Returns:
-      tuple[Response, int]: The response and status code
-    """
-    data = self._service.get_latest_topics()
-    response, status = r_helper.success_response(data)
+        return jsonify(response), status
 
-    return jsonify(response), status
+    def latest_topics(self) -> tuple[Response, int]:
+        """Get latest topics, based on what date the topic was created.
 
-  def topic_with_posts(self, id_num: int, page_num: int = 0) -> tuple[Response, int]:
-    """When using route for single topic
+        Returns:
+          tuple[Response, int]: The response and status code
+        """
+        data = self._service.get_latest_topics()
+        response, status = r_helper.success_response(data)
 
-    Args:
-      id_num(int):    id for topic
-      page_num(int):  pagenumber, default is 0 which is first page. Each page has 10 posts.
+        return jsonify(response), status
 
-    Returns:
-      tuple[Response, int]: The response and status code
-    """
-    data = self._service.get_topic_posts_users(id_num, int(page_num))
-    response, status = r_helper.success_response(data)
+    def topic_with_posts(self, id_num: int, page_num: int = 0) -> tuple[Response, int]:
+        """When using route for single topic
 
-    return jsonify(response), status
+        Args:
+          id_num(int):    id for topic
+          page_num(int):  pagenumber, default is 0 which is first page. Each page has 10 posts.
+
+        Returns:
+          tuple[Response, int]: The response and status code
+        """
+        data = self._service.get_topic_posts_users(id_num, int(page_num))
+        response, status = r_helper.success_response(data)
+
+        return jsonify(response), status

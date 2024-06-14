@@ -12,124 +12,126 @@ base_dir = os.path.dirname(__file__)
 test_db = os.path.join(base_dir, "test_data/test_db.sqlite")
 
 johndoe_user = {
-  "user_id": 5,
-  "username": "johndoe",
-  "role": "author",
-  "signature": None,
-  "avatar": None
+    "user_id": 5,
+    "username": "johndoe",
+    "role": "author",
+    "signature": None,
+    "avatar": None,
 }
+
 
 @pytest.fixture
 def sut():
-  """Setup UserService for integrationtest and fucntion-test"""
-  test_data = os.path.join(base_dir, "test_data/insert.sql")
-  files = ["./db/ddl.sql", test_data]
+    """Setup UserService for integrationtest and fucntion-test"""
+    test_data = os.path.join(base_dir, "test_data/insert.sql")
+    files = ["./db/ddl.sql", test_data]
 
-  conn = sqlite3.connect(test_db)
-  cursor = conn.cursor()
+    conn = sqlite3.connect(test_db)
+    cursor = conn.cursor()
 
-  for file in files:
-    with open(file, 'r') as f:
-        sql_commands = f.read()
-        cursor.executescript(sql_commands)
+    for file in files:
+        with open(file, "r") as f:
+            sql_commands = f.read()
+            cursor.executescript(sql_commands)
 
-  conn.commit()
-  conn.close()
+    conn.commit()
+    conn.close()
 
-  with mock.patch("src.utils.daos.basedao.os.environ.get") as db_path:
-    db_path.return_value = test_db
-    user_dao = UserDAO("user")
-    sut = UserService(user_dao)
-    yield sut
-    os.remove(test_db)
+    with mock.patch("src.utils.daos.basedao.os.environ.get") as db_path:
+        db_path.return_value = test_db
+        user_dao = UserDAO("user")
+        sut = UserService(user_dao)
+        yield sut
+        os.remove(test_db)
 
 
 @pytest.mark.integration
 class TestIntegrationUserService:
-  """Integration tests"""
+    """Integration tests"""
 
-  def test_get_by_id(self, sut):
-    """Test get user by id"""
-    user = sut.get_by_id(5)
+    def test_get_by_id(self, sut):
+        """Test get user by id"""
+        user = sut.get_by_id(5)
 
-    assert user == johndoe_user
+        assert user == johndoe_user
 
-  def test_get_by_id_no_user(self, sut):
-    """Test get user by id that dosen't exist"""
-    with pytest.raises(NoDataException):
-      sut.get_by_id(10)
+    def test_get_by_id_no_user(self, sut):
+        """Test get user by id that dosen't exist"""
+        with pytest.raises(NoDataException):
+            sut.get_by_id(10)
 
-  def test_login(self, sut):
-    """Test login a user by username"""
-    user = sut.login("johndoe", "password")
+    def test_login(self, sut):
+        """Test login a user by username"""
+        user = sut.login("johndoe", "password")
 
-    assert user == johndoe_user
+        assert user == johndoe_user
 
-  def test_login_no_user(self, sut):
-    """Test login user that dosen't exist"""
-    with pytest.raises(NoDataException):
-      sut.login("no_user", "password")
+    def test_login_no_user(self, sut):
+        """Test login user that dosen't exist"""
+        with pytest.raises(NoDataException):
+            sut.login("no_user", "password")
 
-  def test_create(self, sut):
-    """Test create a user. Only username should be used even with more keys in data."""
-    user = sut.create({
-      "username": "sven",
-      "role": "what I want" # Should not work, role should be author by default.
-    })
+    def test_create(self, sut):
+        """Test create a user. Only username should be used even with more keys in data."""
+        user = sut.create(
+            {
+                "username": "sven",
+                "role": "what I want",  # Should not work, role should be author by default.
+            }
+        )
 
-    assert user["username"] == "sven" and user["role"] == "author"
+        assert user["username"] == "sven" and user["role"] == "author"
 
-  def test_create_errors(self, sut):
-    """Test create a user that already exists."""
-    with pytest.raises(Exception):
-      sut.create({
-        "username": "admin"
-      })
+    def test_create_errors(self, sut):
+        """Test create a user that already exists."""
+        with pytest.raises(Exception):
+            sut.create({"username": "admin"})
 
 
 @pytest.mark.scenario
 class TestScenarioUserService:
-  """Scenario tests"""
- 
-  def test_update(self, sut):
-    """Test updating a user."""
-    user_id = 5
-    new_data = {"signature": "new sign"}
-    result = sut.update(user_id=user_id, new_data=new_data, editor_data=johndoe_user)
+    """Scenario tests"""
 
-    conn = sqlite3.connect(test_db)
-    cursor = conn.cursor()
-    raw = cursor.execute("SELECT signature from user where id = ?", (user_id, ))
-    data = raw.fetchone()
-    conn.close()
+    def test_update(self, sut):
+        """Test updating a user."""
+        user_id = 5
+        new_data = {"signature": "new sign"}
+        result = sut.update(
+            user_id=user_id, new_data=new_data, editor_data=johndoe_user
+        )
 
-    assert result == True and data[0] == "new sign"
+        conn = sqlite3.connect(test_db)
+        cursor = conn.cursor()
+        raw = cursor.execute("SELECT signature from user where id = ?", (user_id,))
+        data = raw.fetchone()
+        conn.close()
 
-  @pytest.mark.parametrize("user_id, expected_error", [
-    (2, NoDataException),
-    (3, UnauthorizedException)
-  ])
-  def test_update_exceptions(self, sut, user_id, expected_error):
-    """Test update with wrong users."""
-    new_data = {"signature": "new sign"}
+        assert result == True and data[0] == "new sign"
 
-    with pytest.raises(expected_error):
-      sut.update(user_id=user_id, new_data=new_data, editor_data=johndoe_user)
+    @pytest.mark.parametrize(
+        "user_id, expected_error", [(2, NoDataException), (3, UnauthorizedException)]
+    )
+    def test_update_exceptions(self, sut, user_id, expected_error):
+        """Test update with wrong users."""
+        new_data = {"signature": "new sign"}
 
-  def test_delete(self, sut):
-    """Test deleteing a user."""
-    user_id = 5
-    result = sut.delete(user_id=user_id, editor_data=johndoe_user)
+        with pytest.raises(expected_error):
+            sut.update(user_id=user_id, new_data=new_data, editor_data=johndoe_user)
 
-    # conn = sqlite3.connect(test_db)
-    # cursor = conn.cursor()
-    # raw = cursor.execute("SELECT signature from user where id = ?", (user_id, ))
-    # data = raw.fetchone()
-    # conn.close()
+    def test_delete(self, sut):
+        """Test deleteing a user."""
+        user_id = 5
+        result = sut.delete(user_id=user_id, editor_data=johndoe_user)
 
-    assert result == True
+        # conn = sqlite3.connect(test_db)
+        # cursor = conn.cursor()
+        # raw = cursor.execute("SELECT signature from user where id = ?", (user_id, ))
+        # data = raw.fetchone()
+        # conn.close()
 
-  def test_delete_exceptions(self, sut):
-    """Test delete with wrong user."""
-    with pytest.raises(UnauthorizedException):
-      sut.delete(user_id=3, editor_data=johndoe_user)
+        assert result == True
+
+    def test_delete_exceptions(self, sut):
+        """Test delete with wrong user."""
+        with pytest.raises(UnauthorizedException):
+            sut.delete(user_id=3, editor_data=johndoe_user)
