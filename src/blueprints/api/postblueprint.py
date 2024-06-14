@@ -9,7 +9,7 @@ post_blueprint = Blueprint("post_blueprint", __name__, url_prefix="/posts")
 post_controller = ControllerRepository().get_post_controller()
 
 # Create new post
-post_blueprint.route("/", methods=["POST"])(post_controller.create)
+post_blueprint.route("", methods=["POST"])(post_controller.create)
 
 # For single post
 post_blueprint.route("/<id_num>", methods=["GET"])(post_controller.get_one)

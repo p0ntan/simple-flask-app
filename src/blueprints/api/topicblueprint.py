@@ -9,7 +9,7 @@ topic_blueprint = Blueprint("topic_blueprint", __name__, url_prefix="/topics")
 topic_controller = ControllerRepository().get_topic_controller()
 
 # Create new topic
-topic_blueprint.route("/", methods=["POST"])(topic_controller.create)
+topic_blueprint.route("", methods=["POST"])(topic_controller.create)
 
 # For single topic
 topic_blueprint.route("/<id_num>", methods=["GET"])(topic_controller.get_one)

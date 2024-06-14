@@ -9,7 +9,7 @@ user_blueprint = Blueprint("user_blueprint", __name__, url_prefix="/users")
 user_controller = ControllerRepository().get_user_controller()
 
 # Create new user
-user_blueprint.route("/", methods=["POST"])(user_controller.create)
+user_blueprint.route("", methods=["POST"])(user_controller.create)
 
 # Log in
 user_blueprint.route("/login", methods=["POST"])(user_controller.login)
