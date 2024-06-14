@@ -69,7 +69,7 @@ class TestUnitUser:
       "signature": None,
       "avatar": None
     }
-  
+
   @mock.patch("src.models.post.User", autospec=True)
   def test_from_db_by_id(self, mocked_user):
     """Test from_db_by_id method."""

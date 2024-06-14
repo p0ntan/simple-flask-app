@@ -8,7 +8,7 @@ from src.services.base_service import BaseService
 from src.utils.daos.userdao import UserDAO
 from src.models import User
 from src.static.types import UserData
-from src.errors.customerrors import NoDataException
+from src.errors.customerrors import NoDataException, UnauthorizedException
 
 
 class UserService(BaseService):
@@ -36,6 +36,8 @@ class UserService(BaseService):
 
   def update(self, user_id: int, new_data: dict[str, Any], editor_data: UserData) -> bool:
     """Update a user in the database.
+    If any errors occur in underlying functions they will not be catched, instead it will bubble up to a higher level.
+
 
     Args:
       user_id (int):          The id of the user.
@@ -43,7 +45,7 @@ class UserService(BaseService):
       editor_data (UserData): The data of the editor trying to update user.
 
     Returns:
-      Boolean:                True if topic changed, False otherwise
+      Boolean:                True if user changed, False otherwise
     """
     editor = User(editor_data)
     user = User.from_db_by_id(user_id, self._dao)
@@ -53,23 +55,27 @@ class UserService(BaseService):
 
     return result
 
-  def delete(self, id_num: int, editor_data: UserData) -> bool:
+  def delete(self, user_id: int, editor_data: UserData) -> bool:
     """Delete a user in the database.
 
     Parameters:
-      id_num (int):           The id of the user.
+      user_id (int):          The id of the user.
       editor_data (UserData): The data of the editor trying to delete user.
 
     Returns:
-      Boolean: True if item deleted, False otherwise
+      Boolean:                True if item deleted, False otherwise
+
+    Raises:
+      UnauthorizedException:  If the user is not allowed to delete the topic.
     """
     editor = User(editor_data)
-    user = User.from_db_by_id(id_num, self._dao)
+    user = User.from_db_by_id(user_id, self._dao)
 
-    user.control_access(editor)
-    # user = self._dao.delete(id_num)
-    # TODO implement soft delete
-    return False
+    if not user.editor_has_permission(editor):
+      raise UnauthorizedException("User not authorized to delete user.")
+    # TODO implement soft delete, this is not deleting anything at the moment.
+    # user = self._dao.delete(user_id)
+    return user.editor_has_permission(editor)
 
   def login(self, username: str, password: str) -> UserData:
     """Login and get data for a user.

@@ -40,9 +40,13 @@ class User():
 
     Args:
       user_data (dict): Dictionary with keys to update.
+      editor (User):    The editor (user) who is wanting to update the user.
     
     Returns:
       new_data (dict):  Dict with only the updated data.
+
+    Raises:
+      UnauthorizedException:  If the user is not allowed to delete the topic.
     """
     if not self.editor_has_permission(editor):
       raise UnauthorizedException("User not authorized to manage user.")
