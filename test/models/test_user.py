@@ -1,6 +1,20 @@
 import pytest
+import unittest.mock as mock
 from src.models.user import User
 from src.static.types import UserData
+from src.errors.customerrors import NoDataException, UnauthorizedException
+
+@pytest.fixture
+def sut():
+  """SUT for unittest."""
+  topic_data: UserData = {
+    "user_id": 666,
+    "username": "test",
+    "role": "admin"
+  }
+
+  return User( topic_data)
+
 
 @pytest.mark.models
 @pytest.mark.unit
@@ -14,29 +28,70 @@ class TestUnitUser:
     with pytest.raises(KeyError):
       User(user_data)
 
-  def test_user_to_dict(self):
-    """Test if to_dict returns a dictionary with the correct data."""
-    input_data = {"user_id": 1, "username": "test", "role": "admin"}
-    user_data = UserData(**input_data)
+  @pytest.mark.parametrize("new_data, expected_return, user_id", ([
+    ({"signature": "new sign", "avatar": "new avatar", "user_id": 24}, {"signature": "new sign", "avatar": "new avatar"}, 666),
+    ({}, {"signature": None, "avatar": None}, 666)
+  ]))
+  @mock.patch("src.models.user.User.editor_has_permission")
+  def test_update_with_access(self, mocked_ehp, sut, new_data, expected_return, user_id):
+    """Test update method, only updating avalible attributes even when trying for others."""
+    editor = mock.MagicMock()
+    mocked_ehp.return_value = True
 
-    user = User(user_data)
-    user_dict = user.to_dict()
+    result = sut.update(new_data, editor)
 
-    assert user_data.items() <= user_dict.items()
-    assert "avatar" in user_dict and "signature" in user_dict
+    assert result == expected_return and sut._user_id == user_id
 
-  def test_update_user(self):
-    """Test if update updates the user correctly."""
-    input_data = {"user_id": 1, "username": "test", "role": "admin", "signature": None, "avatar": None}
-    user_data = UserData(**input_data)
-    user = User(user_data)
-    editor = User(user_data)
+  @mock.patch("src.models.user.User.editor_has_permission")
+  def test_update_no_access(self, mocked_ehp, sut):
+    """Test update method when trying for user withour right permission."""
+    new_data = {"signature": "new sign"}
+    editor = mock.MagicMock()
+    mocked_ehp.return_value = False
 
-    new_sign = "This is a test signature"
-    new_avatar = "./link/to.test"
-    new_data  = {"signature": new_sign, "avatar": new_avatar}
-    user.update(new_data, editor)
+    with pytest.raises(UnauthorizedException):
+      sut.update(new_data, editor)
 
-    result: UserData = user.to_dict()
+  @pytest.mark.parametrize("id, expected", [(666, True), (2, False)])
+  def test_has_permission(self, sut, id, expected):
+    """Test has_permission method."""
+    editor = mock.MagicMock()
+    editor.id = id
 
-    assert result["signature"] == new_sign and result["avatar"] == new_avatar
+    assert sut.editor_has_permission(editor) == expected
+
+  def test_to_dict(self, sut):
+    """Test to_dict method."""
+    assert sut.to_dict() == {
+      "user_id": 666,
+      "username": "test",
+      "role": "admin",
+      "signature": None,
+      "avatar": None
+    }
+  
+  @mock.patch("src.models.post.User", autospec=True)
+  def test_from_db_by_id(self, mocked_user):
+    """Test from_db_by_id method."""
+    user_data =  {
+      "user_id": 666,
+      "username": "test",
+      "role": "admin",
+      "signature": "has signature",
+      "avatar": None
+    }
+
+    mocked_user_dao = mock.MagicMock()
+    mocked_user_dao.get_one.return_value = user_data
+    user  = User.from_db_by_id(12, mocked_user_dao)
+    assert user.to_dict() == user_data
+
+  @pytest.mark.parametrize("returned, expeced_error",
+    [(None, NoDataException), (Exception, Exception)])
+  def test_from_db_by_id_error(self, returned, expeced_error):
+    """Test from_db_by_id method but no user found or dao error."""
+    mocked_user_dao = mock.MagicMock()
+    mocked_user_dao.get_one.return_value = returned
+
+    with pytest.raises(expeced_error):
+      User.from_db_by_id(12, mocked_user_dao)

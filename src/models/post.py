@@ -52,10 +52,11 @@ class Post():
       UnauthorizedException: If the user is not authorized to manage the post.
     """
     if not self.editor_has_permission(editor):
-      raise UnauthorizedException("User not authorized to manage topic.")
+      raise UnauthorizedException("User not authorized to manage post.")
 
     # TODO update logic below. As of now it returns all updatedable keys even if not provided by editor.
     # However, if no valid updateable keys are given it would result in a db-error when trying to update.
+    # Same with user and topic.
     self._title = post_data.get("title", self._title)
     self._body = post_data.get("body", self._body)
 

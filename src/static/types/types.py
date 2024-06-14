@@ -4,17 +4,17 @@ Different types for data.
 from typing import TypedDict
 
 
-class UserInput(TypedDict):
+class UserType(TypedDict):
   """UserInput."""
+  user_id: int
   username: str
   role: str
+
+
+class UserData(UserType, total=False):
+  """UserData representing user data."""
   signature: str | None
   avatar: str | None
-
-
-class UserData(UserInput):
-  """UserData representing user data."""
-  user_id: int
 
 
 class TopicType(TypedDict):
