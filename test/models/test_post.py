@@ -1,7 +1,7 @@
 import pytest
 import unittest.mock as mock
-from src.models.topic import Topic
-from src.static.types import TopicData
+from src.models.post import Post
+from src.static.types import PostData
 from src.errors.customerrors import UnauthorizedException, NoDataException
 
 
@@ -11,43 +11,44 @@ def sut():
   user = mock.MagicMock()
   user.id = 1
   user.to_dict.return_value = {"user_id": 1}
-  topic_data: TopicData = {
-    "topic_id": 12,
-    "title": "Test title",
-    "category": 1,
-    "created": "2020-01-01",
-    "disabled": False
+  post_data: PostData = {
+    "post_id": 12,
+    "topic_id": 2,
+    "body": "Lorum impsum and such.",
+    "created": "2020-01-01"
   }
 
-  return Topic(user, topic_data)
+  return Post(user, post_data)
 
 
 @pytest.mark.models
 @pytest.mark.unit
-class TestUnitTopic:
-  """Unit test for topic model."""
+class TestUnitPost:
+  """Unit test for post model."""
 
-  def test_init_topic_missing_keys(self):
-    """Test init topic without required keys."""
-    topic_data: TopicData = {"title": "keys missing"} # type: ignore
+  def test_init_post_missing_keys(self):
+    """Test init post without required keys."""
+    post_data: PostData = {"body": "keys missing"} # type: ignore
     user = mock.MagicMock()
 
     with pytest.raises(KeyError):
-      Topic(user, topic_data)
-  
-  @mock.patch("src.models.topic.Topic.editor_has_permission")
-  def test_update_with_access(self, mocked_ehp, sut):
+      Post(user, post_data)
+
+  @pytest.mark.parametrize("new_data, expected_return, topic_id", ([
+    ({"title": "new title", "body": "new body", "topic_id": 24}, {"title": "new title", "body": "new body"}, 2),
+    ({"title": "new title", "topic_id": 24}, {"title": "new title" , "body": "Lorum impsum and such."}, 2)
+  ]))
+  @mock.patch("src.models.post.Post.editor_has_permission")
+  def test_update_with_access(self, mocked_ehp, sut, new_data, expected_return, topic_id):
     """Test update method, only updating avalible attributes even when trying for others."""
-    new_title = "new title"
-    topic_data = {"title": new_title, "topic_id": 24}
     editor = mock.MagicMock()
     mocked_ehp.return_value = True
 
-    new_data = sut.update(topic_data, editor)
+    result = sut.update(new_data, editor)
 
-    assert new_data == {"title": new_title} and sut._topic_id == 12
+    assert result == expected_return and sut._topic_id == topic_id
 
-  @mock.patch("src.models.topic.Topic.editor_has_permission")
+  @mock.patch("src.models.post.Post.editor_has_permission")
   def test_update_no_access(self, mocked_ehp, sut):
     """Test update method when trying for user withour right permission."""
     new_title = "new title"
@@ -66,40 +67,39 @@ class TestUnitTopic:
 
     assert sut.editor_has_permission(editor) == expected
 
-
   def test_to_dict(self, sut):
     """Test to_dict method."""
     assert sut.to_dict() == {
-      "topic_id": 12,
-      "created_by": {"user_id": 1},
-      "title": "Test title",
-      "category": 1,
+      "post_id": 12,
+      "topic_id": 2,
+      "author": {"user_id": 1},
+      "title": None,
+      "body": "Lorum impsum and such.",
       "created": "2020-01-01",
-      "disabled": False,
       "last_edited": None,
       "deleted": None
     }
 
-  @mock.patch("src.models.topic.User", autospec=True)
+  @mock.patch("src.models.post.User", autospec=True)
   def test_from_db_by_id(self, mocked_user):
     """Test from_db_by_id method."""
     topic_data =  {
-      "topic_id": 12,
-      "title": "Test title",
-      "category": 1,
+      "post_id": 12,
+      "topic_id": 2,
+      "author": {"user_id": 1},
+      "title": None,
+      "body": "Lorum impsum and such.",
       "created": "2020-01-01",
-      "disabled": False,
-      "created_by": {"user_id": 1},
-      "deleted": None,
-      "last_edited": None
+      "last_edited": None,
+      "deleted": None
     }
 
-    mocked_topic_dao = mock.MagicMock()
-    mocked_topic_dao.get_one.return_value = topic_data.copy()
+    mocked_post_dao = mock.MagicMock()
+    mocked_post_dao.get_one.return_value = topic_data.copy()
     mocked_user_instance = mocked_user.return_value
     mocked_user_instance.to_dict.return_value = {"user_id": 1}
 
-    topic = Topic.from_db_by_id(12, mocked_topic_dao)
+    topic = Post.from_db_by_id(12, mocked_post_dao)
     assert topic.to_dict() == topic_data
 
   @pytest.mark.parametrize("returned, expeced_error",
@@ -110,4 +110,4 @@ class TestUnitTopic:
     mocked_topic_dao.get_one.return_value = returned
 
     with pytest.raises(expeced_error):
-      Topic.from_db_by_id(12, mocked_topic_dao)
+      Post.from_db_by_id(12, mocked_topic_dao)

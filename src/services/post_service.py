@@ -8,7 +8,7 @@ from src.services.base_service import BaseService
 from src.models import Post, User
 from src.utils.daos import PostDAO, UserDAO
 from src.static.types import PostData, UserData
-from src.errors.customerrors import NoDataException
+from src.errors.customerrors import NoDataException, UnauthorizedException
 
 
 class PostService(BaseService):
@@ -69,11 +69,16 @@ class PostService(BaseService):
 
     Returns:
       Boolean:                True if item deleted, False otherwise
+  
+    Raises:
+      UnauthorizedException: If the user is not authorized to manage the topic.
     """
     editor = User(editor_data)
     post = Post.from_db_by_id(id_num, post_dao=self._dao)
 
-    post.control_user(editor)
+    if not post.editor_has_permission(editor):
+      raise UnauthorizedException("User not authorized to delete post.")
+
     success = self._dao.delete(id_num)
     return success
 

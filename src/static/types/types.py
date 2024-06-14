@@ -33,16 +33,16 @@ class TopicData(TopicType, total=False):
 
 
 class PostType(TypedDict):
-  """PostType, base for PostData."""
+  """PostType, base for PostData with required keys."""
   post_id: int
   topic_id: int
   created: str
-  last_edited: str | None
-  deleted: str | None
-  title: str | None
   body: str
 
 
 class PostData(PostType, total=False):
-  """PostData"""
+  """PostData, with optional keys"""
   author: UserData
+  last_edited: str | None
+  deleted: str | None
+  title: str | None
