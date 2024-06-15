@@ -4,8 +4,6 @@ import sqlite3
 import unittest.mock as mock
 from src.services import UserService
 from src.utils.daos import UserDAO
-from src.models.user import User
-from src.static.types import UserData
 from src.errors.customerrors import NoDataException, UnauthorizedException
 
 base_dir = os.path.dirname(__file__)
