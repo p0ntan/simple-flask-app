@@ -43,7 +43,7 @@ class Controller:
         if input_data is None:
             raise InputInvalidException("Missing input data.")
 
-        result = self._service.create(input_data)  # TODO get id from token or other way
+        result = self._service.create(input_data)
         response, status = r_helper.success_response(
             result, message=f"New {self._controller} added.", status=201
         )
