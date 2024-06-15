@@ -80,9 +80,9 @@ class TestIntegrationPostDAO:
     )
     def test_get_post_and_topic(self, sut_int, topic_id, page, expected_posts):
         """Test get topic and posts, check amount."""
-        data = sut_int.get_posts_and_topic(topic_id, page)
+        data = sut_int.get_post_and_users_with_pagination(topic_id, page)
 
-        assert len(data["posts"]) == expected_posts
+        assert len(data) == expected_posts
 
     @pytest.mark.parametrize(
         "topic_id, page, expected_first, expected_last",
@@ -95,9 +95,9 @@ class TestIntegrationPostDAO:
         self, sut_int, topic_id, page, expected_first, expected_last
     ):
         """Test get topic and posts, check last body message."""
-        data = sut_int.get_posts_and_topic(topic_id, page)
+        data = sut_int.get_post_and_users_with_pagination(topic_id, page)
 
         assert (
-            data["posts"][0]["body"] == expected_first
-            and data["posts"][-1]["body"] == expected_last
+            data[0]["body"] == expected_first
+            and data[-1]["body"] == expected_last
         )

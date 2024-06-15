@@ -4,6 +4,7 @@ DAO is used for simplyfying handling with data from database.
 
 import os
 import sqlite3
+from contextlib import contextmanager
 from abc import ABC, abstractmethod
 from typing import Any
 from src.utils.print_colors import ColorPrinter
@@ -22,25 +23,17 @@ class DAO(ABC):
         self._table = table_name
         self._connection = None
 
-    def _get_connection_and_cursor(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
-        """Connect to the sqlite database and get connection and cursor.
+    def _get_connection(self) -> sqlite3.Connection:
+        """Connect to the sqlite database and get connection.
 
         Returns:
-          connection, cursor: To use for executing queries
+          connection:   To use for executing queries
         """
         connection = sqlite3.connect(self._db_path)
-        cursor = connection.cursor()
+        connection.row_factory = sqlite3.Row
+        self._connection = connection
 
-        return connection, cursor
-
-    def _connect_get_cursor(self) -> sqlite3.Cursor:
-        """Connect to the sqlite database.
-
-        Returns:
-          sqlite3 cursor:
-        """
-        self._connection = sqlite3.connect(self._db_path)
-        return self._connection.cursor()
+        return self._connection
 
     def _disconnect(self):
         """Disconnects the connection."""
@@ -48,6 +41,29 @@ class DAO(ABC):
             self._connection.close()
 
         self._connection = None
+
+    @contextmanager
+    def _get_db_connection(self):
+        """Creates a context for all connections for dao.
+        
+        Centralizes the connection, commit, rollback and disconnection to keep code DRY.
+
+        Raises:
+          Exception:  In case of any error
+        """
+        conn = None
+
+        try:
+            conn = self._get_connection()
+            yield conn
+            conn.commit()
+        except Exception as err:
+            if conn is not None:
+                conn.rollback()
+            printer.print_fail(err)
+            raise err
+        finally:
+            self._disconnect()
 
     @abstractmethod
     def create(self, data: dict) -> Any:
@@ -70,28 +86,17 @@ class DAO(ABC):
         Raises:
           Exception:    In case of any error
         """
-        conn = None
-        try:
-            conn, cur = self._get_connection_and_cursor()
-
+        with self._get_db_connection() as conn:
             columns = ", ".join([f"{k} = ?" for k in data.keys()])
-
-            cur.execute(
+            res = conn.execute(
                 f"UPDATE {self._table} SET {columns} WHERE id = ?",
                 (
                     *data.values(),
                     id_num,
                 ),
             )
-            conn.commit()
 
-            return cur.rowcount > 0
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()
+            return res.rowcount > 0
 
     def delete(self, id_num: int) -> bool:
         """Delete entry from database (soft delete).
@@ -105,19 +110,10 @@ class DAO(ABC):
         Raises:
           Exception:    In case of any error
         """
-        conn = None
-        try:
-            conn, cur = self._get_connection_and_cursor()
-            cur.execute(
+        with self._get_db_connection() as conn:
+            res = conn.execute(
                 f"UPDATE {self._table} SET deleted = CURRENT_TIMESTAMP WHERE id = ?",
                 (id_num,),
             )
-            conn.commit()
 
-            return cur.rowcount > 0
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()
+            return res.rowcount > 0

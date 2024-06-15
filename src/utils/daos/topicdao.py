@@ -48,11 +48,8 @@ class TopicDAO(DAO):
         Raises:
           Exception:        in case of any error like unique entry already exist.
         """
-        conn = None
-
-        try:
-            conn, cur = self._get_connection_and_cursor()
-            cur.execute(
+        with self._get_db_connection() as conn:
+            res = conn.execute(
                 """
         INSERT INTO topic
           (created_by, title, category)
@@ -61,21 +58,10 @@ class TopicDAO(DAO):
       """,
                 (data["created_by"], data["title"], data["category"]),
             )
-            conn.commit()
 
-            cur.execute(self.GET_ONE_QUERY, (cur.lastrowid,))
-            result = cur.fetchone()
-            column_names = [description[0] for description in cur.description]
+            result = conn.execute(self.GET_ONE_QUERY, (res.lastrowid,)).fetchone()
 
-            topic_dict = dict(zip(column_names, result))
-
-            return TopicData(**topic_dict)
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()
+            return TopicData(**result)
 
     def update(self, id_num: int, data: dict) -> bool:
         """Update topic.
@@ -90,28 +76,17 @@ class TopicDAO(DAO):
         Raises:
           Exception:    In case of any error
         """
-        conn = None
-        try:
-            conn, cur = self._get_connection_and_cursor()
-
+        with self._get_db_connection() as conn:
             columns = ", ".join([f"{k} = ?" for k in data.keys()])
-
-            cur.execute(
+            res = conn.execute(
                 f"UPDATE topic SET {columns} WHERE id = ?",
                 (
                     *data.values(),
                     id_num,
                 ),
             )
-            conn.commit()
 
-            return cur.rowcount > 0
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()
+            return res.rowcount > 0
 
     def get_one(self, id_num: int) -> TopicData | None:
         """Get one topic from database.
@@ -126,18 +101,13 @@ class TopicDAO(DAO):
         Raises:
           Exception:        in case of any error
         """
-        conn = None
-
-        try:
-            conn, cur = self._get_connection_and_cursor()
-            cur.execute(self.GET_ONE_QUERY, (id_num,))
-            result = cur.fetchone()
+        with self._get_db_connection() as conn:
+            result = conn.execute(self.GET_ONE_QUERY, (id_num,)).fetchone()
 
             if result is None:
                 return result
 
-            column_names = [description[0] for description in cur.description]
-            topic_data = dict(zip(column_names, result))
+            topic_data = dict(result)
 
             created_by = {
                 "user_id": topic_data.pop("user_id"),
@@ -149,12 +119,6 @@ class TopicDAO(DAO):
             topic_data["created_by"] = created_by
 
             return TopicData(**topic_data)
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()
 
     def delete(self, id_num: int) -> bool:
         """Delete topic from database (soft delete) by setting deleted to current time.
@@ -168,22 +132,13 @@ class TopicDAO(DAO):
         Raises:
           Exception:    In case of any error
         """
-        conn = None
-        try:
-            conn, cur = self._get_connection_and_cursor()
-            # TODO add soft delete for users topic and posts, with same timestamp?
-            cur.execute(
+        with self._get_db_connection() as conn:
+            # TODO add soft delete for users, topic and posts, with same timestamp?
+            res = conn.execute(
                 "UPDATE topic SET deleted = CURRENT_TIMESTAMP WHERE id = ?", (id_num,)
             )
-            conn.commit()
 
-            return cur.rowcount > 0
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()
+            return res.rowcount > 0
 
     def get_latest_topics(self, limit: int) -> list[TopicData]:
         """Get the latest topics in the database, based on creation date.
@@ -191,10 +146,8 @@ class TopicDAO(DAO):
         Returns:
           list[TopicData]: The list of topics.
         """
-        conn = None
-        try:
-            conn, cur = self._get_connection_and_cursor()
-            rows = cur.execute(
+        with self._get_db_connection() as conn:
+            results = conn.execute(
                 """
         SELECT
           topic.id AS topic_id,
@@ -218,26 +171,17 @@ class TopicDAO(DAO):
                 (limit,),
             )
 
-            column_names = [description[0] for description in cur.description]
-
             topics_data: list[TopicData] = []
 
-            for topic in rows:
-                topic_with_keys = dict(zip(column_names, topic))
-                created_by = {
-                    "user_id": topic_with_keys.pop("user_id"),
-                    "username": topic_with_keys.pop("username"),
-                    "role": topic_with_keys.pop("role"),
-                    "signature": topic_with_keys.pop("signature"),
-                    "avatar": topic_with_keys.pop("avatar"),
+            for topic in results:
+                topic_data = dict(topic)
+                topic_data["created_by"] = {
+                    "user_id": topic_data.pop("user_id"),
+                    "username": topic_data.pop("username"),
+                    "role": topic_data.pop("role"),
+                    "signature": topic_data.pop("signature"),
+                    "avatar": topic_data.pop("avatar"),
                 }
-                topic_with_keys["created_by"] = created_by
-                topics_data.append(TopicData(**topic_with_keys))
+                topics_data.append(TopicData(**topic_data))
 
             return topics_data
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()

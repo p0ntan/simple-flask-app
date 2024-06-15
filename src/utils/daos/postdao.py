@@ -50,9 +50,8 @@ class PostDAO(DAO):
         Raises:
           Exception:    in case of any error
         """
-        try:
-            cur = self._connect_get_cursor()
-            rows = cur.execute(
+        with self._get_db_connection() as conn:
+            results = conn.execute(
                 """
         SELECT
           post.id AS post_id,
@@ -74,12 +73,12 @@ class PostDAO(DAO):
         OFFSET ?
       """,
                 (topic_id, pagnation * 10),
-            )
-            column_names = [description[0] for description in cur.description]
+            ).fetchall()
 
-            posts_data = [dict(zip(column_names, row)) for row in rows]
+            post_data = []
 
-            for post in posts_data:
+            for row in results:
+                post = dict(row)
                 author = {
                     "user_id": post.pop("user_id"),
                     "username": post.pop("username"),
@@ -88,13 +87,9 @@ class PostDAO(DAO):
                     "avatar": post.pop("avatar"),
                 }
                 post["author"] = author
+                post_data.append(post)
 
-            return posts_data
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            self._disconnect()
+            return post_data
 
     def get_one(self, id_num: int) -> PostData | None:
         """Get one post from database.
@@ -109,35 +104,22 @@ class PostDAO(DAO):
         Raises:
           Exception:        in case of any error
         """
-        conn = None
-
-        try:
-            conn, cur = self._get_connection_and_cursor()
-            cur.execute(self.GET_ONE_QUERY, (id_num,))
-            result = cur.fetchone()
+        with self._get_db_connection() as conn:
+            result = conn.execute(self.GET_ONE_QUERY, (id_num,)).fetchone()
 
             if result is None:
                 return result
-
-            column_names = [description[0] for description in cur.description]
-            post_data = dict(zip(column_names, result))
-
-            author = {
+            
+            post_data = dict(result)
+            post_data["author"] = {
                 "user_id": post_data.pop("user_id"),
                 "username": post_data.pop("username"),
                 "role": post_data.pop("role"),
                 "signature": post_data.pop("signature"),
                 "avatar": post_data.pop("avatar"),
             }
-            post_data["author"] = author
 
             return PostData(**post_data)
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()
 
     def create(self, data: dict[str, str | int]) -> PostData:
         """Create (insert) a new post into database.
@@ -151,11 +133,8 @@ class PostDAO(DAO):
         Raises:
           Exception:        in case of any error like unique entry already exist.
         """
-        conn = None
-
-        try:
-            conn, cur = self._get_connection_and_cursor()
-            cur.execute(
+        with self._get_db_connection() as conn:
+            res = conn.execute(
                 """
         INSERT INTO post
           (author, topic_id, title, body)
@@ -169,68 +148,57 @@ class PostDAO(DAO):
                     data["body"],
                 ),
             )
-            conn.commit()
 
-            cur.execute(self.GET_ONE_QUERY, (cur.lastrowid,))
-            result = cur.fetchone()
-            column_names = [description[0] for description in cur.description]
-
-            post_data = dict(zip(column_names, result))
-            author = {
+            result = conn.execute(self.GET_ONE_QUERY, (res.lastrowid,)).fetchone()
+            post_data = dict(result)
+            post_data["author"] = {
                 "user_id": post_data.pop("user_id"),
                 "username": post_data.pop("username"),
                 "role": post_data.pop("role"),
                 "signature": post_data.pop("signature"),
                 "avatar": post_data.pop("avatar"),
             }
-            post_data["author"] = author
 
             return PostData(**post_data)
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            if conn is not None:
-                conn.close()
 
-    def get_posts_and_topic(self, topic_id: int, pagnation: int = 0) -> dict:
-        """Gets topic and posts for that topic.
+    # def get_posts_and_topic(self, topic_id: int, pagnation: int = 0) -> dict:
+    #     """Gets topic and posts for that topic.
 
-        Args:
-          topic_id(int):    the id for the topic
-          pagnationn(int):  pages in, 0 = first 10
+    #     Args:
+    #       topic_id(int):    the id for the topic
+    #       pagnationn(int):  pages in, 0 = first 10
 
-        Returns:
-          dict:             with data in keys topic and posts
+    #     Returns:
+    #       dict:             with data in keys topic and posts
 
-        Raises:
-          Exception:    in case of any error
-        """
-        try:
-            cur = self._connect_get_cursor()
+    #     Raises:
+    #       Exception:    in case of any error
+    #     """
+    #     try:
+    #         cur = self._connect_get_cursor()
 
-            rows = cur.execute("SELECT * FROM topic WHERE id = ?", (topic_id,))
-            column_names = [description[0] for description in cur.description]
+    #         rows = cur.execute("SELECT * FROM topic WHERE id = ?", (topic_id,))
+    #         column_names = [description[0] for description in cur.description]
 
-            topic = [dict(zip(column_names, row)) for row in rows]
+    #         topic = [dict(zip(column_names, row)) for row in rows]
 
-            rows = cur.execute(
-                """
-        SELECT * FROM post
-        WHERE topic_id = ? AND deleted IS NULL
-        ORDER BY created ASC
-        LIMIT 10
-        OFFSET ?
-      """,
-                (topic_id, pagnation * 10),
-            )
-            column_names = [description[0] for description in cur.description]
+    #         rows = cur.execute(
+    #             """
+    #     SELECT * FROM post
+    #     WHERE topic_id = ? AND deleted IS NULL
+    #     ORDER BY created ASC
+    #     LIMIT 10
+    #     OFFSET ?
+    #   """,
+    #             (topic_id, pagnation * 10),
+    #         )
+    #         column_names = [description[0] for description in cur.description]
 
-            posts = [dict(zip(column_names, row)) for row in rows]
+    #         posts = [dict(zip(column_names, row)) for row in rows]
 
-            return {"topic": topic, "posts": posts}
-        except Exception as err:
-            printer.print_fail(err)
-            raise err
-        finally:
-            self._disconnect()
+    #         return {"topic": topic, "posts": posts}
+    #     except Exception as err:
+    #         printer.print_fail(err)
+    #         raise err
+    #     finally:
+    #         self._disconnect()

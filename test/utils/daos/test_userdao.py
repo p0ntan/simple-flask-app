@@ -54,67 +54,67 @@ def sut():
 @pytest.mark.unit
 class TestUnitDAO:
     @pytest.mark.parametrize(
-        "result, names, expected",
+        "result, expected",
         [
             (
-                (2, "admin", "admin"),
-                faked_names,
+                {"id": 2, "username": "admin", "role": "admin"},
                 {"id": 2, "username": "admin", "role": "admin"},
             ),
-            (None, faked_names, None),
+            (None, None),
         ],
     )
-    @mock.patch("src.utils.daos.UserDAO._connect_get_cursor", autospec=True)
+    @mock.patch("src.utils.daos.UserDAO._get_connection", autospec=True)
     @mock.patch("src.utils.daos.UserDAO._disconnect", autospec=True)
-    def test_get_one(self, mockedDisconnect, mockedCGC, sut, result, names, expected):
+    def test_get_one(self, mockedDisconnect, mockedGetConnection, sut, result, expected):
         """
         Get one
         """
-        mocked_cursor = mock.MagicMock()
-        mocked_cursor.description = names
-        mocked_cursor.fetchone.return_value = result
-
-        mockedCGC.return_value = mocked_cursor
+        mocked_execute = mock.MagicMock()
+        mocked_execute.fetchone.return_value = result
+        mocked_connection = mock.MagicMock()
+        mocked_connection.execute.return_value = mocked_execute
+        mockedGetConnection.return_value = mocked_connection
         mockedDisconnect.side_effect = None
 
         result = sut.get_one(2)
 
         assert result == expected
 
-    @mock.patch("src.utils.daos.UserDAO._connect_get_cursor", autospec=True)
-    def test_get_one_exception(self, mockedCGC, sut):
+    @mock.patch("src.utils.daos.UserDAO._get_connection", autospec=True)
+    def test_get_one_exception(self, mockedGetConnection, sut):
         """
         Get one - exception
         """
-        mocked_cursor = mock.MagicMock()
-        mocked_cursor.fetchone.side_effect = Exception
-        mockedCGC.return_value = mocked_cursor
+        mocked_connection = mock.MagicMock()
+        mocked_connection.execute.side_effect = Exception
+        mockedGetConnection.return_value = mocked_connection
 
         with pytest.raises(Exception):
             sut.get_one(2)
 
-    @mock.patch("src.utils.daos.UserDAO._get_connection_and_cursor", autospec=True)
-    def test_update_exception(self, mockedCAC, sut):
+    @mock.patch("src.utils.daos.UserDAO._get_connection", autospec=True)
+    @mock.patch("src.utils.daos.UserDAO._disconnect", autospec=True)
+    def test_update_exception(self, mockedDisconnect, mockedGetConnection, sut):
         """Test when an exception is raised due to wrong input, conn.close in finally block is called."""
         connection = mock.MagicMock()
-        mockedCAC.return_value = connection, None
+        mockedGetConnection.return_value = connection
 
         with pytest.raises(Exception):
             sut.update(2, {})
 
-        connection.close.assert_called_once()
+        mockedDisconnect.assert_called_once()
 
-    @mock.patch("src.utils.daos.UserDAO._get_connection_and_cursor", autospec=True)
-    def test_delete_exception(self, mockedCAC, sut):
+    @mock.patch("src.utils.daos.UserDAO._get_connection", autospec=True)
+    @mock.patch("src.utils.daos.UserDAO._disconnect", autospec=True)
+    def test_delete_exception(self, mockedDisconnect, mockedGetConnection, sut):
         """Test that when an exception is raised the _disconnect in finally block is called."""
         connection = mock.MagicMock()
-        mockedCAC.return_value = connection, None
+        mockedGetConnection.return_value = connection
 
         with pytest.raises(Exception):
             sut.delete(2)
 
-        connection.close.assert_called_once()
-
+        mockedDisconnect.assert_called_once()
 
 @pytest.mark.integration
 class TestIntegrationUserDAO:
