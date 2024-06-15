@@ -1,6 +1,7 @@
 """
 UserDAO is used for accessing users.
 """
+
 from __future__ import annotations
 from src.static.types import UserData
 from src.utils.daos.basedao import DAO
@@ -13,7 +14,9 @@ class UserDAO(DAO):
     """UserDAO for accessing posts."""
 
     GET_ONE_QUERY_USERNAME = "SELECT id AS user_id, username, role, signature, avatar FROM user WHERE username = ?"
-    GET_ONE_QUERY_ID = "SELECT id as user_id, username, role, signature, avatar FROM user WHERE id = ?"
+    GET_ONE_QUERY_ID = (
+        "SELECT id as user_id, username, role, signature, avatar FROM user WHERE id = ?"
+    )
 
     def __init__(self, table_name: str):
         super().__init__(table_name)
@@ -31,7 +34,9 @@ class UserDAO(DAO):
           Exception:    in case of any error like unique entry already exist.
         """
         with self._get_db_connection() as conn:
-            res = conn.execute("INSERT INTO user (username) VALUES (?)", (data["username"],))
+            res = conn.execute(
+                "INSERT INTO user (username) VALUES (?)", (data["username"],)
+            )
             user_data = conn.execute(self.GET_ONE_QUERY_ID, (res.lastrowid,)).fetchone()
 
             return UserData(**user_data)

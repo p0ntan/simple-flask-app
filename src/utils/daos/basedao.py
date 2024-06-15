@@ -45,7 +45,7 @@ class DAO(ABC):
     @contextmanager
     def _get_db_connection(self):
         """Creates a context for all connections for dao.
-        
+
         Centralizes the connection, commit, rollback and disconnection to keep code DRY.
 
         Raises:
