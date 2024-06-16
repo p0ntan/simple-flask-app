@@ -22,13 +22,13 @@ def inject_user():
 def utility_processor():
     def max_value(a, b):
         return max(a, b)
-    
+
     def min_value(a, b):
         return min(a, b)
-    
+
     def total_pages(total_posts, posts_per_page):
         return math.ceil(total_posts / posts_per_page)
-    
+
     return dict(max_value=max_value, min_value=min_value, total_pages=total_pages)
 
 
@@ -93,5 +93,5 @@ def single_topic(id_num: int):
         "topic.jinja",
         topic=topic_data.get("topic", None),
         posts=topic_data.get("posts", None),
-        page=page
+        page=page,
     )

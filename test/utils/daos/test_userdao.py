@@ -68,7 +68,9 @@ class TestUnitDAO:
     )
     @mock.patch("src.utils.daos.UserDAO._get_connection", autospec=True)
     @mock.patch("src.utils.daos.UserDAO._disconnect", autospec=True)
-    def test_get_one(self, mockedDisconnect, mockedGetConnection, sut, result, expected):
+    def test_get_one(
+        self, mockedDisconnect, mockedGetConnection, sut, result, expected
+    ):
         """
         Get one
         """
@@ -118,6 +120,7 @@ class TestUnitDAO:
             sut.delete(2)
 
         mockedDisconnect.assert_called_once()
+
 
 @pytest.mark.integration
 class TestIntegrationUserDAO:

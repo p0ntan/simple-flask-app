@@ -37,6 +37,7 @@ def sut_int():
 
         os.remove(test_db)
 
+
 @pytest.mark.testing
 @pytest.mark.integration
 class TestIntegrationPostDAO:
@@ -102,7 +103,4 @@ class TestIntegrationPostDAO:
         """Test get topic and posts, check last body message."""
         data = sut_int.get_post_and_users_with_pagination(topic_id, page)
 
-        assert (
-            data[0]["body"] == expected_first
-            and data[-1]["body"] == expected_last
-        )
+        assert data[0]["body"] == expected_first and data[-1]["body"] == expected_last
