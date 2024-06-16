@@ -37,7 +37,7 @@ class PostDAO(DAO):
 
     def get_post_and_users_with_pagination(
         self, topic_id: int, pagnation: int = 0
-    ) -> list[dict[str, Any]]:
+    ) -> list[PostData]:
         """Gets post for a certain topic, with pagination for the posts.
 
         Args:
@@ -45,7 +45,7 @@ class PostDAO(DAO):
           pagnationn(int):  pages in, 0 = first 10
 
         Returns:
-          list:             with posts as dictionaries
+          list (PostData):             with posts as dictionaries
 
         Raises:
           Exception:    in case of any error
@@ -75,19 +75,18 @@ class PostDAO(DAO):
                 (topic_id, pagnation * 10),
             ).fetchall()
 
-            post_data = []
+            post_data: list[PostData] = []
 
             for row in results:
                 post = dict(row)
-                author = {
+                post["author"] = {
                     "user_id": post.pop("user_id"),
                     "username": post.pop("username"),
                     "role": post.pop("role"),
                     "signature": post.pop("signature"),
                     "avatar": post.pop("avatar"),
                 }
-                post["author"] = author
-                post_data.append(post)
+                post_data.append(PostData(**post))
 
             return post_data
 

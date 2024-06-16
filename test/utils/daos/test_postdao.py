@@ -6,7 +6,7 @@ import unittest.mock as mock
 from src.utils.daos.postdao import PostDAO
 
 base_dir = os.path.dirname(__file__)
-test_db = os.path.join(base_dir, "test_data/test_db.sqlite")
+test_db = os.getenv("TEST_SQLITE_PATH", "")
 
 
 @pytest.fixture
@@ -26,13 +26,18 @@ def sut_int():
     conn.commit()
     conn.close()
 
-    with mock.patch("src.utils.daos.basedao.os.environ.get") as db_path:
-        db_path.return_value = test_db
+    with mock.patch("src.utils.daos.basedao.get_config") as mocked_config:
+        config = mock.MagicMock()
+        config.DB_PATH = test_db
+        mocked_config.return_value = config
+
         sut = PostDAO("post")
+
         yield sut
+
         os.remove(test_db)
 
-
+@pytest.mark.testing
 @pytest.mark.integration
 class TestIntegrationPostDAO:
     """Integration tests."""

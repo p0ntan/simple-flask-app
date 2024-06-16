@@ -22,6 +22,7 @@ class TopicDAO(DAO):
       topic.last_edited,
       topic.deleted,
       topic.disabled,
+      (SELECT COUNT(id) FROM post WHERE post.topic_id = topic.id AND post.deleted IS NULL) as no_of_posts,
       user.id as user_id,
       user.username,
       user.role,

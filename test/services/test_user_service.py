@@ -7,7 +7,7 @@ from src.utils.daos import UserDAO
 from src.errors.customerrors import NoDataException, UnauthorizedException
 
 base_dir = os.path.dirname(__file__)
-test_db = os.path.join(base_dir, "test_data/test_db.sqlite")
+test_db = os.getenv("TEST_SQLITE_PATH", "")
 
 johndoe_user = {
     "user_id": 5,
@@ -35,8 +35,10 @@ def sut():
     conn.commit()
     conn.close()
 
-    with mock.patch("src.utils.daos.basedao.os.environ.get") as db_path:
-        db_path.return_value = test_db
+    with mock.patch("src.utils.daos.basedao.get_config") as mocked_config:
+        config = mock.MagicMock()
+        config.DB_PATH = test_db
+        mocked_config.return_value = config
         user_dao = UserDAO("user")
         sut = UserService(user_dao)
         yield sut

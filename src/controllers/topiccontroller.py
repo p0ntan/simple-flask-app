@@ -70,7 +70,9 @@ class TopicController(Controller):
         Returns:
           tuple[Response, int]: The response and status code
         """
-        data = self._service.get_topic_posts_users(id_num, int(page_num))
+        pagnation = int(page_num) - 1
+
+        data = self._service.get_topic_posts_users(id_num, pagnation)
         response, status = r_helper.success_response(data)
 
         return jsonify(response), status

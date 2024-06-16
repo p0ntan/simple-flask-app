@@ -7,6 +7,7 @@ import sqlite3
 from contextlib import contextmanager
 from abc import ABC, abstractmethod
 from typing import Any
+from config import get_config
 from src.utils.print_colors import ColorPrinter
 
 printer = ColorPrinter()
@@ -19,7 +20,7 @@ class DAO(ABC):
 
     def __init__(self, table_name: str):
         """Constructor for DAO."""
-        self._db_path = os.environ.get("SQLITE_PATH", "./db/db.sqlite")
+        self._db_path = get_config().DB_PATH
         self._table = table_name
         self._connection = None
 
