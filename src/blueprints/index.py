@@ -3,6 +3,7 @@ Index-blueprint, just a file for collecting all API-routes.
 """
 
 import os
+import math
 import requests
 from flask import Blueprint, session, redirect, request, render_template
 
@@ -15,6 +16,20 @@ def inject_user():
     """Inject user into context."""
     user = session.get("user", None)
     return {"user": user}
+
+
+@index_blueprint.context_processor
+def utility_processor():
+    def max_value(a, b):
+        return max(a, b)
+    
+    def min_value(a, b):
+        return min(a, b)
+    
+    def total_pages(total_posts, posts_per_page):
+        return math.ceil(total_posts / posts_per_page)
+    
+    return dict(max_value=max_value, min_value=min_value, total_pages=total_pages)
 
 
 @index_blueprint.route("/")
@@ -66,7 +81,7 @@ def new_topics():
 def single_topic(id_num: int):
     """Latest topics route."""
     topic_data = {}
-    page = request.args.get("page", 0)
+    page = max(int(request.args.get("page", 1)), 1)
 
     try:
         response = requests.get(f"{API_URL}/topics/{id_num}/page/{page}", timeout=5)
@@ -78,4 +93,5 @@ def single_topic(id_num: int):
         "topic.jinja",
         topic=topic_data.get("topic", None),
         posts=topic_data.get("posts", None),
+        page=page
     )
