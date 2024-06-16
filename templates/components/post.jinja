@@ -1,4 +1,4 @@
-{% macro render_post(data) %}
+{% macro render_post(data, convert_md_to_html) %}
   <div class="bg-primary-subtle px-2" style="width: 100%">
     <p class="mb-0">Posted: {{ data.created }}</p>
   </div>
@@ -10,7 +10,7 @@
     </div>
     <div class="col py-2 d-flex flex-column">
       <p>
-        {{ data.body }}
+        {{ convert_md_to_html(data.body) }}
       </p>
       
       {% if data.last_updated %}

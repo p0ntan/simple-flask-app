@@ -1,0 +1,37 @@
+  <nav aria-label="Page navigation" class="w-full d-flex justify-content-end">
+    <ul class="pagination">
+      {% set current_page = page %}
+      {% set total_pages = total_pages(topic.no_of_posts, 10) %}
+      
+      {% if total_pages > 5 %}
+        {% set start_page = max_value(1, current_page - 2) %}
+        {% set end_page = min_value(total_pages, current_page + 2) %}
+        
+        {% if start_page > 1 %}
+          <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+          {% if start_page > 2 %}
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+          {% endif %}
+        {% endif %}
+        
+        {% for page_num in range(start_page, end_page + 1) %}
+          <li class="page-item {% if page_num == current_page %}active{% endif %}">
+            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+          </li>
+        {% endfor %}
+        
+        {% if end_page < total_pages %}
+          {% if end_page < total_pages - 1 %}
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+          {% endif %}
+          <li class="page-item"><a class="page-link" href="?page={{ total_pages }}">{{ total_pages }}</a></li>
+        {% endif %}
+      {% else %}
+        {% for page_num in range(1, total_pages + 1) %}
+          <li class="page-item {% if page_num == current_page %}active{% endif %}">
+            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+          </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </nav>
