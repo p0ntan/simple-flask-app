@@ -5,6 +5,7 @@ flask-jwt-extended
 requests
 pytest
 pytest-cov
+pytest-env
 pylint
 flake8
 black
