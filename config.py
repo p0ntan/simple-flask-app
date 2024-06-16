@@ -24,15 +24,12 @@ class TestingConfig(Config):
     DB_PATH = env_var = os.getenv("TEST_SQLITE_PATH", "")
 
 def get_config():
-    """Get config class depending on env-variable. Default production"""
+    """Get config class depending on env-variable. Default production."""
     env_var = os.getenv("FLASK_ENV")
 
     if env_var == "development":
-        print("Using development config")
         return DevelopmentConfig
     elif env_var == "test":
-        print("Using testing config")
         return TestingConfig
 
-    print("Using production config")
     return ProductionConfig
