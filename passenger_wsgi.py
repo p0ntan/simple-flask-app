@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #
-# Test project creating an API and rendering templates on same server
+# Test project creating an REST-API for an online forum. Views is also
+# rendered for a simple page using the API.
 #
 from config import get_config
 from flask import Flask
@@ -8,14 +9,6 @@ from src.blueprints.api.apiblueprint import api_blueprint
 from src.blueprints.index import index_blueprint
 
 from flask_jwt_extended import JWTManager
-
-# application = Flask(__name__)
-# application.secret_key = os.environ.get("SECRET_KEY", re.sub(r"[^a-z\d]", "", os.path.realpath(__file__)))
-# application.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET", "this-is-just-a-not-secret-backup-key")
-# jwt = JWTManager(application)
-
-# application.register_blueprint(api_blueprint)
-# application.register_blueprint(index_blueprint)
 
 def create_app():
     application = Flask(__name__)
@@ -29,6 +22,8 @@ def create_app():
 
     return application
 
+# application needs to be here for passenger to access it on server
+application = create_app()
+
 if __name__ == "__main__":
-    application = create_app()
     application.run()
