@@ -82,3 +82,26 @@ class UserDAO(DAO):
                 return result
 
             return UserData(**result)
+
+    def get_permission_from_role(self, role: str) -> dict[str, str | bool]:
+        """Retrieves a roles permissions based on name (admin, moderator, author).
+
+        Parameters:
+          role (str):   The role to get the permissions from.
+
+        Returns:
+          roles (dict): Dictonary with the roles.
+          None:         If no result for role
+
+        Raises:
+          Exception:    If an error occurs while retrieving the user.
+        """
+        with self._get_db_connection() as conn:
+            result = conn.execute(
+                "SELECT * FROM permission WHERE role = ?"
+                ,(role,)).fetchone()
+
+            if result is None:
+                return result
+
+            return dict(result)

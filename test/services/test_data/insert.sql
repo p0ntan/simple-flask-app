@@ -32,3 +32,8 @@ INSERT INTO post (author, topic_id, body, created) VALUES (1, 1, "Has no title",
 INSERT INTO post (author, topic_id, body, created) VALUES (1, 1, "Is the first of second ten.", "2024-06-11 10:20:31");
 INSERT INTO post (author, topic_id, body, created) VALUES (1, 1, "Has no title", "2024-06-11 13:20:31");
 INSERT INTO post (author, topic_id, body, created) VALUES (1, 1, "Is the last of second ten.", "2024-06-11 14:20:31");
+
+-- permission
+INSERT INTO permission (role,edit_post,delete_post,edit_topic,delete_topic,delete_user,edit_user) VALUES ("admin",1,1,1,1,1,1);
+INSERT INTO permission (role,edit_post,delete_post,edit_topic,delete_topic,delete_user,edit_user) VALUES ("moderator",1,0,1,0,0,0);
+INSERT INTO permission (role,edit_post,delete_post,edit_topic,delete_topic,delete_user,edit_user) VALUES ("author",0,0,0,0,0,0);

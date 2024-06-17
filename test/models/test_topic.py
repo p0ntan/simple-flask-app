@@ -63,8 +63,9 @@ class TestUnitTopic:
         """Test has_permission method."""
         editor = mock.MagicMock()
         editor.id = id
+        editor.permission.edit_topic.return_value = False
 
-        assert sut.editor_has_permission(editor) == expected
+        assert sut.editor_has_permission(editor, "update") == expected
 
     def test_to_dict(self, sut):
         """Test to_dict method."""

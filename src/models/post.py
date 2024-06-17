@@ -53,8 +53,8 @@ class Post:
         Raises:
           UnauthorizedException: If the user is not authorized to manage the post.
         """
-        if not self.editor_has_permission(editor):
-            raise UnauthorizedException("User not authorized to manage post.")
+        if not self.editor_has_permission(editor, "update"):
+            raise UnauthorizedException("User not authorized to edit post.")
 
         # TODO update logic below. As of now it returns all updatedable keys even if not provided by editor.
         # However, if no valid updateable keys are given it would result in a db-error when trying to update.
@@ -64,17 +64,22 @@ class Post:
 
         return {"title": self._title, "body": self._body}
 
-    def editor_has_permission(self, editor: User) -> bool:
+    def editor_has_permission(self, editor: User, action: str) -> bool:
         """Control that another user (editor) can manage the post based on id and access.
 
         Args:
           editor (User):          The editor to control having access to manage this post.
+          action (str):           String with wanted action like update or delete.
 
         Returns:
           has_permission (bool):  True if edditor has permission, False if not.
         """
         # TODO add more (better) logic when time comes, like admin/moderator.
-        return editor.id == self._author.id
+        if action == "update":
+            return editor.id == self._author.id or editor.permission.edit_post()
+        elif action == "delete":
+            return editor.id == self._author.id or editor.permission.delete_post()
+        return False  # Default value
 
     def to_dict(self) -> PostData:
         """Return post data as dictionary.

@@ -4,6 +4,7 @@ User model representing a user.
 
 from __future__ import annotations
 from typing import Any
+from src.models.permission import Permission
 from src.static.types import UserData
 from src.utils.daos.userdao import UserDAO
 from src.errors.customerrors import NoDataException, UnauthorizedException
@@ -12,7 +13,7 @@ from src.errors.customerrors import NoDataException, UnauthorizedException
 class User:
     """User model representing a user."""
 
-    def __init__(self, user_data: UserData):
+    def __init__(self, user_data: UserData, permissions: Permission = Permission({})):
         """Initiate the user.
 
         Args:
@@ -31,11 +32,17 @@ class User:
         self._role = user_data["role"]
         self._signature = user_data.get("signature", None)
         self._avatar = user_data.get("avatar", None)
+        self.permission = permissions
 
     @property
     def id(self) -> int:
         """Get the id of the user."""
         return self._user_id
+
+    @property
+    def role(self) -> str:
+        """Get the role of the user."""
+        return self._role
 
     def update(self, user_data: dict[str, Any], editor: User):
         """Update the user with provided data.
@@ -50,7 +57,7 @@ class User:
         Raises:
           UnauthorizedException:  If the user is not allowed to delete the topic.
         """
-        if not self.editor_has_permission(editor):
+        if not self.editor_has_permission(editor, "update"):
             raise UnauthorizedException("User not authorized to manage user.")
 
         self._signature = user_data.get("signature", self._signature)
@@ -59,17 +66,22 @@ class User:
         # TODO: Add add rights for only admin
         return {"signature": self._signature, "avatar": self._avatar}
 
-    def editor_has_permission(self, editor: User) -> bool:
+    def editor_has_permission(self, editor: User, action: str) -> bool:
         """Control that another user (editor) can manage the user based on id and access.
 
         Args:
           editor (User):          The editor to control having access to manage this user.
+          action (str):           String with wanted action like update or delete.
 
         Returns:
           has_permission (bool):  True if edditor has permission, False if not.
         """
         # TODO add more (better) logic when time comes, like admin/moderator.
-        return editor.id == self.id
+        if action == "update":
+            return editor.id == self.id or editor.permission.edit_user()
+        elif action == "delete":
+            return editor.id == self.id or editor.permission.delete_user()
+        return False  # Default value
 
     def to_dict(self) -> UserData:
         """Return user data as dictionary.
@@ -80,6 +92,8 @@ class User:
         result = {}
 
         for key, value in self.__dict__.items():
+            if "permission" in key:
+                continue
             key = key[1:] if key[0] == "_" else key
             result[key] = value.to_dict() if hasattr(value, "to_dict") else value
 
@@ -104,4 +118,6 @@ class User:
         if user_data is None:
             raise NoDataException(f"No user found with id: {user_id}")
 
-        return cls(user_data)
+        permissions = user_dao.get_permission_from_role(user_data["role"])
+
+        return cls(user_data, Permission(permissions))
