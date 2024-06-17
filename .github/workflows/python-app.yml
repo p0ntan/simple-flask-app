@@ -34,5 +34,7 @@ jobs:
       run: |
         pytest -m unit
     - name: Integration tests
+      env:
+        TEST_SQLITE_PATH: ${{ secrets.TEST_SQLITE_PATH }}
       run: |
         pytest -m integration
