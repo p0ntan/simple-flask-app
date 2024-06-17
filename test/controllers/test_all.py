@@ -44,7 +44,7 @@ def client(sut):
 def runner(sut):
     return sut.test_cli_runner()
 
-
+@pytest.mark.scenario
 def test_login_create_and_update_topic(client):
     login_response = client.post(
         "/api/users/login", json={"username": "admin", "password": "dosen't matter"}

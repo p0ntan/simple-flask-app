@@ -38,3 +38,8 @@ jobs:
         TEST_SQLITE_PATH: ${{ secrets.TEST_SQLITE_PATH }}
       run: |
         pytest -m integration
+    - name: Scenario tests
+      env:
+        TEST_SQLITE_PATH: ${{ secrets.TEST_SQLITE_PATH }}
+      run: |
+        pytest -m scenario

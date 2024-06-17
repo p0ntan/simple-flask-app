@@ -38,7 +38,6 @@ def sut_int():
         os.remove(test_db)
 
 
-@pytest.mark.testing
 @pytest.mark.integration
 class TestIntegrationPostDAO:
     """Integration tests."""
