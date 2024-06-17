@@ -24,13 +24,21 @@ class BaseService(ABC):
         """Gets one item from the database.
 
         Raises:
-          NoDataException: If no user is found with the given username.
+          NoDataException: If no entry is found with the given id.
         """
 
     @abstractmethod
     def update(self, *args, **kwargs) -> bool:
-        """Updates an item in the database."""
+        """Updates an item in the database.
+        
+        Raises:
+          NoDataException: If no entry is found with the given id.
+        """
 
     @abstractmethod
     def delete(self, *args, **kwargs) -> bool:
-        """Deletes an item in the database."""
+        """Deletes an item in the database.
+        
+        Raises:
+          NoDataException: If no entry is found with the given id.
+        """

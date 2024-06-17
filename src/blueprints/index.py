@@ -121,12 +121,9 @@ def create_post(id_num: int):
     }
 
     try:
-        response = requests.post(f"{API_URL}/posts", json=json_data, headers={
+        requests.post(f"{API_URL}/posts", json=json_data, headers={
             "Authorization": f"Bearer {user_jwt}"
         }, timeout=5)
-        data = response.json()
-
-        print(data)
     except Exception:
         pass
 
