@@ -14,6 +14,7 @@ files = [
     "category.csv",
     "topic.csv",
     "post.csv",
+    "permission.csv"
 ]
 
 for csv_file in files:

@@ -3,6 +3,7 @@ DROP TRIGGER IF EXISTS trg_update_topic;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS topic;
 DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS permission;
 DROP TABLE IF EXISTS user;
 
 -- tables 
@@ -19,6 +20,17 @@ CREATE TABLE "user" (
 );
 
 CREATE UNIQUE INDEX user_id_IDX ON "user" (id);
+
+-- "permisson" definition
+
+CREATE TABLE "permission" (
+	role TEST(15) PRIMARY KEY NOT NULL,
+	edit_post BOOLEAN DEFAULT FALSE NOT NULL,
+	delete_post BOOLEAN DEFAULT FALSE NOT NULL,
+	edit_topic BOOLEAN DEFAULT FALSE NOT NULL,
+	delete_topic BOOLEAN DEFAULT FALSE NOT NULL,
+	delete_user BOOLEAN DEFAULT FALSE NOT NULL
+);
 
 -- category definition
 
