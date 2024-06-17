@@ -40,6 +40,7 @@ jobs:
         pytest -m integration
     - name: Scenario tests
       env:
+        FLASK_ENV: test
         TEST_SQLITE_PATH: ${{ secrets.TEST_SQLITE_PATH }}
       run: |
         pytest -m scenario
