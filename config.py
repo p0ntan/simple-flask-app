@@ -9,6 +9,7 @@ load_dotenv(path)
 class Config(object):
     DEBUG = False
     TESTING = False
+    UPLOAD_FOLDER="./public/uploads"
     DB_PATH = os.getenv("SQLITE_PATH", "")
     API_URL = os.getenv("API_URL", "")
     SECRET_KEY = os.getenv("SECRET_KEY", "")
