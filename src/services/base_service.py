@@ -30,7 +30,7 @@ class BaseService(ABC):
     @abstractmethod
     def update(self, *args, **kwargs) -> bool:
         """Updates an item in the database.
-        
+
         Raises:
           NoDataException: If no entry is found with the given id.
         """
@@ -38,7 +38,7 @@ class BaseService(ABC):
     @abstractmethod
     def delete(self, *args, **kwargs) -> bool:
         """Deletes an item in the database.
-        
+
         Raises:
           NoDataException: If no entry is found with the given id.
         """

@@ -89,7 +89,9 @@ class TopicService(BaseService):
         Returns:
           Boolean:                True if topic changed, False otherwise
         """
-        editor = User(editor_data)
+        # TODO possible to create editor with editor_data and permissions form db or from cache
+        # editor = User(editor_data, permissisons)
+        editor = User.from_db_by_id(editor_data["user_id"], self._user_dao)
         topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
 
         data_to_db = topic.update(new_data, editor)
@@ -135,7 +137,7 @@ class TopicService(BaseService):
         editor = User(editor_data)
         topic = Topic.from_db_by_id(topic_id, topic_dao=self._topic_dao)
 
-        if not topic.editor_has_permission(editor):
+        if not topic.editor_has_permission(editor, "delete"):
             raise UnauthorizedException("User not authorized to delete topic.")
 
         success = self._topic_dao.delete(topic_id)

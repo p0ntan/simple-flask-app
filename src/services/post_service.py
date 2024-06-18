@@ -56,8 +56,8 @@ class PostService(BaseService):
         Returns:
           Boolean:                True if topic changed, False otherwise
         """
-        editor = User(editor_data)
-        post = Post.from_db_by_id(post_id, post_dao=self._dao)
+        editor = User.from_db_by_id(editor_data["user_id"], self._user_dao)
+        post = Post.from_db_by_id(post_id, self._dao)
 
         data_to_db = post.update(new_data, editor)
         result = self._dao.update(
@@ -79,10 +79,10 @@ class PostService(BaseService):
         Raises:
           UnauthorizedException: If the user is not authorized to manage the topic.
         """
-        editor = User(editor_data)
+        editor = User.from_db_by_id(editor_data["user_id"], self._user_dao)
         post = Post.from_db_by_id(id_num, post_dao=self._dao)
 
-        if not post.editor_has_permission(editor):
+        if not post.editor_has_permission(editor, "delete"):
             raise UnauthorizedException("User not authorized to delete post.")
 
         success = self._dao.delete(id_num)

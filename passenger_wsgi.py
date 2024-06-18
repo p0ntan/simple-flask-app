@@ -10,6 +10,7 @@ from src.blueprints.index import index_blueprint
 
 from flask_jwt_extended import JWTManager
 
+
 def create_app():
     application = Flask(__name__)
     application.config.from_object(get_config())
@@ -21,6 +22,7 @@ def create_app():
     application.register_blueprint(index_blueprint)
 
     return application
+
 
 # application needs to be here for passenger to access it on server
 application = create_app()

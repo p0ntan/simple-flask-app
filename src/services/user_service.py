@@ -51,9 +51,15 @@ class UserService(BaseService):
 
         Returns:
           Boolean:                True if user changed, False otherwise
+
+        Raises:
+          UnauthorizedException:  If the user is not allowed to delete the topic.
         """
-        editor = User(editor_data)
+        editor = User.from_db_by_id(editor_data["user_id"], self._dao)
         user = User.from_db_by_id(user_id, self._dao)
+
+        if not user.editor_has_permission(editor, "update"):
+            raise UnauthorizedException("User not authorized to update user.")
 
         data_to_db = user.update(new_data, editor)
         result = self._dao.update(
@@ -75,14 +81,14 @@ class UserService(BaseService):
         Raises:
           UnauthorizedException:  If the user is not allowed to delete the topic.
         """
-        editor = User(editor_data)
+        editor = User.from_db_by_id(editor_data["user_id"], self._dao)
         user = User.from_db_by_id(user_id, self._dao)
 
-        if not user.editor_has_permission(editor):
+        if not user.editor_has_permission(editor, "delete"):
             raise UnauthorizedException("User not authorized to delete user.")
         # TODO implement soft delete, this is not deleting anything at the moment.
         # user = self._dao.delete(user_id)
-        return user.editor_has_permission(editor)
+        return user.editor_has_permission(editor, "delete")
 
     def login(self, username: str, password: str) -> UserData:
         """Login and get data for a user.

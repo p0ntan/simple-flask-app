@@ -3,7 +3,6 @@ PostDAO is used for access posts.
 """
 
 from src.utils.daos.basedao import DAO
-from typing import Any
 from src.static.types import PostData
 from src.utils.print_colors import ColorPrinter
 

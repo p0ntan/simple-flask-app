@@ -52,25 +52,30 @@ class Topic:
         Raises:
           UnauthorizedException: If the user is not authorized to manage the topic.
         """
-        if not self.editor_has_permission(editor):
-            raise UnauthorizedException("User not authorized to manage topic.")
+        if not self.editor_has_permission(editor, "update"):
+            raise UnauthorizedException("User not authorized to update topic.")
 
         # Update logic below.
         self._title = topic_data.get("title", self._title)
 
         return {"title": self._title}
 
-    def editor_has_permission(self, editor: User) -> bool:
+    def editor_has_permission(self, editor: User, action: str) -> bool:
         """Control that another user (editor) can manage the topic based on id and access.
 
         Args:
           editor (User):          The editor to control having access to manage this topic.
+          action (str):           String with wanted action like update or delete.
 
         Returns:
           has_permission (bool):  True if edditor has permission, False if not.
         """
         # TODO add more (better) logic when time comes, like admin/moderator.
-        return editor.id == self._created_by.id
+        if action == "update":
+            return editor.id == self._created_by.id or editor.permission.edit_topic()
+        elif action == "delete":
+            return editor.id == self._created_by.id or editor.permission.delete_topic()
+        return False  # Default value
 
     def to_dict(self) -> TopicData:
         """Return topic data as dictionary.

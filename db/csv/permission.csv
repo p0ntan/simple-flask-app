@@ -1,0 +1,4 @@
+role,edit_post,delete_post,edit_topic,delete_topic,delete_user,edit_user
+admin,1,1,1,1,1,1
+moderator,1,0,1,0,0,0
+author,0,0,0,0,0,0

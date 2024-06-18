@@ -1,9 +1,10 @@
 import os
 from dotenv import load_dotenv
 
-path = os.path.join(os.path.dirname(__file__), '.env')
+path = os.path.join(os.path.dirname(__file__), ".env")
 
 load_dotenv(path)
+
 
 class Config(object):
     DEBUG = False
@@ -13,15 +14,19 @@ class Config(object):
     SECRET_KEY = os.getenv("SECRET_KEY", "")
     JWT_SECRET = os.getenv("JWT_SECRET", "")
 
+
 class ProductionConfig(Config):
     DB_PATH = env_var = os.getenv("SQLITE_PATH", "")
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
 
+
 class TestingConfig(Config):
     TESTING = True
     DB_PATH = env_var = os.getenv("TEST_SQLITE_PATH", "")
+
 
 def get_config():
     """Get config class depending on env-variable. Default production."""
