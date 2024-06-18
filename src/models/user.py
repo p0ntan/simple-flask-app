@@ -67,7 +67,11 @@ class User:
             self._role = user_data.get("role", self._role)
 
         # TODO: Add add rights for only admin
-        return {"signature": self._signature, "avatar": self._avatar, "role": self._role}
+        return {
+            "signature": self._signature,
+            "avatar": self._avatar,
+            "role": self._role,
+        }
 
     def editor_has_permission(self, editor: User, action: str) -> bool:
         """Control that another user (editor) can manage the user based on id and access.

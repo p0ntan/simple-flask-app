@@ -98,8 +98,8 @@ class UserDAO(DAO):
         """
         with self._get_db_connection() as conn:
             result = conn.execute(
-                "SELECT * FROM permission WHERE role = ?"
-                ,(role,)).fetchone()
+                "SELECT * FROM permission WHERE role = ?", (role,)
+            ).fetchone()
 
             if result is None:
                 return result

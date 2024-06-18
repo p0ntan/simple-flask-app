@@ -2,7 +2,6 @@
 DAO is used for simplyfying handling with data from database.
 """
 
-import os
 import sqlite3
 from contextlib import contextmanager
 from abc import ABC, abstractmethod

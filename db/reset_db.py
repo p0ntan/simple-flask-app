@@ -9,13 +9,7 @@ def convert_empty_to_null(value):
 conn = sqlite3.connect("db.sqlite")
 cursor = conn.cursor()
 
-files = [
-    "user.csv",
-    "category.csv",
-    "topic.csv",
-    "post.csv",
-    "permission.csv"
-]
+files = ["user.csv", "category.csv", "topic.csv", "post.csv", "permission.csv"]
 
 for csv_file in files:
     with open("./csv/" + csv_file, "r") as f:

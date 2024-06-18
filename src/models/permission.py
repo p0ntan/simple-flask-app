@@ -13,26 +13,26 @@ class Permission:
         """
         self._post = {
             "edit": permission_data.get("edit_post", False),
-            "delete": permission_data.get("delete_post", False)
+            "delete": permission_data.get("delete_post", False),
         }
         self._topic = {
-          "edit": permission_data.get("edit_topic", False),
-          "delete": permission_data.get("delete_topic", False)
+            "edit": permission_data.get("edit_topic", False),
+            "delete": permission_data.get("delete_topic", False),
         }
         self._user = {
-          "edit": permission_data.get("edit_user", False),
-          "delete": permission_data.get("delete_user", False)
+            "edit": permission_data.get("edit_user", False),
+            "delete": permission_data.get("delete_user", False),
         }
 
     def edit_post(self):
         return self._post["edit"]
-  
+
     def delete_post(self):
         return self._post["delete"]
 
     def edit_topic(self):
         return self._topic["edit"]
-  
+
     def delete_topic(self):
         return self._topic["delete"]
 

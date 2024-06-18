@@ -84,7 +84,6 @@ class UserService(BaseService):
         editor = User.from_db_by_id(editor_data["user_id"], self._dao)
         user = User.from_db_by_id(user_id, self._dao)
 
-
         if not user.editor_has_permission(editor, "delete"):
             raise UnauthorizedException("User not authorized to delete user.")
         # TODO implement soft delete, this is not deleting anything at the moment.

@@ -7,7 +7,6 @@ import re
 import math
 import requests
 import markdown
-from flask_jwt_extended import set_access_cookies
 from flask import Blueprint, session, redirect, request, render_template
 
 API_URL: str = os.environ.get("API_URL", "http://python-test.lenticode.com/api")
@@ -15,10 +14,10 @@ index_blueprint = Blueprint("index_blueprint", __name__, url_prefix="/")
 
 
 def extract_path(url):
-    match = re.search(r'http[s]?://[^/]+(/.*)', url)
+    match = re.search(r"http[s]?://[^/]+(/.*)", url)
     if match:
         return match.group(1)
-    return '/'
+    return "/"
 
 
 @index_blueprint.context_processor
@@ -38,11 +37,16 @@ def utility_processor():
 
     def total_pages(total_posts, posts_per_page):
         return math.ceil(total_posts / posts_per_page)
-    
+
     def convert_md_to_html(full_text):
         return markdown.markdown(full_text)
 
-    return dict(max_value=max_value, min_value=min_value, total_pages=total_pages, convert_md_to_html=convert_md_to_html)
+    return dict(
+        max_value=max_value,
+        min_value=min_value,
+        total_pages=total_pages,
+        convert_md_to_html=convert_md_to_html,
+    )
 
 
 @index_blueprint.route("/")
@@ -109,21 +113,22 @@ def single_topic(id_num: int):
         page=page,
     )
 
+
 @index_blueprint.route("/topic/<id_num>", methods=["post"])
 def create_post(id_num: int):
     """Latest topics route."""
     user = session.get("user", {})
     user_jwt = user.get("jwt", "")
 
-    json_data = {
-        "topic_id": id_num,
-        "body": request.form.get("content")
-    }
+    json_data = {"topic_id": id_num, "body": request.form.get("content")}
 
     try:
-        requests.post(f"{API_URL}/posts", json=json_data, headers={
-            "Authorization": f"Bearer {user_jwt}"
-        }, timeout=5)
+        requests.post(
+            f"{API_URL}/posts",
+            json=json_data,
+            headers={"Authorization": f"Bearer {user_jwt}"},
+            timeout=5,
+        )
     except Exception:
         pass
 
