@@ -107,7 +107,6 @@ class TestIntegrationPostService:
             )
 
 
-@pytest.mark.testing
 @pytest.mark.scenario
 class TestScenarioUserService:
     """Scenario tests"""
