@@ -17,6 +17,14 @@ johndoe_user = {
     "avatar": None,
 }
 
+admin_user = {
+    "user_id": 1,
+    "username": "admin",
+    "role": "admin",
+    "signature": None,
+    "avatar": None,
+}
+
 
 @pytest.fixture
 def sut():
@@ -92,21 +100,40 @@ class TestIntegrationUserService:
 class TestScenarioUserService:
     """Scenario tests"""
 
-    def test_update(self, sut):
+    @pytest.mark.parametrize(
+        "user_id, new_data, editor_data, expected_data",
+        [
+            (
+                5,
+                {"signature": "this is a new sign", "role": "moderator"},
+                johndoe_user,
+                ["this is a new sign", "author"],
+            ),
+            (
+                5,
+                {"signature": "this is a new sign, set by admin", "role": "moderator"},
+                admin_user,
+                ["this is a new sign, set by admin", "moderator"],
+            ),
+        ],
+    )
+    def test_update(self, sut, user_id, new_data, editor_data, expected_data):
         """Test updating a user."""
-        user_id = 5
-        new_data = {"signature": "new sign"}
-        result = sut.update(
-            user_id=user_id, new_data=new_data, editor_data=johndoe_user
-        )
+        result = sut.update(user_id=user_id, new_data=new_data, editor_data=editor_data)
 
         conn = sqlite3.connect(test_db)
         cursor = conn.cursor()
-        raw = cursor.execute("SELECT signature from user where id = ?", (user_id,))
+        raw = cursor.execute(
+            "SELECT signature, role from user where id = ?", (user_id,)
+        )
         data = raw.fetchone()
         conn.close()
 
-        assert result == True and data[0] == "new sign"
+        assert (
+            result == True
+            and data[0] == expected_data[0]
+            and data[1] == expected_data[1]
+        )
 
     @pytest.mark.parametrize(
         "user_id, expected_error", [(2, NoDataException), (3, UnauthorizedException)]

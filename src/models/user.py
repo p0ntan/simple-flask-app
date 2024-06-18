@@ -63,8 +63,11 @@ class User:
         self._signature = user_data.get("signature", self._signature)
         self._avatar = user_data.get("avatar", self._avatar)
 
+        if self.editor_has_permission(editor, "update_role"):
+            self._role = user_data.get("role", self._avatar)
+
         # TODO: Add add rights for only admin
-        return {"signature": self._signature, "avatar": self._avatar}
+        return {"signature": self._signature, "avatar": self._avatar, "role": self._role}
 
     def editor_has_permission(self, editor: User, action: str) -> bool:
         """Control that another user (editor) can manage the user based on id and access.
@@ -79,6 +82,8 @@ class User:
         # TODO add more (better) logic when time comes, like admin/moderator.
         if action == "update":
             return editor.id == self.id or editor.permission.edit_user()
+        if action == "update_role":
+            return editor.permission.edit_user()
         elif action == "delete":
             return editor.id == self.id or editor.permission.delete_user()
         return False  # Default value

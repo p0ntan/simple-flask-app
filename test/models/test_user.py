@@ -60,12 +60,15 @@ class TestUnitUser:
         with pytest.raises(UnauthorizedException):
             sut.update(new_data, editor)
 
-    @pytest.mark.parametrize("id, action, expected, permission", [
-        (666, "update", True, False),
-        (2, "update", False, False),
-        (2, "update", True, True),
-        (666, "", False, True)
-        ])
+    @pytest.mark.parametrize(
+        "id, action, expected, permission",
+        [
+            (666, "update", True, False),
+            (2, "update", False, False),
+            (2, "update", True, True),
+            (666, "", False, True),
+        ],
+    )
     def test_has_permission(self, sut, id, action, expected, permission):
         """Test has_permission method."""
         editor = mock.MagicMock()
@@ -74,12 +77,15 @@ class TestUnitUser:
 
         assert sut.editor_has_permission(editor, action) == expected
 
-    @pytest.mark.parametrize("id, action, expected, permission", [
-        (666, "delete", True, False),
-        (2, "delete", False, False),
-        (2, "delete", True, True),
-        (666, "", False, True)
-        ])
+    @pytest.mark.parametrize(
+        "id, action, expected, permission",
+        [
+            (666, "delete", True, False),
+            (2, "delete", False, False),
+            (2, "delete", True, True),
+            (666, "", False, True),
+        ],
+    )
     def test_has_delete_permission(self, sut, id, action, expected, permission):
         """Test has_permission method."""
         editor = mock.MagicMock()
