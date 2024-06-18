@@ -31,10 +31,10 @@ class TestUnitUser:
             [
                 (
                     {"signature": "new sign", "avatar": "new avatar", "user_id": 24},
-                    {"signature": "new sign", "avatar": "new avatar"},
+                    {"signature": "new sign", "avatar": "new avatar", "role": "admin"},
                     666,
                 ),
-                ({}, {"signature": None, "avatar": None}, 666),
+                ({}, {"signature": None, "avatar": None, "role": "admin"}, 666),
             ]
         ),
     )

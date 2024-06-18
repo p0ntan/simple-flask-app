@@ -64,7 +64,7 @@ class User:
         self._avatar = user_data.get("avatar", self._avatar)
 
         if self.editor_has_permission(editor, "update_role"):
-            self._role = user_data.get("role", self._avatar)
+            self._role = user_data.get("role", self._role)
 
         # TODO: Add add rights for only admin
         return {"signature": self._signature, "avatar": self._avatar, "role": self._role}
