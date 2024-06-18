@@ -44,6 +44,11 @@ class User:
         """Get the role of the user."""
         return self._role
 
+    @property
+    def avatar(self) -> str | None:
+        """Get the avatar of the user."""
+        return self._avatar
+
     def update(self, user_data: dict[str, Any], editor: User):
         """Update the user with provided data.
 

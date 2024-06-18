@@ -4,11 +4,15 @@ Module for user service, main purpose to handle users in the application.
 This will be used by controllers to keep the logic here and not in controller.
 """
 
+import os
+from flask import current_app, url_for
+from werkzeug.datastructures import FileStorage
 from typing import Any
 from src.services.base_service import BaseService
 from src.utils.daos.userdao import UserDAO
 from src.models import User
 from src.static.types import UserData
+from src.utils.file_controller import FileController
 from src.errors.customerrors import NoDataException, UnauthorizedException
 
 
@@ -53,11 +57,12 @@ class UserService(BaseService):
           Boolean:                True if user changed, False otherwise
 
         Raises:
-          UnauthorizedException:  If the user is not allowed to delete the topic.
+          UnauthorizedException:  If the user is not allowed to update the user.
         """
         editor = User.from_db_by_id(editor_data["user_id"], self._dao)
         user = User.from_db_by_id(user_id, self._dao)
 
+        # TODO, remove this?
         if not user.editor_has_permission(editor, "update"):
             raise UnauthorizedException("User not authorized to update user.")
 
@@ -79,7 +84,7 @@ class UserService(BaseService):
           Boolean:                True if item deleted, False otherwise
 
         Raises:
-          UnauthorizedException:  If the user is not allowed to delete the topic.
+          UnauthorizedException:  If the user is not allowed to delete the user.
         """
         editor = User.from_db_by_id(editor_data["user_id"], self._dao)
         user = User.from_db_by_id(user_id, self._dao)
@@ -129,3 +134,46 @@ class UserService(BaseService):
             raise NoDataException(f"No user found with user_id: {user_id}")
 
         return user
+
+    def upload_avatar(
+        self, user_id: int, file: FileStorage, editor_data: UserData
+    ) -> bool:
+        """Get a user in the database.
+
+        Parameters:
+          user_id (int):  The id of the user.
+
+        Returns:
+          Boolean:        True if file is updated, False if not.
+
+        Raises:
+          NoDataException:        If no user is found with the given username.
+          UnauthorizedException:  If the user is not allowed to update the user.
+        """
+        success = False
+        user = User.from_db_by_id(user_id, self._dao)
+        editor = User.from_db_by_id(editor_data["user_id"], self._dao)
+
+        if not user.editor_has_permission(editor, "update"):
+            raise UnauthorizedException("User not authorized to update user.")
+
+        f_control = FileController()
+
+        if file.filename and f_control.allowed_file(file.filename, "image"):
+            new_filename = f_control.create_avatar_filename(file.filename, user_id)
+
+            file.save(
+                os.path.join(
+                    current_app.config["UPLOAD_FOLDER"] + "/users/avatars", new_filename
+                )
+            )
+
+            path_to_file = url_for(
+                "index_blueprint.uploaded_file", filename=new_filename
+            )
+
+            f_control.remove_old_avatar(user.avatar)
+            data_to_db = user.update({"avatar": path_to_file}, editor)
+            success = self._dao.update(user.id, data_to_db)
+
+        return success
