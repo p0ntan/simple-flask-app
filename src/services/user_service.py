@@ -62,10 +62,6 @@ class UserService(BaseService):
         editor = User.from_db_by_id(editor_data["user_id"], self._dao)
         user = User.from_db_by_id(user_id, self._dao)
 
-        # TODO, remove this?
-        if not user.editor_has_permission(editor, "update"):
-            raise UnauthorizedException("User not authorized to update user.")
-
         data_to_db = user.update(new_data, editor)
         result = self._dao.update(
             user_id, data_to_db
