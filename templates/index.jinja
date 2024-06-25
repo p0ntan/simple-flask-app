@@ -5,4 +5,17 @@
 <h1 class="text-center">
   A forum, just for the fun of it.
 </h1>
+
+{% if user %}
+  <form method="POST" enctype="multipart/form-data" action="/upload-image/{{ user.user_id }}">
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Upload avatar image</label>
+      <input class="form-control" type="file" name="file" id="formFile">
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-3">Upload</button>
+    </div>
+  </form>
+{% endif %}
+
 {% include 'footer.jinja' %}

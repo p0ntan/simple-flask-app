@@ -7,7 +7,15 @@ import re
 import math
 import requests
 import markdown
-from flask import Blueprint, session, redirect, request, render_template
+from flask import (
+    Blueprint,
+    session,
+    redirect,
+    request,
+    render_template,
+    send_from_directory,
+    current_app,
+)
 
 API_URL: str = os.environ.get("API_URL", "http://python-test.lenticode.com/api")
 index_blueprint = Blueprint("index_blueprint", __name__, url_prefix="/")
@@ -24,6 +32,8 @@ def extract_path(url):
 def inject_user():
     """Inject user into context."""
     user = session.get("user", None)
+    if user is not None:
+        user = user["user"]
     return {"user": user}
 
 
@@ -46,6 +56,13 @@ def utility_processor():
         min_value=min_value,
         total_pages=total_pages,
         convert_md_to_html=convert_md_to_html,
+    )
+
+
+@index_blueprint.route("/public/users/<filename>", methods=["GET"])
+def uploaded_file(filename):
+    return send_from_directory(
+        current_app.config["UPLOAD_FOLDER"] + "/users/avatars/", filename
     )
 
 
@@ -116,7 +133,7 @@ def single_topic(id_num: int):
 
 @index_blueprint.route("/topic/<id_num>", methods=["post"])
 def create_post(id_num: int):
-    """Latest topics route."""
+    """Create post route."""
     user = session.get("user", {})
     user_jwt = user.get("jwt", "")
 
@@ -126,6 +143,26 @@ def create_post(id_num: int):
         requests.post(
             f"{API_URL}/posts",
             json=json_data,
+            headers={"Authorization": f"Bearer {user_jwt}"},
+            timeout=5,
+        )
+    except Exception:
+        pass
+
+    return redirect(extract_path(request.referrer))
+
+
+@index_blueprint.route("/upload-image/<id_num>", methods=["post"])
+def upload_image(id_num: int):
+    """Upload image route."""
+    user = session.get("user", {})
+    user_jwt = user.get("jwt", "")
+    file = request.files["file"]
+
+    try:
+        requests.post(
+            f"{API_URL}/users/{id_num}/image",
+            files={"file": (file.filename, file.stream, file.content_type)},
             headers={"Authorization": f"Bearer {user_jwt}"},
             timeout=5,
         )
